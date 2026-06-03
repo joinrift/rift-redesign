@@ -1,0 +1,3396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rift — Redefine Your Health</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Taste-skill §4.1: Fraunces banned → Playfair Display (approved pool) + Outfit (sans body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Reset & Base ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    :root {
+      /* Taste-skill §4.2: off the banned warm-paper palette → Forest: clean cool white + deep forest */
+      --bg:          #F5F7F5;
+      --bg-alt:      #ECEEED;
+      --bg-dark:     #0D1410;
+      --surface:     #FFFFFF;
+      --fg:          #0D1410;
+      --fg-muted:    #5A6358;
+      --fg-subtle:   #8A9488;
+      --border:      #D8DDD8;
+      --green:       #166534;
+      --green-light: #DCFCE7;
+      --green-mid:   #15803D;
+      --amber:       #B45309;
+      --amber-light: #FEF3C7;
+      --radius-sm:   6px;
+      --radius:      12px;
+      --radius-lg:   20px;
+      --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font-family: 'Outfit', sans-serif;
+      font-size: 1rem;
+      line-height: 1.65;
+      letter-spacing: 0.005em;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Typography ────────────────────────────────── */
+    .serif { font-family: 'Playfair Display', Georgia, serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.1; font-weight: 700; }
+
+    /* ── Utilities ─────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+    .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+    /* ── Animation ─────────────────────────────────── */
+    @media (prefers-reduced-motion: no-preference) {
+      /* Emil: never animate from scale(0) — start at 0.95 so it feels like it emerges */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+        transition: opacity 450ms var(--ease-out), transform 450ms var(--ease-out);
+      }
+      .fade-up.visible { opacity: 1; transform: translateY(0) scale(1); }
+      /* Stagger children 50ms apart */
+      .fade-up:nth-child(2) { transition-delay: 50ms; }
+      .fade-up:nth-child(3) { transition-delay: 100ms; }
+      .fade-up:nth-child(4) { transition-delay: 150ms; }
+      .fade-up:nth-child(5) { transition-delay: 200ms; }
+      .fade-up:nth-child(6) { transition-delay: 250ms; }
+
+      /* @starting-style for stat items — CSS-native entry without JS */
+      @supports (transition-behavior: allow-discrete) {
+        .stat-item {
+          transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
+          @starting-style { opacity: 0; transform: translateY(12px); }
+        }
+      }
+    }
+
+    /* Emil: guard ALL hover transforms behind pointer: fine to avoid touch false-positives */
+    @media (hover: hover) and (pointer: fine) {
+      .btn-primary:hover { transform: translateY(-1px); }
+      .btn-secondary:hover { transform: translateY(-1px); }
+      .testimonial-card:hover { transform: translateY(-2px); }
+      .step:hover { transform: translateY(-2px); }
+      .pricing-treatment-card:hover { transform: translateY(-3px); }
+    }
+
+    /* Emil: every pressable element gets scale(0.97) — makes UI feel like it hears you */
+    .btn:active { transform: scale(0.97) !important; }
+    .faq-question:active { opacity: 0.7; }
+
+    /* ── Announcement Bar ──────────────────────────── */
+    .announcement {
+      background: var(--bg-dark);
+      color: #E8E3D8;
+      text-align: center;
+      padding: 10px 24px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+    .announcement strong { color: #FBBF24; }
+
+    /* ── Nav ───────────────────────────────────────── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 248, 245, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 32px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--fg);
+    }
+    .nav-logo-mark {
+      width: 32px;
+      height: 32px;
+      background: var(--fg);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .nav-logo-mark svg { width: 18px; height: 18px; fill: var(--bg); }
+    .nav-logo-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--fg-muted);
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 150ms ease;
+    }
+    .nav-links a:hover { color: var(--fg); }
+    .nav-cta {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* ── Buttons ────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: transform 160ms var(--ease-out), box-shadow 200ms ease, background 200ms ease;
+      white-space: nowrap;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 1px 2px rgba(22, 101, 52, 0.2), 0 4px 12px rgba(22, 101, 52, 0.15);
+    }
+    .btn-primary:hover {
+      background: var(--green-mid);
+      box-shadow: 0 2px 4px rgba(22, 101, 52, 0.25), 0 8px 20px rgba(22, 101, 52, 0.2);
+    }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--fg);
+      border: 1.5px solid var(--border);
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .btn-secondary:hover { border-color: #C5BFB5; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      padding: 12px 16px;
+    }
+    .btn-ghost:hover { color: var(--fg); }
+    .btn-lg { padding: 16px 32px; font-size: 16px; border-radius: 8px; }
+    .btn-sm { padding: 8px 16px; font-size: 13px; }
+
+    /* ── Hero (v3 — motion + lifestyle) ─────────────── */
+    .hero {
+      overflow: hidden;
+      display: flex;
+      align-items: stretch;
+      min-height: min(92vh, 820px);
+      position: relative;
+    }
+
+    /* Left: copy */
+    .hero-left {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-left-inner {
+      max-width: 520px;
+      margin-left: auto;
+      padding-right: 72px;
+    }
+
+    /* Right: image + vials + cards */
+    .hero-right {
+      width: 46%;
+      flex-shrink: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ── Lifestyle image background ────────────────── */
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .hero-bg-img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      /* Ken Burns — Emil: slow, purposeful motion that tells a story */
+      animation: kenBurns 18s ease-in-out infinite alternate;
+      transform-origin: center center;
+    }
+    @keyframes kenBurns {
+      0%   { transform: scale(1.0) translate(0, 0); }
+      50%  { transform: scale(1.06) translate(-1%, 1%); }
+      100% { transform: scale(1.04) translate(1%, -0.5%); }
+    }
+    /* Category image crossfade — Emil: blur bridges gap between states */
+    .hero-bg-img.switching {
+      animation: none;
+      filter: blur(8px);
+      transition: filter 300ms ease;
+    }
+
+    /* Dark + gradient overlay — light enough to see image clearly */
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        160deg,
+        rgba(12,13,11,0.55) 0%,
+        rgba(12,13,11,0.25) 60%,
+        rgba(12,13,11,0.15) 100%
+      );
+      z-index: 1;
+    }
+
+    /* ── Floating vials ────────────────────────────── */
+    .hero-vials {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .vial {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Vial cap */
+    .vial-cap {
+      width: 22px; height: 10px;
+      background: rgba(255,255,255,0.55);
+      border-radius: 4px 4px 0 0;
+      box-shadow: 0 -1px 0 rgba(255,255,255,0.3);
+    }
+    /* Vial neck */
+    .vial-neck {
+      width: 14px; height: 8px;
+      background: rgba(255,255,255,0.25);
+    }
+    /* Vial body — solid enough to show without GPU backdrop-filter */
+    .vial-body {
+      width: 52px;
+      height: 96px;
+      border-radius: 4px 4px 26px 26px;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      background: linear-gradient(
+        150deg,
+        rgba(255,255,255,0.30) 0%,
+        rgba(255,255,255,0.12) 35%,
+        rgba(220,230,220,0.08) 65%,
+        rgba(0,0,0,0.20) 100%
+      );
+      box-shadow:
+        0 16px 48px rgba(0,0,0,0.5),
+        0 4px 16px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.45),
+        inset -5px 0 14px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+    /* Liquid inside */
+    .vial-liquid {
+      position: absolute;
+      bottom: 0; left: 4px; right: 4px;
+      height: 55%;
+      border-radius: 0 0 20px 20px;
+      transition: background 600ms var(--ease-out), height 800ms var(--ease-out);
+    }
+    /* Glass highlight streak */
+    .vial-body::after {
+      content: '';
+      position: absolute;
+      top: 8px; left: 8px;
+      width: 5px; bottom: 16px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent);
+      border-radius: 3px;
+    }
+    /* Label band */
+    .vial-label {
+      position: absolute;
+      top: 28px; left: 0; right: 0;
+      height: 22px;
+      background: rgba(255,255,255,0.12);
+      border-top: 1px solid rgba(255,255,255,0.15);
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+
+    /* Vial float animations — staggered so they don't all move together */
+    .vial-1 { top: 12%; right: 28%; animation: float1 5.5s ease-in-out infinite; }
+    .vial-2 { top: 35%; right: 10%; animation: float2 6.2s ease-in-out infinite; transform: rotate(12deg) scale(0.78); }
+    .vial-3 { top: 55%; right: 42%; animation: float3 4.8s ease-in-out infinite; transform: rotate(-10deg) scale(0.60); }
+
+    @keyframes float1 {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      50%      { transform: translateY(-14px) rotate(2deg); }
+    }
+    @keyframes float2 {
+      0%,100% { transform: translateY(0) rotate(8deg); }
+      40%      { transform: translateY(-10px) rotate(6deg); }
+    }
+    @keyframes float3 {
+      0%,100% { transform: translateY(0) rotate(-6deg) scale(0.65); }
+      60%      { transform: translateY(-8px) rotate(-4deg) scale(0.65); }
+    }
+
+    /* Glow behind vial 1 (active category accent) */
+    .vial-glow {
+      position: absolute;
+      top: 8%; right: 16%;
+      width: 140px; height: 180px;
+      border-radius: 50%;
+      filter: blur(50px);
+      opacity: 0.25;
+      background: #86EFAC;
+      transition: background 700ms var(--ease-out), opacity 500ms ease;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ── Panel (cards + stats) ─────────────────────── */
+    .hero-panel {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      z-index: 3;
+      padding: 0 32px 28px;
+    }
+
+    /* Category dot indicator */
+    .hero-cat-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin-bottom: 28px;
+    }
+    .hero-cat-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #86EFAC;
+      flex-shrink: 0;
+      transition: background 500ms var(--ease-out);
+    }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.35} }
+    .hero-cat-dot { animation: pulse 2.4s ease-in-out infinite; }
+
+    /* Headline */
+    .hero-headline {
+      font-size: clamp(48px, 5.5vw, 76px);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.0;
+      color: var(--fg);
+      margin-bottom: 28px;
+    }
+
+    /* Cycling word slot — Emil's slot-machine technique */
+    .hero-word-track {
+      display: block;
+      overflow: hidden;
+      height: 1.08em;
+      position: relative;
+      /* Width animates so the layout doesn't jump */
+    }
+    .hero-word {
+      position: absolute;
+      left: 0;
+      top: 0;
+      font-style: italic;
+      font-weight: 300;
+      color: #86EFAC;
+      opacity: 0;
+      transform: translateY(70%);
+      /* Emil: ease-out for entering elements — starts fast, feels responsive */
+      transition: transform 500ms var(--ease-out), opacity 400ms var(--ease-out), color 400ms ease;
+      white-space: nowrap;
+    }
+    .hero-word.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Emil: exit faster than enter — 60% of enter duration */
+    .hero-word.exiting {
+      opacity: 0;
+      transform: translateY(-65%);
+      transition: transform 320ms var(--ease-in-out), opacity 260ms ease;
+    }
+
+    .hero-sub {
+      font-size: 17px;
+      color: var(--fg-muted);
+      line-height: 1.65;
+      max-width: 440px;
+      margin-bottom: 36px;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 36px;
+    }
+    .hero-trust {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .trust-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--fg-muted);
+      font-weight: 500;
+    }
+    .trust-pill svg { color: var(--green); flex-shrink: 0; }
+
+    /* Right panel: specialty cards */
+    .panel-cards { display: flex; flex-direction: row; gap: 8px; margin-bottom: 0; flex-wrap: wrap; }
+
+    .panel-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 100px;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      background: rgba(17,18,16,0.55);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: background 450ms var(--ease-out), border-color 450ms var(--ease-out);
+    }
+    .panel-card.active {
+      background: rgba(17,18,16,0.80);
+      border-color: rgba(255,255,255,0.2);
+    }
+
+    /* Emil: left-edge accent line scales from anchor point */
+    .panel-card::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      transform: translateY(-50%) scaleY(0);
+      width: 2px; height: 60%;
+      border-radius: 1px;
+      background: #86EFAC;
+      transform-origin: center;
+      /* Emil: ease-out for entering */
+      transition: transform 450ms var(--ease-out), background 400ms ease, opacity 300ms ease;
+      opacity: 0;
+    }
+    .panel-card.active::before {
+      transform: translateY(-50%) scaleY(1);
+      opacity: 1;
+    }
+
+    .panel-icon {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      transition: background 450ms var(--ease-out);
+    }
+    .panel-icon svg { width: 14px; height: 14px; }
+
+    .panel-card-name {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(245,240,232,0.5);
+      transition: color 450ms var(--ease-out);
+      white-space: nowrap;
+    }
+    .panel-card.active .panel-card-name { color: #F5F0E8; }
+
+    .panel-card-sub { display: none; }
+
+    .panel-card-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: transparent;
+      flex-shrink: 0;
+      transition: background 450ms var(--ease-out);
+    }
+    .panel-card.active .panel-card-dot { background: #86EFAC; }
+
+    /* Panel stats hidden — moved to separate dark stats bar */
+    .panel-stats { display: none; }
+
+    /* Hero text entrance — clip-path wipe per line (Emil's reveal technique) */
+    .hero-line {
+      overflow: hidden;
+      display: block;
+    }
+    .hero-line-inner {
+      display: block;
+      transform: translateY(100%);
+      opacity: 0;
+      transition: transform 700ms var(--ease-out), opacity 600ms ease;
+    }
+    .hero-line-inner.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .hero-line:nth-child(1) .hero-line-inner { transition-delay: 100ms; }
+    .hero-line:nth-child(2) .hero-line-inner { transition-delay: 250ms; }
+    .hero-line:nth-child(3) .hero-line-inner { transition-delay: 400ms; }
+
+    /* Responsive */
+
+    /* ── Stats Bar ──────────────────────────────────── */
+    .stats {
+      background: var(--bg-dark);
+      padding: 48px 0;
+    }
+    .stats-inner {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .stat-item {
+      background: rgba(255,255,255,0.03);
+      padding: 36px 40px;
+      text-align: center;
+    }
+    .stat-number {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(36px, 4vw, 52px);
+      font-weight: 700;
+      color: #F5F0E8;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-number span { color: #86EFAC; }
+    .stat-label {
+      font-size: 14px;
+      color: rgba(248, 243, 232, 0.5);
+      font-weight: 500;
+    }
+
+    /* ── Problem/Why Section ────────────────────────── */
+    .why {
+      padding: 96px 0;
+    }
+    .section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin-bottom: 16px;
+    }
+    /* ── Treatments Section (replaces vial-scroll) ──────── */
+    .treatments {
+      background: var(--bg-dark);
+      padding: 80px 0 96px;
+    }
+    .treatments-header {
+      text-align: center;
+      margin-bottom: 52px;
+    }
+    .treatments-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #86EFAC;
+      margin-bottom: 12px;
+    }
+    .treatments-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 700;
+      color: #F5F0E8;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+    }
+    .treatments-title em { font-style: italic; font-weight: 300; color: rgba(245,240,232,0.6); }
+
+    /* 5-column card grid */
+    .tx-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    /* Individual product card */
+    .tx-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.09);
+      border-radius: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 250ms ease, transform 250ms var(--ease-out),
+                  box-shadow 250ms ease;
+      opacity: 0;
+      transform: translateY(28px);
+    }
+    .tx-card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .tx-card:nth-child(1) { transition-delay: 0ms; }
+    .tx-card:nth-child(2) { transition-delay: 60ms; }
+    .tx-card:nth-child(3) { transition-delay: 120ms; }
+    .tx-card:nth-child(4) { transition-delay: 180ms; }
+    .tx-card:nth-child(5) { transition-delay: 240ms; }
+
+    @media (hover: hover) and (pointer: fine) {
+      .tx-card:hover {
+        border-color: rgba(255,255,255,0.18);
+        transform: translateY(-3px);
+        box-shadow: 0 16px 48px rgba(0,0,0,0.4);
+      }
+    }
+    .tx-card.tx-featured {
+      border-color: rgba(134,239,172,0.4);
+      box-shadow: 0 0 0 1px rgba(134,239,172,0.15);
+    }
+
+    /* Vial illustration area */
+    .tx-vial-wrap {
+      padding: 28px 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+    .tx-vial-glow {
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 100px; height: 80px;
+      border-radius: 50%;
+      filter: blur(28px);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    /* Compact vial component */
+    .tx-vial {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+      filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+    }
+    .tx-vcap {
+      width: 22px; height: 9px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.75), rgba(255,255,255,0.45));
+      border-radius: 4px 4px 0 0;
+    }
+    .tx-vneck {
+      width: 14px; height: 7px;
+      background: rgba(255,255,255,0.28);
+    }
+    .tx-vbody {
+      width: 52px;
+      height: 100px;
+      border-radius: 4px 4px 26px 26px;
+      border: 1.5px solid rgba(255,255,255,0.28);
+      background: linear-gradient(
+        155deg,
+        rgba(255,255,255,0.20) 0%,
+        rgba(255,255,255,0.07) 30%,
+        rgba(0,0,0,0.12) 100%
+      );
+      position: relative;
+      overflow: hidden;
+      box-shadow:
+        inset 0 1px 0 rgba(255,255,255,0.35),
+        inset -4px 0 10px rgba(0,0,0,0.12);
+    }
+    .tx-vliquid {
+      position: absolute;
+      bottom: 0; left: 2px; right: 2px;
+      height: 0;
+      border-radius: 0 0 23px 23px;
+      transition: height 900ms cubic-bezier(0.34, 1.4, 0.64, 1);
+    }
+    .tx-vliquid::after {
+      content: '';
+      position: absolute;
+      top: -3px; left: 0; right: 0;
+      height: 6px;
+      border-radius: 50%;
+      background: inherit;
+      filter: brightness(1.25);
+    }
+    /* glass streak */
+    .tx-vbody::after {
+      content: '';
+      position: absolute;
+      top: 8px; left: 7px;
+      width: 4px; bottom: 14px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), transparent 55%);
+      border-radius: 3px;
+    }
+    /* label band */
+    .tx-vlabel {
+      position: absolute;
+      top: 26px; left: 0; right: 0;
+      height: 20px;
+      background: rgba(255,255,255,0.07);
+      border-top: 1px solid rgba(255,255,255,0.12);
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+    }
+
+    /* Card body text */
+    .tx-body {
+      padding: 0 18px 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      gap: 10px;
+    }
+    .tx-badge {
+      display: inline-block;
+      align-self: flex-start;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 100px;
+    }
+    .tx-badge-green  { background: rgba(134,239,172,0.15); color: #86EFAC; }
+    .tx-badge-yellow { background: rgba(252,211,77,0.15);  color: #FCD34D; }
+    .tx-badge-purple { background: rgba(196,181,253,0.15); color: #C4B5FD; }
+    .tx-badge-teal   { background: rgba(94,234,212,0.15);  color: #5EEAD4; }
+    .tx-badge-pink   { background: rgba(253,164,175,0.15); color: #FDA4AF; }
+
+    .tx-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(14px, 1.3vw, 17px);
+      font-weight: 700;
+      color: #F5F0E8;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin: 0;
+    }
+    .tx-mechanism {
+      font-size: 10px;
+      font-weight: 500;
+      color: rgba(245,240,232,0.35);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-top: -4px;
+    }
+
+    /* Feature list */
+    .tx-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+    }
+    .tx-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 7px;
+      font-size: 11.5px;
+      color: rgba(245,240,232,0.5);
+      line-height: 1.4;
+    }
+    .tx-features li::before {
+      content: '✓';
+      font-size: 10px;
+      font-weight: 700;
+      color: #86EFAC;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Price + CTA */
+    .tx-footer {
+      padding: 14px 18px 18px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      margin-top: auto;
+    }
+    .tx-price {
+      font-size: 11px;
+      color: rgba(245,240,232,0.4);
+      margin-bottom: 9px;
+      letter-spacing: 0.02em;
+    }
+    .tx-price strong {
+      font-family: 'Playfair Display', serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: #F5F0E8;
+      letter-spacing: -0.03em;
+    }
+    .tx-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      width: 100%;
+      padding: 10px 0;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      transition: background 180ms ease, transform 160ms var(--ease-out);
+      letter-spacing: 0.02em;
+    }
+    .tx-cta-primary {
+      background: var(--green);
+      color: #fff;
+      box-shadow: 0 2px 10px rgba(22,101,52,0.3);
+    }
+    .tx-cta-primary:hover { background: var(--green-mid); }
+    .tx-cta-ghost {
+      background: rgba(255,255,255,0.06);
+      color: rgba(245,240,232,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .tx-cta-ghost:hover { background: rgba(255,255,255,0.1); color: #F5F0E8; }
+    .tx-cta:active { transform: scale(0.97); }
+
+    /* Responsive */
+    @media (max-width: 1100px) {
+      .tx-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 700px) {
+      .tx-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 480px) {
+      .tx-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+    }
+
+    /* ── Why Rift ──────────────────────────────────────── */
+    .why-inner {
+      display: grid;
+      grid-template-columns: 5fr 7fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .why-left h2 {
+      font-size: clamp(32px, 3.5vw, 48px);
+      letter-spacing: -0.025em;
+      line-height: 1.1;
+      color: var(--fg);
+      margin-bottom: 20px;
+    }
+    .why-left h2 em { font-style: italic; font-weight: 300; }
+    .why-left p {
+      font-size: 16px;
+      color: var(--fg-muted);
+      line-height: 1.7;
+      max-width: 340px;
+    }
+    .why-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--border);
+    }
+    .why-item {
+      background: var(--surface);
+      padding: 28px 32px;
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      transition: background 200ms ease;
+    }
+    .why-item:hover { background: #FDFCFA; }
+    .why-item-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg-subtle);
+      min-width: 28px;
+      padding-top: 3px;
+    }
+    .why-item-content h3 {
+      font-size: 16px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.01em;
+      margin-bottom: 6px;
+      color: var(--fg);
+    }
+    .why-item-content p {
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.6;
+    }
+
+    /* ── How It Works ───────────────────────────────── */
+    .how {
+      padding: 96px 0;
+      background: var(--bg-alt);
+    }
+    .how-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+    .how-header h2 {
+      font-size: clamp(32px, 3.5vw, 48px);
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+    }
+    .how-header p {
+      font-size: 17px;
+      color: var(--fg-muted);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+    .how-steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      position: relative;
+    }
+    .how-steps::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: calc(16.67% + 24px);
+      right: calc(16.67% + 24px);
+      height: 1px;
+      background: var(--border);
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 32px;
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+    .step-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--fg);
+      flex-shrink: 0;
+    }
+    .step:first-child .step-num { background: var(--bg-dark); color: #F5F0E8; border-color: var(--bg-dark); }
+    .step h3 {
+      font-size: 18px;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      letter-spacing: -0.01em;
+      color: var(--fg);
+    }
+    .step p { font-size: 14px; color: var(--fg-muted); line-height: 1.65; }
+    .step-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: var(--green-light);
+      color: var(--green);
+      margin-top: auto;
+    }
+
+    /* ── Testimonials ───────────────────────────────── */
+    .testimonials {
+      padding: 96px 0;
+    }
+    .testimonials-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+    }
+    .testimonials-header h2 {
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: -0.025em;
+      max-width: 400px;
+      line-height: 1.15;
+    }
+    .testimonials-header h2 em { font-style: italic; font-weight: 300; }
+    .testimonials-meta {
+      text-align: right;
+    }
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      justify-content: flex-end;
+      margin-bottom: 4px;
+    }
+    .stars { color: #FBBF24; font-size: 16px; letter-spacing: 2px; }
+    .rating-num { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; }
+    .rating-sub { font-size: 13px; color: var(--fg-muted); }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .testimonial-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    .testimonial-card:hover {
+      border-color: #C5BFB5;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    .testimonial-card:first-child {
+      background: var(--bg-dark);
+      border-color: transparent;
+    }
+    .testimonial-stars { color: #FBBF24; font-size: 14px; letter-spacing: 1px; }
+    .testimonial-card:first-child .testimonial-stars { color: #FCD34D; }
+    .testimonial-quote {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 17px;
+      font-style: italic;
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--fg);
+      flex-grow: 1;
+    }
+    .testimonial-card:first-child .testimonial-quote { color: #F5F0E8; }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .author-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .testimonial-card:first-child .author-avatar { background: rgba(255,255,255,0.1); color: #F5F0E8; }
+    .author-name { font-size: 14px; font-weight: 600; color: var(--fg); }
+    .testimonial-card:first-child .author-name { color: #F5F0E8; }
+    .author-detail { font-size: 12px; color: var(--fg-subtle); }
+    .testimonial-card:first-child .author-detail { color: rgba(248,243,232,0.4); }
+    .testimonial-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: var(--green-light);
+      color: var(--green);
+    }
+    .testimonial-card:first-child .testimonial-tag {
+      background: rgba(134, 239, 172, 0.15);
+      color: #86EFAC;
+    }
+
+    /* ── Pricing ────────────────────────────────────── */
+    .pricing {
+      padding: 96px 0;
+      background: var(--bg-alt);
+    }
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    .pricing-header h2 {
+      font-size: clamp(28px, 3vw, 44px);
+      letter-spacing: -0.025em;
+      margin-bottom: 12px;
+    }
+    .pricing-header p { font-size: 16px; color: var(--fg-muted); }
+
+    /* Monthly / Quarterly toggle */
+    .pricing-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: 100px;
+      padding: 4px;
+      width: fit-content;
+      margin: 0 auto 48px;
+      gap: 0;
+    }
+    .pricing-toggle-btn {
+      padding: 9px 22px;
+      border-radius: 100px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      border: none;
+      cursor: pointer;
+      background: transparent;
+      color: var(--fg-muted);
+      transition: color 200ms ease, background 200ms ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pricing-toggle-btn.active { background: var(--fg); color: var(--bg); }
+    .pricing-save-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--green);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 100px;
+      letter-spacing: 0.03em;
+    }
+
+    /* Treatment card grid — 2×2 */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 40px;
+      transition: opacity 250ms var(--ease-out), filter 250ms var(--ease-out);
+    }
+    .pricing-grid.switching {
+      opacity: 0.6;
+      filter: blur(2px);
+    }
+
+    .ptc {
+      background: var(--surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out);
+    }
+    .ptc.featured {
+      border-color: var(--green);
+      box-shadow: 0 0 0 1px var(--green), 0 8px 32px rgba(22,101,52,0.1);
+    }
+
+    /* Card header */
+    .ptc-head {
+      padding: 24px 28px 20px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .ptc-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 100px;
+      margin-bottom: 12px;
+    }
+    .badge-pop  { background: var(--green-light); color: var(--green); }
+    .badge-best { background: var(--amber-light);  color: var(--amber); }
+    .badge-lng  { background: #EDE9FE; color: #6D28D9; }
+    .badge-perf { background: #FEE2E2; color: #991B1B; }
+
+    .ptc-name {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      margin-bottom: 3px;
+    }
+    .ptc-sub { font-size: 12px; color: var(--fg-subtle); line-height: 1.4; }
+
+    /* Vial icon placeholder */
+    .ptc-vial {
+      width: 48px; height: 64px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .ptc-vial svg { width: 36px; height: 48px; }
+
+    /* Pricing block */
+    .ptc-price-block {
+      padding: 20px 28px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .ptc-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 2px;
+    }
+    .ptc-dollar { font-size: 18px; font-weight: 600; color: var(--fg); margin-bottom: 4px; }
+    .ptc-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 48px;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--fg);
+      line-height: 1;
+      transition: opacity 200ms ease;
+    }
+    .ptc-per { font-size: 14px; color: var(--fg-muted); margin-left: 4px; }
+    .ptc-billing-note { font-size: 12px; color: var(--fg-subtle); text-align: right; line-height: 1.5; }
+
+    /* Features */
+    .ptc-features {
+      padding: 18px 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex-grow: 1;
+    }
+    .ptc-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 13px;
+      color: var(--fg-muted);
+      line-height: 1.45;
+    }
+    .ptc-feature svg { color: var(--green); flex-shrink: 0; margin-top: 1px; }
+
+    /* CTA footer */
+    .ptc-foot {
+      padding: 18px 28px;
+      border-top: 1px solid var(--border);
+    }
+    .ptc-foot .btn { width: 100%; justify-content: center; }
+    .ptc-fine {
+      font-size: 11px; color: var(--fg-subtle);
+      text-align: center; margin-top: 8px; line-height: 1.5;
+    }
+
+    /* Pharmacy partners grid */
+    .pharmacy-section {
+      margin-bottom: 32px;
+    }
+    .pharmacy-section-label {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .pharmacy-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+    }
+    .pharmacy-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      position: relative;
+    }
+    .pharmacy-card-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--fg);
+    }
+    .pharmacy-card-detail {
+      font-size: 11px;
+      color: var(--fg-subtle);
+      line-height: 1.4;
+    }
+    .pharmacy-popular-tag {
+      position: absolute;
+      top: -1px; right: 12px;
+      background: var(--green);
+      color: #fff;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 8px;
+      border-radius: 0 0 6px 6px;
+    }
+    .pharmacy-trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .pharmacy-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--fg-subtle);
+      font-weight: 500;
+    }
+    .pharmacy-trust-item svg { color: var(--green); }
+
+    /* Disclaimer */
+    .pricing-disclaimer {
+      text-align: center;
+      font-size: 12px;
+      color: var(--fg-subtle);
+      line-height: 1.7;
+      max-width: 680px;
+      margin: 0 auto;
+    }
+    .pricing-disclaimer a { color: var(--green); text-decoration: none; }
+
+    /* ── FAQ ─────────────────────────────────────────── */
+    .faq {
+      padding: 96px 0;
+    }
+    .faq-inner {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 64px;
+    }
+    .faq-left h2 {
+      font-size: clamp(28px, 3vw, 40px);
+      letter-spacing: -0.025em;
+      margin-bottom: 16px;
+      line-height: 1.15;
+    }
+    .faq-left p { font-size: 15px; color: var(--fg-muted); }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+    .faq-item:first-child { border-top: 1px solid var(--border); }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 20px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--fg);
+      font-family: 'Outfit', sans-serif;
+      transition: color 150ms ease;
+    }
+    .faq-question:hover { color: var(--green); }
+    .faq-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1.5px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 250ms var(--ease-out), background 200ms ease, border-color 200ms ease;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--fg);
+      border-color: var(--fg);
+    }
+    .faq-item.open .faq-icon svg { stroke: #fff; }
+    .faq-answer {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 350ms var(--ease-in-out);
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer p {
+      padding-bottom: 20px;
+      font-size: 14px;
+      color: var(--fg-muted);
+      line-height: 1.7;
+    }
+
+    /* ── Final CTA ──────────────────────────────────── */
+    .cta-section {
+      padding: 96px 0;
+      background: var(--bg-dark);
+      text-align: center;
+    }
+    .cta-eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(248,243,232,0.4);
+      margin-bottom: 24px;
+    }
+    .cta-headline {
+      font-size: clamp(36px, 4.5vw, 60px);
+      color: #F5F0E8;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+      max-width: 640px;
+      margin: 0 auto 20px;
+    }
+    .cta-headline em { font-style: italic; font-weight: 300; color: #86EFAC; }
+    .cta-sub {
+      font-size: 16px;
+      color: rgba(248,243,232,0.5);
+      margin-bottom: 40px;
+      max-width: 420px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cta-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+    .btn-cta-primary {
+      background: #F5F0E8;
+      color: var(--bg-dark);
+      font-size: 16px;
+      padding: 16px 32px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .btn-cta-primary:hover { background: #fff; }
+    .btn-cta-ghost {
+      background: rgba(255,255,255,0.06);
+      color: rgba(248,243,232,0.7);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 16px 28px;
+      border-radius: 8px;
+    }
+    .btn-cta-ghost:hover { background: rgba(255,255,255,0.1); color: #F5F0E8; }
+    .cta-promo {
+      font-size: 13px;
+      color: rgba(248,243,232,0.35);
+    }
+    .cta-promo code {
+      background: rgba(255,255,255,0.08);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      color: rgba(248,243,232,0.6);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Footer ──────────────────────────────────────── */
+    .footer {
+      padding: 40px 0;
+      border-top: 1px solid var(--border);
+    }
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .footer-left { display: flex; align-items: center; gap: 24px; }
+    .footer-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--fg);
+      text-decoration: none;
+    }
+    .footer-links { display: flex; gap: 20px; }
+    .footer-links a {
+      font-size: 13px;
+      color: var(--fg-subtle);
+      text-decoration: none;
+      transition: color 150ms ease;
+    }
+    .footer-links a:hover { color: var(--fg-muted); }
+    .footer-right { font-size: 13px; color: var(--fg-subtle); }
+
+    /* ── Responsive ──────────────────────────────────── */
+    @media (max-width: 700px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pharmacy-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 900px) {
+      .hero { flex-direction: column; min-height: auto; }
+      .hero-left { padding: 56px 0 40px; }
+      .hero-left-inner { max-width: none; padding-right: 0; padding: 0 24px; margin: 0; }
+      .hero-right { width: 100%; min-height: 340px; }
+      .hero-panel { padding: 16px 20px 20px; }
+      .panel-cards { gap: 6px; }
+      .why-inner { grid-template-columns: 1fr; gap: 48px; }
+      .why-left p { max-width: none; }
+      .how-steps { grid-template-columns: 1fr; }
+      .how-steps::before { display: none; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .testimonials-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .testimonials-meta { text-align: left; }
+      .rating-row { justify-content: flex-start; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .pharmacy-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+      .pharmacy-trust { margin-left: 0; }
+      .faq-inner { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .container { padding: 0 20px; }
+      .hero-actions { flex-direction: column; align-items: flex-start; }
+      .stats-inner { grid-template-columns: 1fr; }
+      .pricing-top, .pricing-features, .pricing-footer { padding-left: 24px; padding-right: 24px; }
+      .btn-lg { width: 100%; justify-content: center; }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       RIFT FRAME ANIMATION SECTION
+       Cinematic 151-frame scroll-driven sequence.
+       Isolated namespace: .ra-* to avoid collisions.
+    ═══════════════════════════════════════════════════════ */
+
+    /* Loader overlay */
+    #ra-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: var(--bg-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      transition: opacity 0.8s ease, visibility 0.8s ease;
+    }
+    #ra-loader.ra-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .ra-loader-logo {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 38px;
+      font-weight: 700;
+      color: #F5F0E8;
+      letter-spacing: -0.02em;
+    }
+    .ra-loader-logo em {
+      font-style: italic;
+      font-weight: 300;
+      color: #86EFAC;
+    }
+    .ra-loader-track {
+      width: 200px;
+      height: 1px;
+      background: rgba(255,255,255,0.08);
+      position: relative;
+      overflow: hidden;
+    }
+    .ra-loader-fill {
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 0%;
+      background: #86EFAC;
+      transition: width 0.12s linear;
+    }
+    .ra-loader-label {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+    }
+
+    /* Progress bar */
+    #ra-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: linear-gradient(90deg, #86EFAC 0%, #4ADE80 100%);
+      z-index: 9000;
+      pointer-events: none;
+      transition: width 0.08s linear;
+    }
+
+    /* Animation section — scroll travel */
+    #ra-section {
+      height: 450vh;
+      position: relative;
+    }
+
+    /* Sticky container — fullscreen during scroll */
+    #ra-sticky {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+      background: var(--bg-dark);
+    }
+
+    /* Canvas fills sticky container */
+    #ra-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Subtle bottom vignette for text legibility */
+    #ra-sticky::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 30%;
+      background: linear-gradient(to top, rgba(13,20,16,0.65), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+    /* Top vignette */
+    #ra-sticky::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 18%;
+      background: linear-gradient(to bottom, rgba(13,20,16,0.5), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Chapters — text overlays */
+    .ra-chapter {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      will-change: opacity, transform;
+    }
+    .ra-chapter.ra-left  { justify-content: flex-start; padding-left: 8vw; }
+    .ra-chapter.ra-right { justify-content: flex-end;   padding-right: 8vw; }
+
+    .ra-chapter-inner {
+      max-width: 580px;
+      padding: 0 24px;
+    }
+    .ra-chapter.ra-left  .ra-chapter-inner { text-align: left; }
+    .ra-chapter.ra-right .ra-chapter-inner { text-align: right; }
+    .ra-chapter:not(.ra-left):not(.ra-right) .ra-chapter-inner { text-align: center; }
+
+    .ra-eyebrow {
+      display: block;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #86EFAC;
+      margin-bottom: 16px;
+    }
+
+    .ra-headline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(40px, 6.5vw, 82px);
+      font-weight: 700;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      color: #F5F0E8;
+      margin: 0;
+    }
+
+    .ra-headline em {
+      font-style: italic;
+      font-weight: 300;
+      color: #86EFAC;
+    }
+
+    .ra-sub {
+      margin-top: 18px;
+      font-size: clamp(13px, 1.2vw, 15px);
+      font-weight: 300;
+      color: rgba(245,240,232,0.45);
+      line-height: 1.75;
+      max-width: 400px;
+    }
+
+    .ra-chapter.ra-left  .ra-sub { margin-left: 0; }
+    .ra-chapter.ra-right .ra-sub { margin-left: auto; }
+    .ra-chapter:not(.ra-left):not(.ra-right) .ra-sub { margin: 18px auto 0; }
+
+    /* CTA inside chapter */
+    .ra-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 36px;
+      padding: 14px 32px;
+      background: #86EFAC;
+      color: var(--bg-dark);
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      text-decoration: none;
+      pointer-events: auto;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+    .ra-cta:hover {
+      background: #4ADE80;
+      transform: translateY(-2px);
+    }
+
+    /* Scroll hint */
+    #ra-hint {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+    }
+    #ra-hint.ra-gone { opacity: 0; }
+    .ra-hint-label {
+      font-size: 9px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.3);
+    }
+    .ra-hint-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, rgba(134,239,172,0.5), transparent);
+      animation: raPulse 1.6s ease-in-out infinite;
+    }
+    @keyframes raPulse {
+      0%, 100% { opacity: 0.3; transform: scaleY(1); }
+      50%       { opacity: 1;   transform: scaleY(1.08); }
+    }
+
+    /* Section label underneath animation */
+    .ra-label-bar {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 20px 0;
+      text-align: center;
+    }
+    .ra-label-bar p {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(245,240,232,0.25);
+    }
+
+    @media (max-width: 768px) {
+      .ra-headline { font-size: clamp(34px, 10vw, 56px); }
+      .ra-chapter.ra-left  { justify-content: center; padding-left: 0; }
+      .ra-chapter.ra-right { justify-content: center; padding-right: 0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Announcement -->
+  <div class="announcement" role="banner">
+    Introductory offer — <strong>$50 off</strong> already applied at checkout. No code needed.
+    <span style="color:rgba(255,255,255,0.4); margin: 0 8px;">·</span>
+    New members save an extra $20 with code <strong>HELLO20</strong>
+  </div>
+
+  <!-- Nav -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="nav-logo" aria-label="Rift home">
+        <div class="nav-logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6zm0 8h4l4 8H6z"/>
+          </svg>
+        </div>
+        <span class="nav-logo-text">Rift</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <ul class="nav-links">
+          <li><a href="#how">How It Works</a></li>
+          <li><a href="#results">Results</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+        </ul>
+      </nav>
+      <div class="nav-cta">
+        <a href="#pricing" class="btn btn-ghost btn-sm">Sign in</a>
+        <a href="#pricing" class="btn btn-primary btn-sm">Get started</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-headline">
+
+    <!-- Left: copy -->
+    <div class="hero-left">
+      <div class="hero-left-inner">
+
+        <div class="hero-cat-label fade-up">
+          <span class="hero-cat-dot" aria-hidden="true"></span>
+          <span class="hero-cat-text">Weight Loss</span>
+        </div>
+
+        <h1 class="hero-headline" id="hero-headline">
+          <span class="hero-line"><span class="hero-line-inner">Redefine your</span></span>
+          <span class="hero-word-track" aria-live="polite" aria-atomic="true">
+            <span class="hero-word active" data-idx="0">weight loss.</span>
+          </span>
+        </h1>
+
+        <p class="hero-sub fade-up">
+          Real providers. No waitlists. Personalized care across weight, hair, longevity, and sexual health — built by people tired of waiting for telehealth to work.
+        </p>
+
+        <div class="hero-actions fade-up">
+          <a href="#pricing" class="btn btn-primary btn-lg">Get started</a>
+          <a href="#how" class="btn btn-secondary btn-lg">See how it works</a>
+        </div>
+
+        <!-- Trust signals moved below hero per taste-skill §4.7 hero stack rule -->
+
+      </div>
+    </div>
+
+    <!-- Right: lifestyle image + floating vials + category pills -->
+    <div class="hero-right" aria-hidden="true">
+
+      <!-- Background lifestyle image — swaps per category -->
+      <div class="hero-bg">
+        <img class="hero-bg-img" id="hero-bg-img"
+          src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80&auto=format&fit=crop"
+          alt="" loading="eager" />
+        <div class="hero-overlay"></div>
+      </div>
+
+      <!-- Glow blob behind vials -->
+      <div class="vial-glow" id="vial-glow"></div>
+
+      <!-- Floating vials -->
+      <div class="hero-vials">
+        <!-- Vial 1 (largest, front) -->
+        <div class="vial vial-1">
+          <div class="vial-cap"></div>
+          <div class="vial-neck"></div>
+          <div class="vial-body">
+            <div class="vial-liquid" id="vial-liq-1" style="background:rgba(134,239,172,0.35); height:55%"></div>
+            <div class="vial-label"></div>
+          </div>
+        </div>
+        <!-- Vial 2 (medium, right) -->
+        <div class="vial vial-2">
+          <div class="vial-cap"></div>
+          <div class="vial-neck"></div>
+          <div class="vial-body">
+            <div class="vial-liquid" id="vial-liq-2" style="background:rgba(196,181,253,0.30); height:42%"></div>
+            <div class="vial-label"></div>
+          </div>
+        </div>
+        <!-- Vial 3 (small, back) -->
+        <div class="vial vial-3">
+          <div class="vial-cap"></div>
+          <div class="vial-neck"></div>
+          <div class="vial-body">
+            <div class="vial-liquid" id="vial-liq-3" style="background:rgba(252,211,77,0.25); height:68%"></div>
+            <div class="vial-label"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category pill bar at bottom -->
+      <div class="hero-panel">
+        <div class="panel-cards">
+
+          <!-- Weight Loss -->
+          <div class="panel-card active" data-idx="0">
+            <div class="panel-icon" style="background:rgba(134,239,172,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#86EFAC" stroke-width="1.8">
+                <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-8 2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="panel-card-name">Weight Loss</div>
+              <div class="panel-card-sub">Semaglutide · tirzepatide · personalized plans</div>
+            </div>
+            <div class="panel-card-dot"></div>
+          </div>
+
+          <!-- Hair Health -->
+          <div class="panel-card" data-idx="1">
+            <div class="panel-icon" style="background:rgba(196,181,253,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#C4B5FD" stroke-width="1.8">
+                <path d="M12 22V12M12 12C12 7 8 4 4 6M12 12C12 7 16 4 20 6M12 12C12 16 9 19 6 18M12 12C12 16 15 19 18 18"/>
+              </svg>
+            </div>
+            <div>
+              <div class="panel-card-name">Hair Health</div>
+              <div class="panel-card-sub">Finasteride · minoxidil · DHT blockers</div>
+            </div>
+            <div class="panel-card-dot"></div>
+          </div>
+
+          <!-- Longevity -->
+          <div class="panel-card" data-idx="2">
+            <div class="panel-icon" style="background:rgba(252,211,77,0.08)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FCD34D" stroke-width="1.8">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>
+            </div>
+            <div>
+              <div class="panel-card-name">Longevity</div>
+              <div class="panel-card-sub">Hormone optimization · metabolic health</div>
+            </div>
+            <div class="panel-card-dot"></div>
+          </div>
+
+          <!-- Sexual Health -->
+          <div class="panel-card" data-idx="3">
+            <div class="panel-icon" style="background:rgba(253,164,175,0.1)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#FDA4AF" stroke-width="1.8">
+                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.335 4.68 1 8 1c1.998 0 4.735.986 4 3 0 0 .007 0 0 0 .73-2.016 2-3 4-3 3.32 0 7 2.335 7 6.191 0 4.104-5.37 8.863-11 14.402z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="panel-card-name">Sexual Health</div>
+              <div class="panel-card-sub">ED · PE · libido · hormone balance</div>
+            </div>
+            <div class="panel-card-dot"></div>
+          </div>
+
+        </div><!-- /panel-cards -->
+      </div><!-- /hero-panel -->
+
+    </div><!-- /hero-right -->
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════════
+       RIFT 151-FRAME SCROLL ANIMATION
+       Plays the bottle-to-vials cinematic sequence
+       as the user scrolls through this section.
+  ═══════════════════════════════════════════════ -->
+
+  <!-- Loader (shown until first 20 frames ready) -->
+  <div id="ra-loader">
+    <div class="ra-loader-logo">Rift — <em>Wellness In a Bottle</em></div>
+    <div class="ra-loader-track">
+      <div class="ra-loader-fill" id="ra-fill"></div>
+    </div>
+    <span class="ra-loader-label" id="ra-label-txt">Loading</span>
+  </div>
+
+  <!-- Scroll progress bar -->
+  <div id="ra-progress"></div>
+
+  <section id="ra-section" aria-label="Rift product animation">
+    <div id="ra-sticky">
+
+      <!-- Frame canvas -->
+      <canvas id="ra-canvas"></canvas>
+
+      <!-- Chapter 1: Intro (0 → 14%) -->
+      <div class="ra-chapter" id="ra-ch1">
+        <div class="ra-chapter-inner">
+          <span class="ra-eyebrow">Introducing Rift</span>
+          <h2 class="ra-headline">Wellness<br><em>In a Bottle.</em></h2>
+          <p class="ra-sub">Real providers. Real medications. Delivered to your door, built around your biology.</p>
+        </div>
+      </div>
+
+      <!-- Chapter 2: Singular (16 → 36%) -->
+      <div class="ra-chapter ra-left" id="ra-ch2">
+        <div class="ra-chapter-inner">
+          <span class="ra-eyebrow">The Prescription</span>
+          <h2 class="ra-headline">One<br>precise<br><em>formula.</em></h2>
+          <p class="ra-sub">Your provider reviews your intake and prescribes exactly what your body needs — no guesswork.</p>
+        </div>
+      </div>
+
+      <!-- Chapter 3: Explosion (38 → 60%) -->
+      <div class="ra-chapter ra-right" id="ra-ch3">
+        <div class="ra-chapter-inner">
+          <span class="ra-eyebrow">The Platform</span>
+          <h2 class="ra-headline"><em>Five</em><br>treatments.</h2>
+          <p class="ra-sub">Weight loss. Hair health. NAD+. Glutathione. Sermorelin. One platform, every goal.</p>
+        </div>
+      </div>
+
+      <!-- Chapter 4: Abundance (63 → 82%) -->
+      <div class="ra-chapter" id="ra-ch4">
+        <div class="ra-chapter-inner">
+          <span class="ra-eyebrow">Purpose-Built</span>
+          <h2 class="ra-headline">Every dose,<br><em>designed<br>for you.</em></h2>
+        </div>
+      </div>
+
+      <!-- Chapter 5: CTA (85 → 100%) -->
+      <div class="ra-chapter" id="ra-ch5">
+        <div class="ra-chapter-inner">
+          <span class="ra-eyebrow">Get Started</span>
+          <h2 class="ra-headline">Redefine<br><em>your health.</em></h2>
+          <p class="ra-sub">Matched with a board-certified provider in 24 hours. No waitlists.</p>
+          <a href="#pricing" class="ra-cta">Get started →</a>
+        </div>
+      </div>
+
+      <!-- Scroll hint -->
+      <div id="ra-hint">
+        <span class="ra-hint-label">Scroll to explore</span>
+        <div class="ra-hint-line"></div>
+      </div>
+
+    </div><!-- /ra-sticky -->
+  </section>
+
+  <!-- Thin label bar bridging animation → stats -->
+  <div class="ra-label-bar">
+    <p>Semaglutide · Tirzepatide · NAD+ · Glutathione · Sermorelin</p>
+  </div>
+
+  <!-- Stats -->
+  <section class="stats" aria-label="Rift by the numbers">
+    <div class="container">
+      <div class="stats-inner">
+        <div class="stat-item fade-up">
+          <div class="stat-number"><span>22.5</span> lbs</div>
+          <div class="stat-label">Average lost in 12 weeks</div>
+        </div>
+        <div class="stat-item fade-up">
+          <div class="stat-number">&lt;<span>4h</span></div>
+          <div class="stat-label">Provider response time</div>
+        </div>
+        <div class="stat-item fade-up">
+          <div class="stat-number"><span>94</span>%</div>
+          <div class="stat-label">Members who'd recommend Rift</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Treatments Section -->
+  <section class="treatments" id="treatments" aria-labelledby="treatments-heading">
+    <div class="container">
+
+      <div class="treatments-header fade-up">
+        <div class="treatments-label">5 Treatments · One Platform</div>
+        <h2 class="treatments-title" id="treatments-heading">Every vial, <em>purpose-built.</em></h2>
+      </div>
+
+      <div class="tx-grid">
+
+        <!-- ── 1: Semaglutide ── -->
+        <div class="tx-card tx-featured">
+          <div class="tx-vial-wrap">
+            <div class="tx-vial-glow" style="background:#86EFAC"></div>
+            <div class="tx-vial">
+              <div class="tx-vcap"></div>
+              <div class="tx-vneck"></div>
+              <div class="tx-vbody">
+                <div class="tx-vliquid" data-fill="62" style="background:linear-gradient(to top,#4ADE80,#86EFAC)"></div>
+                <div class="tx-vlabel">Semaglutide</div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-body">
+            <span class="tx-badge tx-badge-green">Most Popular</span>
+            <h3 class="tx-name">Semaglutide</h3>
+            <p class="tx-mechanism">GLP-1 · Weekly Injection</p>
+            <ul class="tx-features">
+              <li>Appetite suppression + satiety</li>
+              <li>Avg. 15–20% body weight loss</li>
+              <li>Board-certified provider included</li>
+              <li>Free shipping to your door</li>
+            </ul>
+          </div>
+          <div class="tx-footer">
+            <div class="tx-price">from <strong>$129</strong>/mo</div>
+            <a href="#pricing" class="tx-cta tx-cta-primary">Get started</a>
+          </div>
+        </div>
+
+        <!-- ── 2: Tirzepatide ── -->
+        <div class="tx-card">
+          <div class="tx-vial-wrap">
+            <div class="tx-vial-glow" style="background:#FCD34D"></div>
+            <div class="tx-vial">
+              <div class="tx-vcap"></div>
+              <div class="tx-vneck"></div>
+              <div class="tx-vbody">
+                <div class="tx-vliquid" data-fill="75" style="background:linear-gradient(to top,#D97706,#FCD34D)"></div>
+                <div class="tx-vlabel">Tirzepatide</div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-body">
+            <span class="tx-badge tx-badge-yellow">Best Results</span>
+            <h3 class="tx-name">Tirzepatide</h3>
+            <p class="tx-mechanism">GLP-1/GIP · Weekly Injection</p>
+            <ul class="tx-features">
+              <li>Dual-action receptor agonist</li>
+              <li>Up to 22% body weight reduction</li>
+              <li>Stronger appetite control</li>
+              <li>Provider-managed titration</li>
+            </ul>
+          </div>
+          <div class="tx-footer">
+            <div class="tx-price">from <strong>$169</strong>/mo</div>
+            <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
+          </div>
+        </div>
+
+        <!-- ── 3: NAD+ ── -->
+        <div class="tx-card">
+          <div class="tx-vial-wrap">
+            <div class="tx-vial-glow" style="background:#C4B5FD"></div>
+            <div class="tx-vial">
+              <div class="tx-vcap"></div>
+              <div class="tx-vneck"></div>
+              <div class="tx-vbody">
+                <div class="tx-vliquid" data-fill="55" style="background:linear-gradient(to top,#7C3AED,#C4B5FD)"></div>
+                <div class="tx-vlabel">NAD+</div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-body">
+            <span class="tx-badge tx-badge-purple">Longevity</span>
+            <h3 class="tx-name">NAD+ Injections</h3>
+            <p class="tx-mechanism">Cellular Energy · Weekly</p>
+            <ul class="tx-features">
+              <li>Boosts cellular energy & repair</li>
+              <li>Supports cognitive clarity</li>
+              <li>Anti-aging metabolic support</li>
+              <li>Compounded at licensed pharmacy</li>
+            </ul>
+          </div>
+          <div class="tx-footer">
+            <div class="tx-price">from <strong>$199</strong>/mo</div>
+            <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
+          </div>
+        </div>
+
+        <!-- ── 4: Glutathione ── -->
+        <div class="tx-card">
+          <div class="tx-vial-wrap">
+            <div class="tx-vial-glow" style="background:#5EEAD4"></div>
+            <div class="tx-vial">
+              <div class="tx-vcap"></div>
+              <div class="tx-vneck"></div>
+              <div class="tx-vbody">
+                <div class="tx-vliquid" data-fill="68" style="background:linear-gradient(to top,#0D9488,#5EEAD4)"></div>
+                <div class="tx-vlabel">Glutathione</div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-body">
+            <span class="tx-badge tx-badge-teal">Antioxidant</span>
+            <h3 class="tx-name">Glutathione</h3>
+            <p class="tx-mechanism">Antioxidant · Weekly Injection</p>
+            <ul class="tx-features">
+              <li>Master antioxidant detox support</li>
+              <li>Skin radiance & immune boost</li>
+              <li>Reduces oxidative stress</li>
+              <li>Ships from US 503A pharmacy</li>
+            </ul>
+          </div>
+          <div class="tx-footer">
+            <div class="tx-price">from <strong>$149</strong>/mo</div>
+            <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
+          </div>
+        </div>
+
+        <!-- ── 5: Sermorelin ── -->
+        <div class="tx-card">
+          <div class="tx-vial-wrap">
+            <div class="tx-vial-glow" style="background:#FDA4AF"></div>
+            <div class="tx-vial">
+              <div class="tx-vcap"></div>
+              <div class="tx-vneck"></div>
+              <div class="tx-vbody">
+                <div class="tx-vliquid" data-fill="82" style="background:linear-gradient(to top,#BE123C,#FDA4AF)"></div>
+                <div class="tx-vlabel">Sermorelin</div>
+              </div>
+            </div>
+          </div>
+          <div class="tx-body">
+            <span class="tx-badge tx-badge-pink">Performance</span>
+            <h3 class="tx-name">Sermorelin</h3>
+            <p class="tx-mechanism">Peptide · Nightly Injection</p>
+            <ul class="tx-features">
+              <li>Stimulates natural HGH release</li>
+              <li>Muscle recovery & fat metabolism</li>
+              <li>Deeper sleep quality</li>
+              <li>Provider-supervised protocol</li>
+            </ul>
+          </div>
+          <div class="tx-footer">
+            <div class="tx-price">from <strong>$229</strong>/mo</div>
+            <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
+          </div>
+        </div>
+
+      </div><!-- /tx-grid -->
+    </div><!-- /container -->
+  </section>
+
+  <!-- Why Rift -->
+  <section class="why" id="results" aria-labelledby="why-heading">
+    <div class="container">
+      <div class="why-inner">
+        <div class="why-left fade-up">
+          <h2 id="why-heading">Telehealth that<br/><em>actually</em> shows up.</h2>
+          <p>We built Rift because the current system makes you wait months for a 10-minute appointment. You deserve better than that.</p>
+        </div>
+        <div class="why-right">
+          <div class="why-item fade-up">
+            <div class="why-item-num">—</div>
+            <div class="why-item-content">
+              <h3>No waitlists, ever</h3>
+              <p>Get matched with a licensed provider within 24 hours. Not weeks. We staff for availability, not for show.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-item-num">—</div>
+            <div class="why-item-content">
+              <h3>Personalized — not template plans</h3>
+              <p>Your provider reviews your labs, lifestyle, and goals. Every plan is built for you, adjusted as you progress.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-item-num">—</div>
+            <div class="why-item-content">
+              <h3>Transparent, flat pricing</h3>
+              <p>No surprise bills. No insurance headaches. You see the full cost before you commit — and you can pause any time.</p>
+            </div>
+          </div>
+          <div class="why-item fade-up">
+            <div class="why-item-num">—</div>
+            <div class="why-item-content">
+              <h3>Unlimited messaging included</h3>
+              <p>Your provider is a message away. Ask questions, report symptoms, adjust your plan — no extra charge, ever.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works -->
+  <section class="how" id="how" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="how-header fade-up">
+        <h2 id="how-heading">Up and running in 48 hours</h2>
+        <p>From sign-up to your first provider message in two days — not two months.</p>
+      </div>
+      <div class="how-steps">
+        <div class="step fade-up">
+          <div class="step-num">1</div>
+          <h3>Complete your health intake</h3>
+          <p>A 10-minute questionnaire covering your history, goals, and lifestyle. No phone calls, no waiting rooms.</p>
+          <span class="step-tag">10 min</span>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">2</div>
+          <h3>Get matched with a provider</h3>
+          <p>A licensed clinician reviews your intake and builds your personalized plan — including any medication if appropriate.</p>
+          <span class="step-tag">Within 24 hrs</span>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">3</div>
+          <h3>Start losing weight</h3>
+          <p>Your plan arrives, your prescription ships to your door, and your provider stays in your corner for the whole journey.</p>
+          <span class="step-tag">Ongoing support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials" id="testimonials" aria-labelledby="testimonials-heading">
+    <div class="container">
+      <div class="testimonials-header fade-up">
+        <h2 id="testimonials-heading">
+          Real people,<br/><em>real results.</em>
+        </h2>
+        <div class="testimonials-meta">
+          <div class="rating-row">
+            <span class="stars" aria-label="5 stars">★★★★★</span>
+            <span class="rating-num">4.9</span>
+          </div>
+          <div class="rating-sub">From 2,400+ verified reviews</div>
+        </div>
+      </div>
+
+      <div class="testimonials-grid">
+        <!-- Featured dark card -->
+        <div class="testimonial-card fade-up">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="testimonial-quote">
+            "I'd tried three other telehealth services. Rift was the first one that felt like my provider actually read my intake. Down 31 lbs in 4 months."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: rgba(134,239,172,0.15);">M</div>
+            <div>
+              <div class="author-name">Marcus T.</div>
+              <div class="author-detail">Lost 31 lbs · 4 months</div>
+            </div>
+            <span class="testimonial-tag" style="margin-left: auto;">Verified</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="testimonial-quote">
+            "The pricing transparency alone sold me. I knew exactly what I was paying before I ever gave them my card number. No surprises."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: #FEF3C7; color: #92400E;">S</div>
+            <div>
+              <div class="author-name">Sarah K.</div>
+              <div class="author-detail">Lost 18 lbs · 10 weeks</div>
+            </div>
+            <span class="testimonial-tag" style="margin-left: auto;">Verified</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card fade-up">
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <blockquote class="testimonial-quote">
+            "My provider responds to messages within a few hours. That alone makes Rift worth it — I've never had that with any doctor before."
+          </blockquote>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background: #DCFCE7; color: #166534;">J</div>
+            <div>
+              <div class="author-name">Jamie R.</div>
+              <div class="author-detail">Member since Jan 2026</div>
+            </div>
+            <span class="testimonial-tag" style="margin-left: auto;">Verified</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing" id="pricing" aria-labelledby="pricing-heading">
+    <div class="container">
+      <div class="pricing-header fade-up">
+        <div class="section-label">Pricing</div>
+        <h2 id="pricing-heading">Clarity from the start.</h2>
+        <p>Provider review, ongoing support, and direct shipping — all included. No hidden fees, ever.</p>
+      </div>
+
+      <!-- Monthly / Quarterly toggle -->
+      <div class="pricing-toggle fade-up" role="group" aria-label="Billing frequency">
+        <button class="pricing-toggle-btn active" data-mode="monthly" aria-pressed="true">Monthly</button>
+        <button class="pricing-toggle-btn" data-mode="quarterly" aria-pressed="false">
+          Quarterly <span class="pricing-save-badge">Save 20%</span>
+        </button>
+      </div>
+
+      <!-- 4 Treatment Cards (2×2) -->
+      <div class="pricing-grid fade-up" data-mode="monthly">
+
+        <!-- Card 1: Semaglutide (Weight Loss) -->
+        <div class="ptc featured fade-up">
+          <div class="ptc-head">
+            <div>
+              <div class="ptc-badge badge-pop">Most Popular</div>
+              <div class="ptc-name">Semaglutide</div>
+              <div class="ptc-sub">Compounded GLP-1 · weekly injection · weight loss</div>
+            </div>
+            <!-- Vial SVG icon -->
+            <div class="ptc-vial" aria-hidden="true">
+              <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="13" y="0" width="10" height="6" rx="2" fill="#E2DDD5"/>
+                <rect x="14.5" y="5" width="7" height="3" fill="#C8C2B8"/>
+                <rect x="10" y="8" width="16" height="36" rx="6" fill="#DCFCE7" stroke="#166534" stroke-width="1.5"/>
+                <rect x="12" y="22" width="12" height="18" rx="4" fill="#86EFAC" opacity="0.5"/>
+                <line x1="14" y1="16" x2="22" y2="16" stroke="#166534" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="14" y1="20" x2="22" y2="20" stroke="#166534" stroke-width="1" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ptc-price-block">
+            <div>
+              <div class="ptc-amount">
+                <span class="ptc-dollar">$</span>
+                <span class="ptc-num" data-monthly="129" data-quarterly="103">129</span>
+                <span class="ptc-per">/mo</span>
+              </div>
+            </div>
+            <div class="ptc-billing-note" id="billing-note-1">Billed monthly<br/>Cancel anytime</div>
+          </div>
+          <div class="ptc-features">
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Personalized dosing plan &amp; titration</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — compounded med ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
+          </div>
+          <div class="ptc-foot">
+            <a href="#" class="btn btn-primary">Get started</a>
+            <div class="ptc-fine">Subject to provider approval</div>
+          </div>
+        </div>
+
+        <!-- Card 2: Tirzepatide (Weight Loss) -->
+        <div class="ptc fade-up">
+          <div class="ptc-head">
+            <div>
+              <div class="ptc-badge badge-best">Best Results</div>
+              <div class="ptc-name">Tirzepatide</div>
+              <div class="ptc-sub">Compounded GLP-1/GIP dual-agonist · weekly injection</div>
+            </div>
+            <div class="ptc-vial" aria-hidden="true">
+              <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="13" y="0" width="10" height="6" rx="2" fill="#E2DDD5"/>
+                <rect x="14.5" y="5" width="7" height="3" fill="#C8C2B8"/>
+                <rect x="10" y="8" width="16" height="36" rx="6" fill="#FEF3C7" stroke="#92400E" stroke-width="1.5"/>
+                <rect x="12" y="22" width="12" height="18" rx="4" fill="#FCD34D" opacity="0.5"/>
+                <line x1="14" y1="16" x2="22" y2="16" stroke="#92400E" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="14" y1="20" x2="22" y2="20" stroke="#92400E" stroke-width="1" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ptc-price-block">
+            <div>
+              <div class="ptc-amount">
+                <span class="ptc-dollar">$</span>
+                <span class="ptc-num" data-monthly="169" data-quarterly="135">169</span>
+                <span class="ptc-per">/mo</span>
+              </div>
+            </div>
+            <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
+          </div>
+          <div class="ptc-features">
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Dual GIP+GLP-1 — stronger appetite suppression</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — compounded med ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
+          </div>
+          <div class="ptc-foot">
+            <a href="#" class="btn btn-secondary">Get started</a>
+            <div class="ptc-fine">Subject to provider approval</div>
+          </div>
+        </div>
+
+        <!-- Card 3: NAD+ (Longevity) -->
+        <div class="ptc fade-up">
+          <div class="ptc-head">
+            <div>
+              <div class="ptc-badge badge-lng">Longevity</div>
+              <div class="ptc-name">NAD+ Injections</div>
+              <div class="ptc-sub">Cellular energy &amp; metabolism · weekly injection</div>
+            </div>
+            <div class="ptc-vial" aria-hidden="true">
+              <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="13" y="0" width="10" height="6" rx="2" fill="#E2DDD5"/>
+                <rect x="14.5" y="5" width="7" height="3" fill="#C8C2B8"/>
+                <rect x="10" y="8" width="16" height="36" rx="6" fill="#EDE9FE" stroke="#6D28D9" stroke-width="1.5"/>
+                <rect x="12" y="22" width="12" height="18" rx="4" fill="#C4B5FD" opacity="0.5"/>
+                <line x1="14" y1="16" x2="22" y2="16" stroke="#6D28D9" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="14" y1="20" x2="22" y2="20" stroke="#6D28D9" stroke-width="1" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ptc-price-block">
+            <div>
+              <div class="ptc-amount">
+                <span class="ptc-dollar">$</span>
+                <span class="ptc-num" data-monthly="199" data-quarterly="159">199</span>
+                <span class="ptc-per">/mo</span>
+              </div>
+            </div>
+            <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
+          </div>
+          <div class="ptc-features">
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Boosts cellular energy &amp; cognitive function</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
+          </div>
+          <div class="ptc-foot">
+            <a href="#" class="btn btn-secondary">Get started</a>
+            <div class="ptc-fine">Subject to provider approval</div>
+          </div>
+        </div>
+
+        <!-- Card 4: Glutathione (Longevity) -->
+        <div class="ptc fade-up">
+          <div class="ptc-head">
+            <div>
+              <div class="ptc-badge badge-lng">Longevity</div>
+              <div class="ptc-name">Glutathione Injections</div>
+              <div class="ptc-sub">Antioxidant injectable therapy · weekly injection</div>
+            </div>
+            <div class="ptc-vial" aria-hidden="true">
+              <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="13" y="0" width="10" height="6" rx="2" fill="#E2DDD5"/>
+                <rect x="14.5" y="5" width="7" height="3" fill="#C8C2B8"/>
+                <rect x="10" y="8" width="16" height="36" rx="6" fill="#F0FDF4" stroke="#15803D" stroke-width="1.5"/>
+                <rect x="12" y="22" width="12" height="18" rx="4" fill="#4ADE80" opacity="0.4"/>
+                <line x1="14" y1="16" x2="22" y2="16" stroke="#15803D" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="14" y1="20" x2="22" y2="20" stroke="#15803D" stroke-width="1" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ptc-price-block">
+            <div>
+              <div class="ptc-amount">
+                <span class="ptc-dollar">$</span>
+                <span class="ptc-num" data-monthly="149" data-quarterly="119">149</span>
+                <span class="ptc-per">/mo</span>
+              </div>
+            </div>
+            <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
+          </div>
+          <div class="ptc-features">
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Supports detox, skin radiance &amp; immune function</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
+          </div>
+          <div class="ptc-foot">
+            <a href="#" class="btn btn-secondary">Get started</a>
+            <div class="ptc-fine">Subject to provider approval</div>
+          </div>
+        </div>
+
+        <!-- Card 5: Sermorelin (Longevity/Performance) — spans full width -->
+        <div class="ptc fade-up" style="grid-column: 1 / -1; max-width: 680px; margin: 0 auto; width: 100%;">
+          <div class="ptc-head">
+            <div>
+              <div class="ptc-badge badge-perf">Performance</div>
+              <div class="ptc-name">Sermorelin</div>
+              <div class="ptc-sub">Growth hormone peptide · nightly injection</div>
+            </div>
+            <div class="ptc-vial" aria-hidden="true">
+              <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="13" y="0" width="10" height="6" rx="2" fill="#E2DDD5"/>
+                <rect x="14.5" y="5" width="7" height="3" fill="#C8C2B8"/>
+                <rect x="10" y="8" width="16" height="36" rx="6" fill="#FEE2E2" stroke="#991B1B" stroke-width="1.5"/>
+                <rect x="12" y="22" width="12" height="18" rx="4" fill="#FDA4AF" opacity="0.5"/>
+                <line x1="14" y1="16" x2="22" y2="16" stroke="#991B1B" stroke-width="1" stroke-dasharray="2 2"/>
+                <line x1="14" y1="20" x2="22" y2="20" stroke="#991B1B" stroke-width="1" stroke-dasharray="2 2"/>
+              </svg>
+            </div>
+          </div>
+          <div class="ptc-price-block">
+            <div>
+              <div class="ptc-amount">
+                <span class="ptc-dollar">$</span>
+                <span class="ptc-num" data-monthly="229" data-quarterly="183">229</span>
+                <span class="ptc-per">/mo</span>
+              </div>
+            </div>
+            <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
+          </div>
+          <div class="ptc-features">
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Supports muscle recovery, sleep &amp; fat metabolism</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
+          </div>
+          <div class="ptc-foot">
+            <a href="#" class="btn btn-secondary">Get started</a>
+            <div class="ptc-fine">Subject to provider approval</div>
+          </div>
+        </div>
+
+      </div><!-- /pricing-grid -->
+
+      <!-- Pharmacy Partners -->
+      <div class="pharmacy-section fade-up">
+        <div class="pharmacy-section-label">Compounded medications fulfilled by licensed US pharmacies</div>
+        <div class="pharmacy-grid">
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Boudreaux's Pharmacy</div>
+            <div class="pharmacy-card-detail">Compounded with Glycine · State restrictions apply</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-popular-tag">Popular</div>
+            <div class="pharmacy-card-name">Hallandale Pharmacy</div>
+            <div class="pharmacy-card-detail">No-additive formulation · Most states</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Newlife Rx / Apothecary</div>
+            <div class="pharmacy-card-detail">Regional availability · Provider-matched</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Nova / WhiteLabel</div>
+            <div class="pharmacy-card-detail">Broad availability · Provider-matched</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">VisaRx</div>
+            <div class="pharmacy-card-detail">Semaglutide · Select states</div>
+          </div>
+        </div>
+        <div class="pharmacy-trust-bar">
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>FDA-regulated, state-licensed compounders</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping to your door</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Provider-managed dosing &amp; titration</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Compounded in the USA</div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="pricing-disclaimer fade-up">
+        Pricing shown reflects program fees accessed through Rift. All medications are evaluated and prescribed by independent licensed healthcare providers. Medication availability and pharmacy options may vary by state.
+        Compounded products have not been approved by the FDA. <a href="#">View full disclosures →</a>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" aria-labelledby="faq-heading">
+    <div class="container">
+      <div class="faq-inner">
+        <div class="faq-left fade-up">
+          <h2 id="faq-heading">Everything<br/>you need to<br/>know</h2>
+          <p style="margin-top: 16px;">Can't find your answer? Email us at <a href="mailto:hello@joinrift.com" style="color: var(--green); text-decoration: none; font-weight: 500;">hello@joinrift.com</a></p>
+        </div>
+        <div class="faq-list">
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Is Rift available in my state?
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq-answer">
+              <p>Rift is currently available in most US states. Enter your zip code at sign-up and we'll confirm availability instantly. We're expanding rapidly — if you're not in a covered state yet, join the waitlist and you'll be first to know.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Do I need insurance?
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq-answer">
+              <p>No insurance required. Rift is a direct-pay service — flat monthly pricing with no insurance red tape. Medication costs (if prescribed) are disclosed separately before you commit to anything.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              What weight loss medications do you prescribe?
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq-answer">
+              <p>Your provider will review your intake, health history, and goals to recommend what's appropriate — which may include GLP-1 medications (like semaglutide) or other evidence-based treatments. Not everyone is a candidate for medication; your plan is built around what's right for you.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              How quickly will I hear from my provider?
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq-answer">
+              <p>Most members hear from their provider within 24 hours of completing their intake. Once matched, messaging response times average under 4 hours during business hours. Urgent medical concerns? We have protocols for that too.</p>
+            </div>
+          </div>
+          <div class="faq-item">
+            <button class="faq-question" aria-expanded="false">
+              Can I cancel anytime?
+              <span class="faq-icon" aria-hidden="true">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              </span>
+            </button>
+            <div class="faq-answer">
+              <p>Yes. Cancel or pause your subscription any time from your account — no phone calls, no friction. You'll retain access through the end of your billing period.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="cta-section" aria-labelledby="cta-heading">
+    <div class="container">
+      <div class="cta-eyebrow">One provider. Every goal.</div>
+      <h2 class="cta-headline fade-up" id="cta-heading">
+        Your health,<br/><em>redefined.</em>
+      </h2>
+      <p class="cta-sub fade-up">
+        Matched with a board-certified provider in 24 hours. Real results across weight, hair, longevity, and sexual health.
+      </p>
+      <div class="cta-actions fade-up">
+        <a href="#pricing" class="btn btn-cta-primary">Get started</a>
+        <a href="#how" class="btn btn-cta-ghost">How it works →</a>
+      </div>
+      <p class="cta-promo fade-up">New to Rift? Use code <code>HELLO20</code> for an extra $20 off your first month.</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <a href="#" class="footer-logo">Rift</a>
+        <nav class="footer-links" aria-label="Footer navigation">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Accessibility</a>
+          <a href="mailto:hello@joinrift.com">Contact</a>
+        </nav>
+      </div>
+      <div class="footer-right">© 2026 Rift Health, Inc. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // ── 1. Fade-up IntersectionObserver ──────────────────
+    if (!reducedMotion) {
+      const fadeObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            fadeObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
+      document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+    } else {
+      document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
+    }
+
+    // ── 1b. Treatment cards — reveal + liquid fill on viewport entry ──
+    const txCards = document.querySelectorAll('.tx-card');
+    let txRevealed = false;
+
+    function revealTxCards() {
+      txCards.forEach((card, i) => {
+        card.classList.add('visible');
+        // trigger liquid fill after card appears
+        setTimeout(() => {
+          const liq = card.querySelector('.tx-vliquid');
+          if (liq) liq.style.height = (liq.dataset.fill || 65) + '%';
+        }, i * 60 + 200);
+      });
+      txRevealed = true;
+    }
+
+    if (reducedMotion) {
+      // Show immediately with liquid at full height
+      txCards.forEach(card => {
+        card.classList.add('visible');
+        const liq = card.querySelector('.tx-vliquid');
+        if (liq) liq.style.height = (liq.dataset.fill || 65) + '%';
+      });
+    } else {
+      const txObserver = new IntersectionObserver((entries) => {
+        if (entries.some(e => e.isIntersecting) && !txRevealed) revealTxCards();
+      }, { threshold: 0.15 });
+      txCards.forEach(c => txObserver.observe(c));
+    }
+
+    // ── 2. Stat number counters (Emil: perceived performance) ──
+    // Count up when stat enters viewport — makes the app feel fast and alive
+    function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
+
+    function animateCounter(el, target, suffix, duration) {
+      const start = performance.now();
+      const isFloat = target % 1 !== 0;
+      function tick(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutQuart(progress);
+        const current = target * eased;
+        el.textContent = isFloat ? current.toFixed(1) : Math.floor(current).toLocaleString();
+        if (progress < 1) requestAnimationFrame(tick);
+        else el.textContent = isFloat ? target.toFixed(1) : target.toLocaleString();
+      }
+      requestAnimationFrame(tick);
+    }
+
+    if (!reducedMotion) {
+      const statTargets = [
+        { selector: '.stat-item:nth-child(1) .stat-number', value: 22.5, suffix: '' },
+        { selector: '.stat-item:nth-child(3) .stat-number', value: 94, suffix: '' },
+      ];
+
+      const statObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const item = entry.target;
+          const span = item.querySelector('span');
+          if (!span || item.dataset.counted) return;
+          item.dataset.counted = '1';
+
+          const idx = [...document.querySelectorAll('.stat-item')].indexOf(item);
+          if (idx === 0) animateCounter(span, 22.5, '', 1400);
+          if (idx === 2) animateCounter(span, 94, '%', 1200);
+          statObserver.unobserve(item);
+        });
+      }, { threshold: 0.5 });
+      document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
+    }
+
+    // ── 3. Nav scroll — blur on scroll (subtle, purposeful) ──
+    const nav = document.querySelector('.nav');
+    let lastScrollY = 0;
+    window.addEventListener('scroll', () => {
+      const scrolled = window.scrollY > 40;
+      nav.style.boxShadow = scrolled ? '0 1px 0 var(--border)' : 'none';
+    }, { passive: true });
+
+    // ── 4. Pricing tab toggle with blur crossfade (Emil pattern) ──
+    // Emil: blur(2px) during state transition bridges visual gap between states
+    const toggleBtns = document.querySelectorAll('.pricing-toggle-btn');
+    const grid = document.querySelector('.pricing-grid');
+
+    toggleBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.classList.contains('active')) return;
+        const mode = btn.dataset.mode;
+
+        // Emil: blur crossfade — add switching class, swap content, remove
+        if (!reducedMotion) {
+          grid.classList.add('switching');
+          setTimeout(() => {
+            applyMode(mode);
+            grid.classList.remove('switching');
+          }, 200); // matches transition duration
+        } else {
+          applyMode(mode);
+        }
+
+        toggleBtns.forEach(b => {
+          b.classList.toggle('active', b === btn);
+          b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+        });
+      });
+    });
+
+    function applyMode(mode) {
+      grid.dataset.mode = mode;
+      // Update prices and billing notes with Emil's perceived-performance technique
+      document.querySelectorAll('.ptc-num').forEach(el => {
+        const val = mode === 'quarterly' ? el.dataset.quarterly : el.dataset.monthly;
+        if (val) el.textContent = val;
+      });
+      document.querySelectorAll('.ptc-billing-note').forEach(el => {
+        el.innerHTML = mode === 'quarterly'
+          ? 'Billed quarterly<br/><strong style="color:var(--green)">Save 20%</strong>'
+          : 'Billed monthly<br/>Cancel anytime';
+      });
+    }
+
+    // ── 5. FAQ accordion ─────────────────────────────────
+    document.querySelectorAll('.faq-question').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-item');
+        const isOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-question').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // ── 6. Hero cycling categories ───────────────────────
+    // Emil: slot-machine text with translateY (not scale(0)) — slides up from below
+    // Exit faster than enter — Emil rule: exit 60% of enter duration
+    const categories = [
+      {
+        word: 'weight loss.',   color: '#86EFAC', dotColor: '#86EFAC', label: 'Weight Loss',   cardIdx: 0,
+        img: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80&auto=format&fit=crop',
+        liquidColor: 'rgba(134,239,172,0.38)', glow: '#86EFAC',
+      },
+      {
+        word: 'hair health.',   color: '#C4B5FD', dotColor: '#C4B5FD', label: 'Hair Health',   cardIdx: 1,
+        img: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=900&q=80&auto=format&fit=crop',
+        liquidColor: 'rgba(196,181,253,0.38)', glow: '#C4B5FD',
+      },
+      {
+        word: 'longevity.',     color: '#FCD34D', dotColor: '#FCD34D', label: 'Longevity',     cardIdx: 2,
+        img: 'https://images.unsplash.com/photo-1544027993-37dbfe43562a?w=900&q=80&auto=format&fit=crop',
+        liquidColor: 'rgba(252,211,77,0.32)',  glow: '#FCD34D',
+      },
+      {
+        word: 'sexual health.', color: '#FDA4AF', dotColor: '#FDA4AF', label: 'Sexual Health', cardIdx: 3,
+        img: 'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=900&q=80&auto=format&fit=crop',
+        liquidColor: 'rgba(253,164,175,0.35)', glow: '#FDA4AF',
+      },
+    ];
+
+    let catIdx = 0;
+    const track = document.querySelector('.hero-word-track');
+    const dot = document.querySelector('.hero-cat-dot');
+    const catText = document.querySelector('.hero-cat-text');
+    const panelCards = document.querySelectorAll('.panel-card');
+
+    let cycling = false;
+    function cycleHero() {
+      if (!track || reducedMotion || cycling) return;
+      cycling = true;
+
+      const next = (catIdx + 1) % categories.length;
+      const cat = categories[next];
+
+      // 1. Exit all current words (clean up any stragglers)
+      track.querySelectorAll('.hero-word').forEach(w => {
+        w.classList.remove('active');
+        w.classList.add('exiting');
+      });
+
+      // 2. Create entering word
+      const newWord = document.createElement('span');
+      newWord.className = 'hero-word';
+      newWord.dataset.idx = next;
+      newWord.textContent = cat.word;
+      newWord.style.color = cat.color;
+      track.appendChild(newWord);
+
+      // 3. Trigger entry on next frame
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          newWord.classList.add('active');
+          // Remove exiting words after their exit transition completes
+          setTimeout(() => {
+            track.querySelectorAll('.hero-word.exiting').forEach(w => w.remove());
+            cycling = false;
+          }, 380);
+        });
+      });
+
+      // 4. Update panel cards
+      panelCards.forEach((card, i) => {
+        card.classList.toggle('active', i === cat.cardIdx);
+        card.style.setProperty('--card-accent', cat.dotColor);
+      });
+
+      // 5. Swap lifestyle background image (Emil: blur crossfade bridges gap)
+      const bgImg = document.getElementById('hero-bg-img');
+      if (bgImg && !reducedMotion) {
+        bgImg.classList.add('switching');
+        const newImg = new Image();
+        newImg.onload = () => {
+          bgImg.src = cat.img;
+          bgImg.classList.remove('switching');
+        };
+        newImg.src = cat.img;
+      }
+
+      // 6. Update vial liquid colors to match category
+      const liq1 = document.getElementById('vial-liq-1');
+      const liq2 = document.getElementById('vial-liq-2');
+      const liq3 = document.getElementById('vial-liq-3');
+      if (liq1) liq1.style.background = cat.liquidColor;
+      if (liq2) liq2.style.background = cat.liquidColor.replace('0.38','0.22').replace('0.32','0.18').replace('0.35','0.20');
+      if (liq3) liq3.style.background = cat.liquidColor.replace('0.38','0.15').replace('0.32','0.12').replace('0.35','0.14');
+
+      // 7. Update glow color
+      const glow = document.getElementById('vial-glow');
+      if (glow) glow.style.background = cat.glow;
+
+      // 5. Update dot + label (Emil: blur crossfade bridge)
+      if (dot) {
+        dot.style.background = cat.dotColor;
+        dot.style.animation = 'none';
+        void dot.offsetWidth; // force reflow
+        dot.style.animation = '';
+      }
+      if (catText) {
+        catText.style.opacity = '0';
+        catText.style.transform = 'translateY(4px)';
+        catText.style.transition = 'opacity 200ms ease, transform 200ms ease';
+        setTimeout(() => {
+          catText.textContent = cat.label;
+          catText.style.opacity = '1';
+          catText.style.transform = 'translateY(0)';
+        }, 220);
+      }
+
+      catIdx = next;
+    }
+
+    // Start with a delay, then cycle every 3s
+    if (!reducedMotion) setTimeout(() => { cycleHero(); setInterval(cycleHero, 3000); }, 2200);
+
+    // ── 7. Hero text entrance (clip-path wipe per line) ──
+    // Emil: text reveals with clip-path feel intentional, not just a fade
+    if (!reducedMotion) {
+      requestAnimationFrame(() => {
+        document.querySelectorAll('.hero-line-inner').forEach(el => {
+          el.classList.add('visible');
+        });
+      });
+    } else {
+      document.querySelectorAll('.hero-line-inner').forEach(el => el.classList.add('visible'));
+    }
+
+    // Set initial panel card accent colors via CSS custom property
+    panelCards.forEach(card => {
+      card.style.setProperty('--card-accent', '#86EFAC');
+    });
+    // Override ::before color dynamically via JS
+    // (CSS custom property on each card drives the left-edge accent)
+    // accent color applied via inline style on each card, not via injected stylesheet
+  </script>
+
+  <!-- GSAP + ScrollTrigger (loaded after existing JS to avoid conflicts) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <script>
+  /* ============================================================
+     RIFT 151-FRAME SCROLL ANIMATION
+     Isolated from main page JS — all vars scoped inside IIFE.
+     Images at: rift-frames/ezgif-frame-NNN.jpg
+  ============================================================ */
+  (function () {
+    'use strict';
+
+    // Guard: if user prefers reduced motion, skip the whole thing
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const loader = document.getElementById('ra-loader');
+      if (loader) loader.classList.add('ra-hidden');
+      return;
+    }
+
+    // ── CONFIG ─────────────────────────────────────────────
+    const TOTAL     = 151;
+    const FRAME_SRC = (n) => `rift-frames/ezgif-frame-${String(n).padStart(3,'0')}.jpg`;
+
+    // Chapter timing: progress 0→1 across the whole scroll section
+    const CHAPTERS = [
+      { id: 'ra-ch1', enter: 0.000, peak: 0.055, exit: 0.140 },
+      { id: 'ra-ch2', enter: 0.160, peak: 0.240, exit: 0.360 },
+      { id: 'ra-ch3', enter: 0.385, peak: 0.490, exit: 0.610 },
+      { id: 'ra-ch4', enter: 0.635, peak: 0.720, exit: 0.820 },
+      { id: 'ra-ch5', enter: 0.845, peak: 0.920, exit: 1.000 },
+    ];
+
+    // ── STATE ──────────────────────────────────────────────
+    const frames      = new Array(TOTAL).fill(null);
+    let   loaded      = 0;
+    let   curFrame    = 0;
+
+    // ── DOM ────────────────────────────────────────────────
+    const raLoader    = document.getElementById('ra-loader');
+    const raFill      = document.getElementById('ra-fill');
+    const raLabelTxt  = document.getElementById('ra-label-txt');
+    const raProgress  = document.getElementById('ra-progress');
+    const canvas      = document.getElementById('ra-canvas');
+    const ctx         = canvas.getContext('2d', { alpha: false });
+    const raHint      = document.getElementById('ra-hint');
+    const chapterEls  = CHAPTERS.map(c => ({ ...c, el: document.getElementById(c.id) }));
+
+    if (!canvas || !ctx) return; // bail if canvas unavailable
+
+    // ── CANVAS RESIZE ──────────────────────────────────────
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+    function resizeCanvas() {
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.scale(dpr, dpr);
+      drawFrame(curFrame);
+    }
+
+    // ── DRAW (object-fit:cover semantics) ──────────────────
+    function drawFrame(idx) {
+      const img = frames[idx];
+      if (!img) return;
+      const CW = window.innerWidth;
+      const CH = window.innerHeight;
+      const IW = img.naturalWidth  || img.width;
+      const IH = img.naturalHeight || img.height;
+      if (!IW || !IH) return;
+      const scale = Math.max(CW / IW, CH / IH);
+      const SW = IW * scale;
+      const SH = IH * scale;
+      ctx.fillStyle = '#0D1410';
+      ctx.fillRect(0, 0, CW, CH);
+      ctx.drawImage(img, (CW - SW) / 2, (CH - SH) / 2, SW, SH);
+    }
+
+    // ── NEAREST LOADED ─────────────────────────────────────
+    function nearest(idx) {
+      if (frames[idx]) return idx;
+      for (let d = 1; d < 20; d++) {
+        if (idx - d >= 0    && frames[idx - d]) return idx - d;
+        if (idx + d < TOTAL && frames[idx + d]) return idx + d;
+      }
+      return 0;
+    }
+
+    // ── PRELOAD ────────────────────────────────────────────
+    function loadOne(i) {
+      return new Promise(resolve => {
+        const img = new Image();
+        img.src = FRAME_SRC(i + 1);
+        const done = () => {
+          loaded++;
+          const pct = (loaded / TOTAL) * 100;
+          if (raFill)     raFill.style.width = pct + '%';
+          if (raProgress) raProgress.style.width = Math.min(pct * 0.5, 50) + '%';
+          if (loaded >= TOTAL && raLabelTxt) raLabelTxt.textContent = 'Ready';
+          resolve();
+        };
+        img.onload  = () => { frames[i] = img; done(); };
+        img.onerror = done;
+      });
+    }
+
+    async function preload() {
+      // Priority: first 22 frames — enough to reveal and hide loader
+      const p1 = [];
+      for (let i = 0; i < 22; i++) p1.push(loadOne(i));
+      await Promise.all(p1);
+
+      // Show frame 0, hide loader, start scroll engine
+      drawFrame(0);
+      if (raLoader) raLoader.classList.add('ra-hidden');
+      initScroll();
+
+      // Background: load remaining in staggered passes for even coverage
+      const rest = [];
+      for (let i = 22; i < TOTAL; i += 3) rest.push(i);
+      for (let i = 23; i < TOTAL; i += 3) rest.push(i);
+      for (let i = 24; i < TOTAL; i += 3) rest.push(i);
+      await Promise.all(rest.map(i => loadOne(i)));
+    }
+
+    // ── CHAPTER OPACITY (eased, reversible) ───────────────
+    function updateChapters(p) {
+      chapterEls.forEach(({ el, enter, peak, exit }, idx) => {
+        const isLast = idx === chapterEls.length - 1;
+        let opacity = 0, dy = 0;
+
+        if (p < enter || (!isLast && p > exit)) {
+          opacity = 0;
+          dy = p < enter ? 26 : -16;
+        } else if (p >= enter && p <= peak) {
+          const t = (p - enter) / (peak - enter);
+          const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          opacity = e;
+          dy = (1 - e) * 26;
+        } else if (!isLast && p > peak && p <= exit) {
+          const t = (p - peak) / (exit - peak);
+          const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          opacity = 1 - e;
+          dy = -e * 16;
+        } else {
+          opacity = 1;
+          dy = 0;
+        }
+
+        el.style.opacity   = opacity;
+        el.style.transform = `translateY(${dy}px)`;
+      });
+    }
+
+    // ── SCROLL ENGINE ──────────────────────────────────────
+    function initScroll() {
+      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+        // Fallback: plain scroll listener
+        window.addEventListener('scroll', scrollFallback, { passive: true });
+        return;
+      }
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      ScrollTrigger.create({
+        trigger : '#ra-section',
+        start   : 'top top',
+        end     : 'bottom bottom',
+        scrub   : 0.1,
+        onUpdate(self) {
+          const p = self.progress;
+
+          // Frame playback
+          const target  = Math.round(p * (TOTAL - 1));
+          const drawIdx = nearest(target);
+          if (drawIdx !== curFrame) {
+            curFrame = drawIdx;
+            drawFrame(curFrame);
+          }
+
+          // Chapter overlays
+          updateChapters(p);
+
+          // Scroll hint
+          if (raHint) raHint.classList.toggle('ra-gone', p > 0.06);
+
+          // Progress bar
+          if (raProgress) raProgress.style.width = (p * 100) + '%';
+        }
+      });
+
+      // Global page progress bar (full page)
+      window.addEventListener('scroll', () => {
+        const total = document.body.scrollHeight - window.innerHeight;
+        if (total > 0 && raProgress)
+          raProgress.style.width = (window.scrollY / total * 100) + '%';
+      }, { passive: true });
+    }
+
+    // GSAP-free fallback (same logic, plain rAF throttling)
+    let rafPending = false;
+    function scrollFallback() {
+      if (rafPending) return;
+      rafPending = true;
+      requestAnimationFrame(() => {
+        rafPending = false;
+        const section = document.getElementById('ra-section');
+        if (!section) return;
+        const rect = section.getBoundingClientRect();
+        const sH   = section.offsetHeight;
+        const vH   = window.innerHeight;
+        const raw  = -rect.top / (sH - vH);
+        const p    = Math.max(0, Math.min(1, raw));
+
+        const target  = Math.round(p * (TOTAL - 1));
+        const drawIdx = nearest(target);
+        if (drawIdx !== curFrame) { curFrame = drawIdx; drawFrame(curFrame); }
+
+        updateChapters(p);
+        if (raHint) raHint.classList.toggle('ra-gone', p > 0.06);
+
+        const total = document.body.scrollHeight - window.innerHeight;
+        if (total > 0 && raProgress)
+          raProgress.style.width = (window.scrollY / total * 100) + '%';
+      });
+    }
+
+    // ── RESIZE ─────────────────────────────────────────────
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        resizeCanvas();
+        if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+      }, 80);
+    }, { passive: true });
+
+    // ── BOOT ───────────────────────────────────────────────
+    resizeCanvas();
+    preload();
+
+  })();
+  </script>
+
+</body>
+</html>
