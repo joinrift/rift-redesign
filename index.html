@@ -15,20 +15,19 @@
     html { font-size: 16px; scroll-behavior: smooth; }
 
     :root {
-      /* Taste-skill §4.2: off the banned warm-paper palette → Forest: clean cool white + deep forest */
-      --bg:          #F5F7F5;
-      --bg-alt:      #ECEEED;
-      --bg-dark:     #0D1410;
-      --surface:     #FFFFFF;
-      --fg:          #0D1410;
-      --fg-muted:    #5A6358;
-      --fg-subtle:   #8A9488;
-      --border:      #D8DDD8;
-      --green:       #166534;
-      --green-light: #DCFCE7;
-      --green-mid:   #15803D;
-      --amber:       #B45309;
-      --amber-light: #FEF3C7;
+      --bg:          #0B0F0C;
+      --bg-alt:      #0E1310;
+      --bg-dark:     #060908;
+      --surface:     #121916;
+      --fg:          #E2EDE2;
+      --fg-muted:    #95AB9A;
+      --fg-subtle:   #5C7462;
+      --border:      #1D2B1F;
+      --green:       #22C55E;
+      --green-light: rgba(34,197,94,0.12);
+      --green-mid:   #16A34A;
+      --amber:       #F59E0B;
+      --amber-light: rgba(245,158,11,0.12);
       --radius-sm:   6px;
       --radius:      12px;
       --radius-lg:   20px;
@@ -109,7 +108,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(250, 248, 245, 0.88);
+      background: rgba(11, 15, 12, 0.90);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border);
@@ -196,7 +195,7 @@
       border: 1.5px solid var(--border);
       box-shadow: 0 1px 2px rgba(0,0,0,0.04);
     }
-    .btn-secondary:hover { border-color: #C5BFB5; }
+    .btn-secondary:hover { border-color: rgba(255,255,255,0.15); }
     .btn-ghost {
       background: transparent;
       color: var(--fg-muted);
@@ -959,7 +958,7 @@
       align-items: flex-start;
       transition: background 200ms ease;
     }
-    .why-item:hover { background: #FDFCFA; }
+    .why-item:hover { background: rgba(255,255,255,0.03); }
     .why-item-num {
       font-family: 'Playfair Display', Georgia, serif;
       font-size: 13px;
@@ -1112,8 +1111,8 @@
       transition: border-color 200ms ease, box-shadow 200ms ease;
     }
     .testimonial-card:hover {
-      border-color: #C5BFB5;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      border-color: rgba(255,255,255,0.14);
+      box-shadow: 0 4px 24px rgba(0,0,0,0.35);
     }
     .testimonial-card:first-child {
       background: var(--bg-dark);
@@ -1246,7 +1245,7 @@
     }
     .ptc.featured {
       border-color: var(--green);
-      box-shadow: 0 0 0 1px var(--green), 0 8px 32px rgba(22,101,52,0.1);
+      box-shadow: 0 0 0 1px var(--green), 0 8px 32px rgba(34,197,94,0.12);
     }
 
     /* Card header */
@@ -1270,8 +1269,8 @@
     }
     .badge-pop  { background: var(--green-light); color: var(--green); }
     .badge-best { background: var(--amber-light);  color: var(--amber); }
-    .badge-lng  { background: #EDE9FE; color: #6D28D9; }
-    .badge-perf { background: #FEE2E2; color: #991B1B; }
+    .badge-lng  { background: rgba(109,40,217,0.18); color: #C4B5FD; }
+    .badge-perf { background: rgba(153,27,27,0.18);  color: #FDA4AF; }
 
     .ptc-name {
       font-family: 'Playfair Display', Georgia, serif;
@@ -2442,7 +2441,7 @@
             "The pricing transparency alone sold me. I knew exactly what I was paying before I ever gave them my card number. No surprises."
           </blockquote>
           <div class="testimonial-author">
-            <div class="author-avatar" style="background: #FEF3C7; color: #92400E;">S</div>
+            <div class="author-avatar" style="background: rgba(245,158,11,0.15); color: #FCD34D;">S</div>
             <div>
               <div class="author-name">Sarah K.</div>
               <div class="author-detail">Lost 18 lbs · 10 weeks</div>
@@ -2457,7 +2456,7 @@
             "My provider responds to messages within a few hours. That alone makes Rift worth it — I've never had that with any doctor before."
           </blockquote>
           <div class="testimonial-author">
-            <div class="author-avatar" style="background: #DCFCE7; color: #166534;">J</div>
+            <div class="author-avatar" style="background: rgba(34,197,94,0.15); color: #4ADE80;">J</div>
             <div>
               <div class="author-name">Jamie R.</div>
               <div class="author-detail">Member since Jan 2026</div>
@@ -3151,25 +3150,18 @@
 
   <script>
   /* ============================================================
-     RIFT 151-FRAME SCROLL ANIMATION
-     Isolated from main page JS — all vars scoped inside IIFE.
-     Images at: rift-frames/ezgif-frame-NNN.jpg
+     RIFT CANVAS ANIMATION — crisp vector-drawn glass vial.
+     Resolution-independent, no raster frames.
   ============================================================ */
   (function () {
     'use strict';
 
-    // Guard: if user prefers reduced motion, skip the whole thing
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      const loader = document.getElementById('ra-loader');
-      if (loader) loader.classList.add('ra-hidden');
+      const l = document.getElementById('ra-loader');
+      if (l) l.classList.add('ra-hidden');
       return;
     }
 
-    // ── CONFIG ─────────────────────────────────────────────
-    const TOTAL     = 151;
-    const FRAME_SRC = (n) => `rift-frames/ezgif-frame-${String(n).padStart(3,'0')}.jpg`;
-
-    // Chapter timing: progress 0→1 across the whole scroll section
     const CHAPTERS = [
       { id: 'ra-ch1', enter: 0.000, peak: 0.055, exit: 0.140 },
       { id: 'ra-ch2', enter: 0.160, peak: 0.240, exit: 0.360 },
@@ -3178,216 +3170,399 @@
       { id: 'ra-ch5', enter: 0.845, peak: 0.920, exit: 1.000 },
     ];
 
-    // ── STATE ──────────────────────────────────────────────
-    const frames      = new Array(TOTAL).fill(null);
-    let   loaded      = 0;
-    let   curFrame    = 0;
+    // Five treatment vials
+    const VIALS = [
+      { color: '#4ADE80', top: '#86EFAC', glow: '#86EFAC', label: 'Semaglutide' },
+      { color: '#FCD34D', top: '#FDE68A', glow: '#FDE68A', label: 'Tirzepatide' },
+      { color: '#C4B5FD', top: '#DDD6FE', glow: '#DDD6FE', label: 'NAD+' },
+      { color: '#5EEAD4', top: '#99F6E4', glow: '#99F6E4', label: 'Glutathione' },
+      { color: '#FDA4AF', top: '#FECDD3', glow: '#FECDD3', label: 'Sermorelin' },
+    ];
 
-    // ── DOM ────────────────────────────────────────────────
-    const raLoader    = document.getElementById('ra-loader');
-    const raFill      = document.getElementById('ra-fill');
-    const raLabelTxt  = document.getElementById('ra-label-txt');
-    const raProgress  = document.getElementById('ra-progress');
-    const canvas      = document.getElementById('ra-canvas');
-    const ctx         = canvas.getContext('2d', { alpha: false });
-    const raHint      = document.getElementById('ra-hint');
-    const chapterEls  = CHAPTERS.map(c => ({ ...c, el: document.getElementById(c.id) }));
+    const raLoader   = document.getElementById('ra-loader');
+    const raFill     = document.getElementById('ra-fill');
+    const raLabelTxt = document.getElementById('ra-label-txt');
+    const raProgress = document.getElementById('ra-progress');
+    const canvas     = document.getElementById('ra-canvas');
+    const raHint     = document.getElementById('ra-hint');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d', { alpha: false });
+    if (!ctx) return;
 
-    if (!canvas || !ctx) return; // bail if canvas unavailable
-
-    // ── CANVAS RESIZE ──────────────────────────────────────
+    const chapterEls = CHAPTERS.map(c => ({ ...c, el: document.getElementById(c.id) }));
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let CW = 0, CH = 0, lastP = 0;
 
-    function resizeCanvas() {
-      const W = window.innerWidth;
-      const H = window.innerHeight;
-      canvas.width  = W * dpr;
-      canvas.height = H * dpr;
-      canvas.style.width  = W + 'px';
-      canvas.style.height = H + 'px';
-      ctx.scale(dpr, dpr);
-      drawFrame(curFrame);
+    // ── Math ──────────────────────────────────────────────
+    const lerp  = (a, b, t) => a + (b - a) * t;
+    const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+    const map01 = (v, a, b) => clamp((v - a) / (b - a), 0, 1);
+    const eO3   = t => 1 - Math.pow(1 - t, 3);
+    const eIO   = t => t < 0.5 ? 2*t*t : -1 + (4-2*t)*t;
+    const hexRGB = h => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+
+    // ── Canvas ────────────────────────────────────────────
+    function sizeCanvas() {
+      CW = window.innerWidth; CH = window.innerHeight;
+      canvas.width = CW * dpr; canvas.height = CH * dpr;
+      canvas.style.width = CW + 'px'; canvas.style.height = CH + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    // ── DRAW (object-fit:cover semantics) ──────────────────
-    function drawFrame(idx) {
-      const img = frames[idx];
-      if (!img) return;
-      const CW = window.innerWidth;
-      const CH = window.innerHeight;
-      const IW = img.naturalWidth  || img.width;
-      const IH = img.naturalHeight || img.height;
-      if (!IW || !IH) return;
-      const scale = Math.max(CW / IW, CH / IH);
-      const SW = IW * scale;
-      const SH = IH * scale;
-      ctx.fillStyle = '#0D1410';
-      ctx.fillRect(0, 0, CW, CH);
-      ctx.drawImage(img, (CW - SW) / 2, (CH - SH) / 2, SW, SH);
+    // ── Serum-vial body path (wide pharmaceutical bottle shape) ──
+    // cx = center x, bY = body top, W = width, bH = height
+    function vialBodyPath(cx, bY, W, bH) {
+      const rT = clamp(W * 0.06, 2, 6);
+      const rB = W * 0.46; // nearly semicircular bottom
+      const x  = cx - W / 2;
+      ctx.beginPath();
+      ctx.moveTo(x + rT, bY);
+      ctx.lineTo(x + W - rT, bY);
+      ctx.arcTo(x + W, bY,     x + W, bY + rT,         rT);
+      ctx.lineTo(x + W, bY + bH - rB);
+      ctx.arc(cx, bY + bH - rB, rB, 0, Math.PI);
+      ctx.lineTo(x, bY + rT);
+      ctx.arcTo(x,     bY,     x + rT, bY,              rT);
+      ctx.closePath();
     }
 
-    // ── NEAREST LOADED ─────────────────────────────────────
-    function nearest(idx) {
-      if (frames[idx]) return idx;
-      for (let d = 1; d < 20; d++) {
-        if (idx - d >= 0    && frames[idx - d]) return idx - d;
-        if (idx + d < TOTAL && frames[idx + d]) return idx + d;
+    // Draw a single glass vial centered at (cx, cy)
+    // W = body width, H = total height (incl cap/neck), fill = 0..1, alpha = 0..1
+    function drawVial(cx, cy, W, H, fill, vd, alpha) {
+      if (alpha < 0.01 || W < 3) return;
+      ctx.save();
+      ctx.globalAlpha *= alpha;
+
+      const capH  = H * 0.09;
+      const neckH = H * 0.06;
+      const bY    = cy - H / 2 + capH + neckH;
+      const bH    = H - capH - neckH;
+      const topY  = cy - H / 2;
+      const x     = cx - W / 2;
+
+      // ── Ambient glow ──────────────────────────────────
+      const [gr, gg, gb] = hexRGB(vd.glow);
+      const gGrd = ctx.createRadialGradient(cx, cy, 0, cx, cy, W * 2.8);
+      gGrd.addColorStop(0,    `rgba(${gr},${gg},${gb},0.20)`);
+      gGrd.addColorStop(0.45, `rgba(${gr},${gg},${gb},0.06)`);
+      gGrd.addColorStop(1,    'transparent');
+      ctx.fillStyle = gGrd;
+      ctx.fillRect(cx - W * 3, cy - H * 2, W * 6, H * 4);
+
+      // ── Cap (wide, chamfered pharmaceutical style) ────
+      const cW = W * 0.72, cX = cx - cW / 2;
+      const cR = 4;
+      ctx.beginPath();
+      ctx.moveTo(cX + cR, topY);
+      ctx.lineTo(cX + cW - cR, topY);
+      ctx.arcTo(cX + cW, topY,     cX + cW, topY + cR,       cR);
+      ctx.lineTo(cX + cW, topY + capH - cR);
+      ctx.arcTo(cX + cW, topY + capH, cX + cW - cR, topY + capH, cR);
+      ctx.lineTo(cX + cR, topY + capH);
+      ctx.arcTo(cX,       topY + capH, cX,           topY + capH - cR, cR);
+      ctx.lineTo(cX, topY + cR);
+      ctx.arcTo(cX,       topY,        cX + cR, topY, cR);
+      ctx.closePath();
+      const capGr = ctx.createLinearGradient(cX, 0, cX + cW, 0);
+      capGr.addColorStop(0,   'rgba(220,228,222,0.72)');
+      capGr.addColorStop(0.5, 'rgba(245,252,246,0.88)');
+      capGr.addColorStop(1,   'rgba(210,222,212,0.65)');
+      ctx.fillStyle = capGr;
+      ctx.fill();
+      // Cap rim highlight line
+      ctx.beginPath();
+      ctx.moveTo(cX + cR, topY + 1.5);
+      ctx.lineTo(cX + cW - cR, topY + 1.5);
+      ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      // ── Neck ──────────────────────────────────────────
+      const nW = W * 0.54;
+      const nGr = ctx.createLinearGradient(cx - nW/2, 0, cx + nW/2, 0);
+      nGr.addColorStop(0,   'rgba(255,255,255,0.32)');
+      nGr.addColorStop(0.5, 'rgba(255,255,255,0.55)');
+      nGr.addColorStop(1,   'rgba(255,255,255,0.28)');
+      ctx.fillStyle = nGr;
+      ctx.fillRect(cx - nW / 2, topY + capH, nW, neckH);
+
+      // ── Body ──────────────────────────────────────────
+      ctx.save();
+      vialBodyPath(cx, bY, W, bH);
+      ctx.clip();
+
+      // Glass gradient (left→right)
+      vialBodyPath(cx, bY, W, bH);
+      const bGr = ctx.createLinearGradient(x, 0, x + W, 0);
+      bGr.addColorStop(0,    'rgba(255,255,255,0.18)');
+      bGr.addColorStop(0.18, 'rgba(255,255,255,0.08)');
+      bGr.addColorStop(0.82, 'rgba(0,0,0,0.04)');
+      bGr.addColorStop(1,    'rgba(0,0,0,0.24)');
+      ctx.fillStyle = bGr;
+      ctx.fill();
+
+      // Liquid fill
+      if (fill > 0.01) {
+        const lH = bH * 0.91 * fill;
+        const lY = bY + bH - lH;
+        ctx.beginPath();
+        ctx.rect(x, lY, W, lH);
+        const [lr, lg, lb] = hexRGB(vd.color);
+        const [tr, tg, tb] = hexRGB(vd.top);
+        const lGr = ctx.createLinearGradient(0, bY + bH, 0, lY);
+        lGr.addColorStop(0, `rgba(${lr},${lg},${lb},0.90)`);
+        lGr.addColorStop(1, `rgba(${tr},${tg},${tb},0.60)`);
+        ctx.fillStyle = lGr;
+        ctx.fill();
+        // Meniscus shimmer
+        ctx.beginPath();
+        ctx.ellipse(cx, lY, W * 0.44, W * 0.038, 0, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${tr},${tg},${tb},0.48)`;
+        ctx.fill();
       }
-      return 0;
+
+      // Label band + "Rift — Wellness In a Bottle" text
+      const lbY = bY + bH * 0.28;
+      const lbH = bH * 0.30;
+      ctx.fillStyle = 'rgba(255,255,255,0.055)';
+      ctx.fillRect(x, lbY, W, lbH);
+      ctx.strokeStyle = 'rgba(255,255,255,0.10)';
+      ctx.lineWidth = 0.5;
+      ctx.beginPath();
+      ctx.moveTo(x, lbY); ctx.lineTo(x + W, lbY);
+      ctx.moveTo(x, lbY + lbH); ctx.lineTo(x + W, lbY + lbH);
+      ctx.stroke();
+
+      ctx.restore(); // end body clip
+
+      // ── Outline ───────────────────────────────────────
+      vialBodyPath(cx, bY, W, bH);
+      ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+      ctx.lineWidth = 1.2;
+      ctx.stroke();
+
+      // ── Left highlight streak ──────────────────────────
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x + W * 0.10, bY + bH * 0.04, W * 0.07, bH * 0.55);
+      ctx.clip();
+      const hGr = ctx.createLinearGradient(0, bY, 0, bY + bH * 0.6);
+      hGr.addColorStop(0,   'rgba(255,255,255,0.55)');
+      hGr.addColorStop(0.55,'rgba(255,255,255,0.12)');
+      hGr.addColorStop(1,   'transparent');
+      ctx.fillStyle = hGr;
+      ctx.fillRect(x + W * 0.10, bY + bH * 0.04, W * 0.07, bH * 0.55);
+      ctx.restore();
+
+      // ── Right shadow streak ───────────────────────────
+      ctx.save();
+      ctx.beginPath();
+      ctx.rect(x + W * 0.82, bY + bH * 0.06, W * 0.08, bH * 0.50);
+      ctx.clip();
+      const sGr = ctx.createLinearGradient(0, bY, 0, bY + bH * 0.55);
+      sGr.addColorStop(0,   'rgba(0,0,0,0.28)');
+      sGr.addColorStop(1,   'transparent');
+      ctx.fillStyle = sGr;
+      ctx.fillRect(x + W * 0.82, bY + bH * 0.06, W * 0.08, bH * 0.50);
+      ctx.restore();
+
+      // ── Logo / label text inside band ─────────────────
+      if (W > 60) {
+        const ta = clamp(map01(W, 60, 120), 0, 1);
+        ctx.save();
+        ctx.globalAlpha *= ta;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        // "Rift" wordmark
+        const fs1 = clamp(W * 0.18, 10, 28);
+        ctx.font = `700 ${fs1}px 'Playfair Display', serif`;
+        ctx.fillStyle = 'rgba(255,255,255,0.72)';
+        ctx.fillText('Rift', cx, lbY + lbH * 0.32);
+
+        // "Wellness In a Bottle" subtitle
+        const fs2 = clamp(W * 0.085, 6, 12);
+        ctx.font = `400 ${fs2}px 'Outfit', sans-serif`;
+        ctx.fillStyle = 'rgba(255,255,255,0.38)';
+        ctx.fillText('Wellness In a Bottle', cx, lbY + lbH * 0.68);
+        ctx.restore();
+      } else if (W > 30) {
+        // Small: just treatment name
+        const ta = clamp(map01(W, 30, 60), 0, 1);
+        ctx.save();
+        ctx.globalAlpha *= ta;
+        ctx.font = `700 ${clamp(W * 0.115, 5, 9)}px 'Outfit', sans-serif`;
+        ctx.fillStyle = 'rgba(255,255,255,0.40)';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(vd.label.toUpperCase(), cx, lbY + lbH * 0.5);
+        ctx.restore();
+      }
+
+      ctx.restore(); // globalAlpha
     }
 
-    // ── PRELOAD ────────────────────────────────────────────
-    function loadOne(i) {
-      return new Promise(resolve => {
-        const img = new Image();
-        img.src = FRAME_SRC(i + 1);
-        const done = () => {
-          loaded++;
-          const pct = (loaded / TOTAL) * 100;
-          if (raFill)     raFill.style.width = pct + '%';
-          if (raProgress) raProgress.style.width = Math.min(pct * 0.5, 50) + '%';
-          if (loaded >= TOTAL && raLabelTxt) raLabelTxt.textContent = 'Ready';
-          resolve();
-        };
-        img.onload  = () => { frames[i] = img; done(); };
-        img.onerror = done;
-      });
+    // ── Scene ─────────────────────────────────────────────
+    function drawScene(p) {
+      lastP = p;
+
+      // Background
+      ctx.fillStyle = '#0B0F0C';
+      ctx.fillRect(0, 0, CW, CH);
+      const bgGr = ctx.createRadialGradient(CW*0.5, CH*0.38, 0, CW*0.5, CH*0.38, Math.max(CW,CH)*0.65);
+      bgGr.addColorStop(0, 'rgba(12,26,16,0.75)');
+      bgGr.addColorStop(1, 'transparent');
+      ctx.fillStyle = bgGr;
+      ctx.fillRect(0, 0, CW, CH);
+
+      const cx   = CW / 2, cy = CH / 2;
+      const base = Math.min(CW, CH);
+      // Base vial dimensions (wide serum-bottle proportions, ~0.65 aspect ratio)
+      const VW = base * 0.20;
+      const VH = base * 0.31;
+
+      // Phase 1 — 0→0.25: vial fades in & fills
+      if (p < 0.25) {
+        const t    = p / 0.25;
+        const fade = eO3(Math.min(t * 2.2, 1));
+        const fill = eIO(t) * 0.68;
+        drawVial(cx, cy, VW * 1.9, VH * 1.9, fill, VIALS[0], fade);
+      }
+      // Phase 2 — 0.25→0.42: hold single vial (ch2 copy visible)
+      else if (p < 0.42) {
+        const t     = map01(p, 0.25, 0.42);
+        const pulse = 1 + Math.sin(t * Math.PI) * 0.025;
+        drawVial(cx, cy, VW * 1.9 * pulse, VH * 1.9 * pulse, 0.68, VIALS[0], 1);
+      }
+      // Phase 3 — 0.42→0.62: explode into 5 (circular)
+      else if (p < 0.62) {
+        const t      = eO3(map01(p, 0.42, 0.62));
+        const spread = base * 0.22 * t;
+        const scl    = lerp(1.9, 1.1, t);
+        const n      = VIALS.length;
+        for (let i = 0; i < n; i++) {
+          const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+          const vx    = cx + Math.cos(angle) * spread;
+          const vy    = cy + Math.sin(angle) * spread * 0.42;
+          const al    = i === 0 ? 1 : t;
+          const fi    = 0.55 + (i % 2 === 0 ? 0.08 : 0) * (1 - t * 0.3);
+          drawVial(vx, vy, VW * scl, VH * scl, fi, VIALS[i], al);
+        }
+      }
+      // Phase 4 — 0.62→0.80: rearrange circle → horizontal row
+      else if (p < 0.80) {
+        const t          = eIO(map01(p, 0.62, 0.80));
+        const n          = VIALS.length;
+        const rowSpacing = Math.min(VW * 1.5, CW * 0.84 / n);
+        const spread     = base * 0.22;
+        for (let i = 0; i < n; i++) {
+          const angle = (i / n) * Math.PI * 2 - Math.PI / 2;
+          const srcX  = cx + Math.cos(angle) * spread;
+          const srcY  = cy + Math.sin(angle) * spread * 0.42;
+          const tgtX  = cx + (i - (n - 1) / 2) * rowSpacing;
+          const vx    = lerp(srcX, tgtX, t);
+          const vy    = lerp(srcY, cy, t);
+          drawVial(vx, vy, VW * 1.1, VH * 1.1, 0.42 + i * 0.10, VIALS[i], 1);
+        }
+      }
+      // Phase 5 — 0.80→1.0: converge back to glowing single vial
+      else {
+        const t          = eIO(map01(p, 0.80, 1.0));
+        const n          = VIALS.length;
+        const rowSpacing = Math.min(VW * 1.5, CW * 0.84 / n);
+        for (let i = 0; i < n; i++) {
+          const srcX = cx + (i - (n - 1) / 2) * rowSpacing;
+          const vx   = lerp(srcX, cx, eO3(t));
+          const scl  = i === 0 ? lerp(1.1, 1.9, t) : 1.1;
+          const al   = i === 0 ? 1 : 1 - eO3(t);
+          const fi   = i === 0 ? lerp(0.68, 1.0, t) : 0.42 + i * 0.10;
+          drawVial(vx, cy, VW * scl, VH * scl, fi, i === 0 ? VIALS[0] : VIALS[i], al);
+        }
+        if (t > 0.6) {
+          const bt       = map01(t, 0.6, 1.0);
+          const [r,g,b]  = hexRGB(VIALS[0].glow);
+          const burst    = ctx.createRadialGradient(cx, cy, 0, cx, cy, base * 0.55 * bt);
+          burst.addColorStop(0, `rgba(${r},${g},${b},${0.16 * bt})`);
+          burst.addColorStop(1, 'transparent');
+          ctx.fillStyle = burst;
+          ctx.fillRect(0, 0, CW, CH);
+        }
+      }
     }
 
-    async function preload() {
-      // Priority: first 22 frames — enough to reveal and hide loader
-      const p1 = [];
-      for (let i = 0; i < 22; i++) p1.push(loadOne(i));
-      await Promise.all(p1);
-
-      // Show frame 0, hide loader, start scroll engine
-      drawFrame(0);
-      if (raLoader) raLoader.classList.add('ra-hidden');
-      initScroll();
-
-      // Background: load remaining in staggered passes for even coverage
-      const rest = [];
-      for (let i = 22; i < TOTAL; i += 3) rest.push(i);
-      for (let i = 23; i < TOTAL; i += 3) rest.push(i);
-      for (let i = 24; i < TOTAL; i += 3) rest.push(i);
-      await Promise.all(rest.map(i => loadOne(i)));
-    }
-
-    // ── CHAPTER OPACITY (eased, reversible) ───────────────
+    // ── Chapters ──────────────────────────────────────────
     function updateChapters(p) {
       chapterEls.forEach(({ el, enter, peak, exit }, idx) => {
+        if (!el) return;
         const isLast = idx === chapterEls.length - 1;
         let opacity = 0, dy = 0;
-
         if (p < enter || (!isLast && p > exit)) {
-          opacity = 0;
-          dy = p < enter ? 26 : -16;
+          opacity = 0; dy = p < enter ? 26 : -16;
         } else if (p >= enter && p <= peak) {
-          const t = (p - enter) / (peak - enter);
-          const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-          opacity = e;
-          dy = (1 - e) * 26;
+          const e = eIO((p - enter) / (peak - enter));
+          opacity = e; dy = (1 - e) * 26;
         } else if (!isLast && p > peak && p <= exit) {
-          const t = (p - peak) / (exit - peak);
-          const e = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-          opacity = 1 - e;
-          dy = -e * 16;
+          const e = eIO((p - peak) / (exit - peak));
+          opacity = 1 - e; dy = -e * 16;
         } else {
-          opacity = 1;
-          dy = 0;
+          opacity = 1; dy = 0;
         }
-
         el.style.opacity   = opacity;
         el.style.transform = `translateY(${dy}px)`;
       });
     }
 
-    // ── SCROLL ENGINE ──────────────────────────────────────
+    // ── Scroll ────────────────────────────────────────────
     function initScroll() {
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        // Fallback: plain scroll listener
-        window.addEventListener('scroll', scrollFallback, { passive: true });
-        return;
-      }
-
-      gsap.registerPlugin(ScrollTrigger);
-
-      ScrollTrigger.create({
-        trigger : '#ra-section',
-        start   : 'top top',
-        end     : 'bottom bottom',
-        scrub   : 0.1,
-        onUpdate(self) {
-          const p = self.progress;
-
-          // Frame playback
-          const target  = Math.round(p * (TOTAL - 1));
-          const drawIdx = nearest(target);
-          if (drawIdx !== curFrame) {
-            curFrame = drawIdx;
-            drawFrame(curFrame);
+      if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        gsap.registerPlugin(ScrollTrigger);
+        ScrollTrigger.create({
+          trigger: '#ra-section', start: 'top top', end: 'bottom bottom', scrub: 0.1,
+          onUpdate(self) {
+            const p = self.progress;
+            drawScene(p); updateChapters(p);
+            if (raHint)     raHint.classList.toggle('ra-gone', p > 0.06);
+            if (raProgress) raProgress.style.width = (p * 100) + '%';
           }
-
-          // Chapter overlays
-          updateChapters(p);
-
-          // Scroll hint
-          if (raHint) raHint.classList.toggle('ra-gone', p > 0.06);
-
-          // Progress bar
-          if (raProgress) raProgress.style.width = (p * 100) + '%';
-        }
-      });
-
-      // Global page progress bar (full page)
-      window.addEventListener('scroll', () => {
-        const total = document.body.scrollHeight - window.innerHeight;
-        if (total > 0 && raProgress)
-          raProgress.style.width = (window.scrollY / total * 100) + '%';
-      }, { passive: true });
+        });
+        window.addEventListener('scroll', () => {
+          const tot = document.body.scrollHeight - window.innerHeight;
+          if (tot > 0 && raProgress) raProgress.style.width = (window.scrollY / tot * 100) + '%';
+        }, { passive: true });
+      } else {
+        let raf = false;
+        window.addEventListener('scroll', () => {
+          if (raf) return; raf = true;
+          requestAnimationFrame(() => {
+            raf = false;
+            const sec = document.getElementById('ra-section');
+            if (!sec) return;
+            const rect = sec.getBoundingClientRect();
+            const p = clamp(-rect.top / (sec.offsetHeight - window.innerHeight), 0, 1);
+            drawScene(p); updateChapters(p);
+            if (raHint) raHint.classList.toggle('ra-gone', p > 0.06);
+          });
+        }, { passive: true });
+      }
     }
 
-    // GSAP-free fallback (same logic, plain rAF throttling)
-    let rafPending = false;
-    function scrollFallback() {
-      if (rafPending) return;
-      rafPending = true;
-      requestAnimationFrame(() => {
-        rafPending = false;
-        const section = document.getElementById('ra-section');
-        if (!section) return;
-        const rect = section.getBoundingClientRect();
-        const sH   = section.offsetHeight;
-        const vH   = window.innerHeight;
-        const raw  = -rect.top / (sH - vH);
-        const p    = Math.max(0, Math.min(1, raw));
-
-        const target  = Math.round(p * (TOTAL - 1));
-        const drawIdx = nearest(target);
-        if (drawIdx !== curFrame) { curFrame = drawIdx; drawFrame(curFrame); }
-
-        updateChapters(p);
-        if (raHint) raHint.classList.toggle('ra-gone', p > 0.06);
-
-        const total = document.body.scrollHeight - window.innerHeight;
-        if (total > 0 && raProgress)
-          raProgress.style.width = (window.scrollY / total * 100) + '%';
-      });
-    }
-
-    // ── RESIZE ─────────────────────────────────────────────
-    let resizeTimer;
+    // ── Resize ────────────────────────────────────────────
+    let resizeT;
     window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(() => {
-        resizeCanvas();
+      clearTimeout(resizeT);
+      resizeT = setTimeout(() => {
+        sizeCanvas(); drawScene(lastP);
         if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
       }, 80);
     }, { passive: true });
 
-    // ── BOOT ───────────────────────────────────────────────
-    resizeCanvas();
-    preload();
+    // ── Boot ──────────────────────────────────────────────
+    sizeCanvas();
+    drawScene(0);
+    if (raLoader)   raLoader.classList.add('ra-hidden');
+    if (raFill)     raFill.style.width = '100%';
+    if (raLabelTxt) raLabelTxt.textContent = 'Ready';
+    initScroll();
 
   })();
   </script>
