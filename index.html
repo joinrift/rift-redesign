@@ -1,21 +1,21 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rift — Redefine Your Health</title>
+  <title>Rift â€” Redefine Your Health</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <!-- Taste-skill §4.1: Fraunces banned → Playfair Display (approved pool) + Outfit (sans body) -->
+  <!-- Taste-skill Â§4.1: Fraunces banned â†’ Playfair Display (approved pool) + Outfit (sans body) -->
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
-    /* ── Reset & Base ─────────────────────────────── */
+    /* â”€â”€ Reset & Base â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
 
     :root {
-      /* Taste-skill §4.2: off the banned warm-paper palette → Forest: clean cool white + deep forest */
+      /* Taste-skill Â§4.2: off the banned warm-paper palette â†’ Forest: clean cool white + deep forest */
       --bg:          #F5F7F5;
       --bg-alt:      #ECEEED;
       --bg-dark:     #0D1410;
@@ -46,17 +46,17 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* ── Typography ────────────────────────────────── */
+    /* â”€â”€ Typography â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .serif { font-family: 'Playfair Display', Georgia, serif; }
     h1, h2, h3 { font-family: 'Playfair Display', Georgia, serif; line-height: 1.1; font-weight: 700; }
 
-    /* ── Utilities ─────────────────────────────────── */
+    /* â”€â”€ Utilities â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .container { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
     .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
 
-    /* ── Animation ─────────────────────────────────── */
+    /* â”€â”€ Animation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     @media (prefers-reduced-motion: no-preference) {
-      /* Emil: never animate from scale(0) — start at 0.95 so it feels like it emerges */
+      /* Emil: never animate from scale(0) â€” start at 0.95 so it feels like it emerges */
       .fade-up {
         opacity: 0;
         transform: translateY(16px) scale(0.98);
@@ -70,7 +70,7 @@
       .fade-up:nth-child(5) { transition-delay: 200ms; }
       .fade-up:nth-child(6) { transition-delay: 250ms; }
 
-      /* @starting-style for stat items — CSS-native entry without JS */
+      /* @starting-style for stat items â€” CSS-native entry without JS */
       @supports (transition-behavior: allow-discrete) {
         .stat-item {
           transition: opacity 400ms var(--ease-out), transform 400ms var(--ease-out);
@@ -88,11 +88,11 @@
       .pricing-treatment-card:hover { transform: translateY(-3px); }
     }
 
-    /* Emil: every pressable element gets scale(0.97) — makes UI feel like it hears you */
+    /* Emil: every pressable element gets scale(0.97) â€” makes UI feel like it hears you */
     .btn:active { transform: scale(0.97) !important; }
     .faq-question:active { opacity: 0.7; }
 
-    /* ── Announcement Bar ──────────────────────────── */
+    /* â”€â”€ Announcement Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .announcement {
       background: var(--bg-dark);
       color: #E8E3D8;
@@ -104,7 +104,7 @@
     }
     .announcement strong { color: #FBBF24; }
 
-    /* ── Nav ───────────────────────────────────────── */
+    /* â”€â”€ Nav â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .nav {
       position: sticky;
       top: 0;
@@ -164,7 +164,7 @@
       gap: 12px;
     }
 
-    /* ── Buttons ────────────────────────────────────── */
+    /* â”€â”€ Buttons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -206,7 +206,7 @@
     .btn-lg { padding: 16px 32px; font-size: 16px; border-radius: 8px; }
     .btn-sm { padding: 8px 16px; font-size: 13px; }
 
-    /* ── Hero (v3 — motion + lifestyle) ─────────────── */
+    /* â”€â”€ Hero (v3 â€” motion + lifestyle) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .hero {
       overflow: hidden;
       display: flex;
@@ -238,7 +238,7 @@
       overflow: hidden;
     }
 
-    /* ── Lifestyle image background ────────────────── */
+    /* â”€â”€ Lifestyle image background â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -248,7 +248,7 @@
       width: 100%; height: 100%;
       object-fit: cover;
       object-position: center top;
-      /* Ken Burns — Emil: slow, purposeful motion that tells a story */
+      /* Ken Burns â€” Emil: slow, purposeful motion that tells a story */
       animation: kenBurns 18s ease-in-out infinite alternate;
       transform-origin: center center;
     }
@@ -257,14 +257,14 @@
       50%  { transform: scale(1.06) translate(-1%, 1%); }
       100% { transform: scale(1.04) translate(1%, -0.5%); }
     }
-    /* Category image crossfade — Emil: blur bridges gap between states */
+    /* Category image crossfade â€” Emil: blur bridges gap between states */
     .hero-bg-img.switching {
       animation: none;
       filter: blur(8px);
       transition: filter 300ms ease;
     }
 
-    /* Dark + gradient overlay — light enough to see image clearly */
+    /* Dark + gradient overlay â€” light enough to see image clearly */
     .hero-overlay {
       position: absolute;
       inset: 0;
@@ -277,7 +277,7 @@
       z-index: 1;
     }
 
-    /* ── Floating vials ────────────────────────────── */
+    /* â”€â”€ Floating vials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .hero-vials {
       position: absolute;
       inset: 0;
@@ -302,7 +302,7 @@
       width: 14px; height: 8px;
       background: rgba(255,255,255,0.25);
     }
-    /* Vial body — solid enough to show without GPU backdrop-filter */
+    /* Vial body â€” solid enough to show without GPU backdrop-filter */
     .vial-body {
       width: 52px;
       height: 96px;
@@ -350,7 +350,7 @@
       border-bottom: 1px solid rgba(255,255,255,0.15);
     }
 
-    /* Vial float animations — staggered so they don't all move together */
+    /* Vial float animations â€” staggered so they don't all move together */
     .vial-1 { top: 12%; right: 28%; animation: float1 5.5s ease-in-out infinite; }
     .vial-2 { top: 35%; right: 10%; animation: float2 6.2s ease-in-out infinite; transform: rotate(12deg) scale(0.78); }
     .vial-3 { top: 55%; right: 42%; animation: float3 4.8s ease-in-out infinite; transform: rotate(-10deg) scale(0.60); }
@@ -382,7 +382,7 @@
       z-index: 1;
     }
 
-    /* ── Panel (cards + stats) ─────────────────────── */
+    /* â”€â”€ Panel (cards + stats) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .hero-panel {
       position: absolute;
       bottom: 0; left: 0; right: 0;
@@ -422,7 +422,7 @@
       margin-bottom: 28px;
     }
 
-    /* Cycling word slot — Emil's slot-machine technique */
+    /* Cycling word slot â€” Emil's slot-machine technique */
     .hero-word-track {
       display: block;
       overflow: hidden;
@@ -439,7 +439,7 @@
       color: #86EFAC;
       opacity: 0;
       transform: translateY(70%);
-      /* Emil: ease-out for entering elements — starts fast, feels responsive */
+      /* Emil: ease-out for entering elements â€” starts fast, feels responsive */
       transition: transform 500ms var(--ease-out), opacity 400ms var(--ease-out), color 400ms ease;
       white-space: nowrap;
     }
@@ -447,7 +447,7 @@
       opacity: 1;
       transform: translateY(0);
     }
-    /* Emil: exit faster than enter — 60% of enter duration */
+    /* Emil: exit faster than enter â€” 60% of enter duration */
     .hero-word.exiting {
       opacity: 0;
       transform: translateY(-65%);
@@ -555,10 +555,10 @@
     }
     .panel-card.active .panel-card-dot { background: #86EFAC; }
 
-    /* Panel stats hidden — moved to separate dark stats bar */
+    /* Panel stats hidden â€” moved to separate dark stats bar */
     .panel-stats { display: none; }
 
-    /* Hero text entrance — clip-path wipe per line (Emil's reveal technique) */
+    /* Hero text entrance â€” clip-path wipe per line (Emil's reveal technique) */
     .hero-line {
       overflow: hidden;
       display: block;
@@ -579,7 +579,7 @@
 
     /* Responsive */
 
-    /* ── Stats Bar ──────────────────────────────────── */
+    /* â”€â”€ Stats Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .stats {
       background: var(--bg-dark);
       padding: 48px 0;
@@ -613,7 +613,7 @@
       font-weight: 500;
     }
 
-    /* ── Problem/Why Section ────────────────────────── */
+    /* â”€â”€ Problem/Why Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .why {
       padding: 96px 0;
     }
@@ -625,7 +625,7 @@
       color: var(--fg-subtle);
       margin-bottom: 16px;
     }
-    /* ── Treatments Section (replaces vial-scroll) ──────── */
+    /* â”€â”€ Treatments Section (replaces vial-scroll) â”€â”€â”€â”€â”€â”€â”€â”€ */
     .treatments {
       background: var(--bg-dark);
       padding: 80px 0 96px;
@@ -863,7 +863,7 @@
       line-height: 1.4;
     }
     .tx-features li::before {
-      content: '✓';
+      content: 'âœ“';
       font-size: 10px;
       font-weight: 700;
       color: #86EFAC;
@@ -941,7 +941,7 @@
       .tx-vial-img { height: 160px; }
     }
 
-    /* ── Pharmacy selector ──────────────────────────────── */
+    /* â”€â”€ Pharmacy selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .tx-ph-wrap {
       padding: 14px 18px 0;
       border-top: 1px solid rgba(255,255,255,0.07);
@@ -987,7 +987,7 @@
       min-height: 30px;
     }
 
-    /* ── Why Rift ──────────────────────────────────────── */
+    /* â”€â”€ Why Rift â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .why-inner {
       display: grid;
       grid-template-columns: 5fr 7fr;
@@ -1048,7 +1048,7 @@
       line-height: 1.6;
     }
 
-    /* ── How It Works ───────────────────────────────── */
+    /* â”€â”€ How It Works â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .how {
       padding: 96px 0;
       background: var(--bg-alt);
@@ -1131,7 +1131,7 @@
       margin-top: auto;
     }
 
-    /* ── Testimonials ───────────────────────────────── */
+    /* â”€â”€ Testimonials â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .testimonials {
       padding: 96px 0;
     }
@@ -1233,7 +1233,7 @@
       color: #86EFAC;
     }
 
-    /* ── Pricing ────────────────────────────────────── */
+    /* â”€â”€ Pricing â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .pricing {
       padding: 96px 0;
       background: var(--bg-alt);
@@ -1288,7 +1288,7 @@
       letter-spacing: 0.03em;
     }
 
-    /* Treatment card grid — 2×2 */
+    /* Treatment card grid â€” 2Ã—2 */
     .pricing-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -1402,6 +1402,52 @@
     }
     .ptc-feature svg { color: var(--green); flex-shrink: 0; margin-top: 1px; }
 
+    /* Pharmacy selector inside pricing cards */
+    .ptc-ph-wrap {
+      padding: 14px 28px 16px;
+      border-top: 1px solid var(--border);
+    }
+    .ptc-ph-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--fg-subtle);
+      margin-bottom: 8px;
+    }
+    .ptc-ph-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 7px;
+    }
+    .ptc-ph-tab {
+      padding: 4px 12px;
+      border-radius: 100px;
+      border: 1px solid var(--border);
+      background: transparent;
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--fg-muted);
+      cursor: pointer;
+      transition: all 160ms ease;
+      white-space: nowrap;
+    }
+    .ptc-ph-tab:hover { border-color: var(--fg-muted); color: var(--fg); }
+    .ptc-ph-tab.ptc-ph-active {
+      background: var(--fg);
+      border-color: var(--fg);
+      color: var(--bg);
+    }
+    .ptc-ph-info {
+      font-size: 10px;
+      color: var(--fg-subtle);
+      margin: 0;
+      line-height: 1.5;
+      min-height: 28px;
+    }
+
     /* CTA footer */
     .ptc-foot {
       padding: 18px 28px;
@@ -1492,7 +1538,7 @@
     }
     .pricing-disclaimer a { color: var(--green); text-decoration: none; }
 
-    /* ── FAQ ─────────────────────────────────────────── */
+    /* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .faq {
       padding: 96px 0;
     }
@@ -1561,7 +1607,7 @@
       line-height: 1.7;
     }
 
-    /* ── Final CTA ──────────────────────────────────── */
+    /* â”€â”€ Final CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .cta-section {
       padding: 96px 0;
       background: var(--bg-dark);
@@ -1632,7 +1678,7 @@
       letter-spacing: 0.05em;
     }
 
-    /* ── Footer ──────────────────────────────────────── */
+    /* â”€â”€ Footer â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     .footer {
       padding: 40px 0;
       border-top: 1px solid var(--border);
@@ -1662,7 +1708,7 @@
     .footer-links a:hover { color: var(--fg-muted); }
     .footer-right { font-size: 13px; color: var(--fg-subtle); }
 
-    /* ── Responsive ──────────────────────────────────── */
+    /* â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
     @media (max-width: 700px) {
       .pricing-grid { grid-template-columns: 1fr; }
       .pharmacy-grid { grid-template-columns: 1fr 1fr; }
@@ -1697,11 +1743,11 @@
       .btn-lg { width: 100%; justify-content: center; }
     }
 
-    /* ═══════════════════════════════════════════════════════
+    /* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        RIFT FRAME ANIMATION SECTION
        Cinematic 151-frame scroll-driven sequence.
        Isolated namespace: .ra-* to avoid collisions.
-    ═══════════════════════════════════════════════════════ */
+    â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */
 
     /* Loader overlay */
     #ra-loader {
@@ -1766,13 +1812,13 @@
       transition: width 0.08s linear;
     }
 
-    /* Animation section — scroll travel */
+    /* Animation section â€” scroll travel */
     #ra-section {
       height: 450vh;
       position: relative;
     }
 
-    /* Sticky container — fullscreen during scroll */
+    /* Sticky container â€” fullscreen during scroll */
     #ra-sticky {
       position: sticky;
       top: 0;
@@ -1811,7 +1857,7 @@
       z-index: 1;
     }
 
-    /* Chapters — text overlays */
+    /* Chapters â€” text overlays */
     .ra-chapter {
       position: absolute;
       inset: 0;
@@ -1955,8 +2001,8 @@
 
   <!-- Announcement -->
   <div class="announcement" role="banner">
-    Introductory offer — <strong>$50 off</strong> already applied at checkout. No code needed.
-    <span style="color:rgba(255,255,255,0.4); margin: 0 8px;">·</span>
+    Introductory offer â€” <strong>$50 off</strong> already applied at checkout. No code needed.
+    <span style="color:rgba(255,255,255,0.4); margin: 0 8px;">Â·</span>
     New members save an extra $20 with code <strong>HELLO20</strong>
   </div>
 
@@ -1985,15 +2031,15 @@
     </div>
   </header>
 
-  <!-- ═══════════════════════════════════════════════
+  <!-- â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
        RIFT 151-FRAME SCROLL ANIMATION
        Plays the bottle-to-vials cinematic sequence
        as the user scrolls through this section.
-  ═══════════════════════════════════════════════ -->
+  â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• -->
 
   <!-- Loader (shown until first 20 frames ready) -->
   <div id="ra-loader">
-    <div class="ra-loader-logo">Rift — <em>Wellness In a Bottle</em></div>
+    <div class="ra-loader-logo">Rift â€” <em>Wellness In a Bottle</em></div>
     <div class="ra-loader-track">
       <div class="ra-loader-fill" id="ra-fill"></div>
     </div>
@@ -2009,7 +2055,7 @@
       <!-- Frame canvas -->
       <canvas id="ra-canvas"></canvas>
 
-      <!-- Chapter 1: Intro (0 → 14%) -->
+      <!-- Chapter 1: Intro (0 â†’ 14%) -->
       <div class="ra-chapter ra-left" id="ra-ch1">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Introducing Rift</span>
@@ -2018,16 +2064,16 @@
         </div>
       </div>
 
-      <!-- Chapter 2: Singular (16 → 36%) -->
+      <!-- Chapter 2: Singular (16 â†’ 36%) -->
       <div class="ra-chapter ra-left" id="ra-ch2">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">The Prescription</span>
           <h2 class="ra-headline">One<br>precise<br><em>formula.</em></h2>
-          <p class="ra-sub">Your provider reviews your intake and prescribes exactly what your body needs — no guesswork.</p>
+          <p class="ra-sub">Your provider reviews your intake and prescribes exactly what your body needs â€” no guesswork.</p>
         </div>
       </div>
 
-      <!-- Chapter 3: Explosion (38 → 60%) -->
+      <!-- Chapter 3: Explosion (38 â†’ 60%) -->
       <div class="ra-chapter ra-right" id="ra-ch3">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">The Platform</span>
@@ -2036,7 +2082,7 @@
         </div>
       </div>
 
-      <!-- Chapter 4: Abundance (63 → 82%) -->
+      <!-- Chapter 4: Abundance (63 â†’ 82%) -->
       <div class="ra-chapter ra-left" id="ra-ch4">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Purpose-Built</span>
@@ -2044,13 +2090,13 @@
         </div>
       </div>
 
-      <!-- Chapter 5: CTA (85 → 100%) -->
+      <!-- Chapter 5: CTA (85 â†’ 100%) -->
       <div class="ra-chapter ra-left" id="ra-ch5">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Get Started</span>
           <h2 class="ra-headline">Redefine<br><em>your health.</em></h2>
           <p class="ra-sub">Matched with a board-certified provider in 24 hours. No waitlists.</p>
-          <a href="#pricing" class="ra-cta">Get started →</a>
+          <a href="#pricing" class="ra-cta">Get started â†’</a>
         </div>
       </div>
 
@@ -2063,9 +2109,9 @@
     </div><!-- /ra-sticky -->
   </section>
 
-  <!-- Thin label bar bridging animation → stats -->
+  <!-- Thin label bar bridging animation â†’ stats -->
   <div class="ra-label-bar">
-    <p>Semaglutide · Tirzepatide · NAD+ · Glutathione · Sermorelin</p>
+    <p>Semaglutide Â· Tirzepatide Â· NAD+ Â· Glutathione Â· Sermorelin</p>
   </div>
 
   <!-- Stats -->
@@ -2093,13 +2139,13 @@
     <div class="container">
 
       <div class="treatments-header fade-up">
-        <div class="treatments-label">5 Treatments · One Platform</div>
+        <div class="treatments-label">5 Treatments Â· One Platform</div>
         <h2 class="treatments-title" id="treatments-heading">Every vial, <em>purpose-built.</em></h2>
       </div>
 
       <div class="tx-grid">
 
-        <!-- ── 1: Semaglutide ── -->
+        <!-- â”€â”€ 1: Semaglutide â”€â”€ -->
         <div class="tx-card tx-featured">
           <div class="tx-vial-wrap">
             <div class="tx-vial-glow" style="background:#8A9A96"></div>
@@ -2108,10 +2154,10 @@
           <div class="tx-body">
             <span class="tx-badge tx-badge-green">Most Popular</span>
             <h3 class="tx-name">Semaglutide</h3>
-            <p class="tx-mechanism">GLP-1 · Weekly Injection</p>
+            <p class="tx-mechanism">GLP-1 Â· Weekly Injection</p>
             <ul class="tx-features">
               <li>Appetite suppression + satiety</li>
-              <li>Avg. 15–20% body weight loss</li>
+              <li>Avg. 15â€“20% body weight loss</li>
               <li>Board-certified provider included</li>
               <li>Free shipping to your door</li>
             </ul>
@@ -2119,11 +2165,11 @@
           <div class="tx-ph-wrap">
             <div class="tx-ph-label">Pharmacy</div>
             <div class="tx-ph-tabs">
-              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
-              <button class="tx-ph-tab" data-ph-price="189" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
-              <button class="tx-ph-tab" data-ph-price="219" data-ph-info="Compounded with Glycine · Available in CT, NY, NJ">Boudreau's</button>
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="189" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
+              <button class="tx-ph-tab" data-ph-price="219" data-ph-info="Compounded with Glycine Â· Available in CT, NY, NJ">Boudreau's</button>
             </div>
-            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+            <p class="tx-ph-info">No Additive Formula Â· Available in most states</p>
           </div>
           <div class="tx-footer">
             <div class="tx-price">from <strong>$199</strong>/mo</div>
@@ -2131,7 +2177,7 @@
           </div>
         </div>
 
-        <!-- ── 2: Tirzepatide ── -->
+        <!-- â”€â”€ 2: Tirzepatide â”€â”€ -->
         <div class="tx-card">
           <div class="tx-vial-wrap">
             <div class="tx-vial-glow" style="background:#8A9A96"></div>
@@ -2140,7 +2186,7 @@
           <div class="tx-body">
             <span class="tx-badge tx-badge-yellow">Best Results</span>
             <h3 class="tx-name">Tirzepatide</h3>
-            <p class="tx-mechanism">GLP-1/GIP · Weekly Injection</p>
+            <p class="tx-mechanism">GLP-1/GIP Â· Weekly Injection</p>
             <ul class="tx-features">
               <li>Dual-action receptor agonist</li>
               <li>Up to 22% body weight reduction</li>
@@ -2151,11 +2197,11 @@
           <div class="tx-ph-wrap">
             <div class="tx-ph-label">Pharmacy</div>
             <div class="tx-ph-tabs">
-              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
-              <button class="tx-ph-tab" data-ph-price="229" data-ph-info="Compounded with Glycine · Available in CT, NY, NJ">NewLife Rx</button>
-              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine · Currently unavailable in CT, NY, NJ">Boudreau's</button>
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="229" data-ph-info="Compounded with Glycine Â· Available in CT, NY, NJ">NewLife Rx</button>
+              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine Â· Currently unavailable in CT, NY, NJ">Boudreau's</button>
             </div>
-            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+            <p class="tx-ph-info">No Additive Formula Â· Available in most states</p>
           </div>
           <div class="tx-footer">
             <div class="tx-price">from <strong>$229</strong>/mo</div>
@@ -2163,7 +2209,7 @@
           </div>
         </div>
 
-        <!-- ── 3: NAD+ ── -->
+        <!-- â”€â”€ 3: NAD+ â”€â”€ -->
         <div class="tx-card">
           <div class="tx-vial-wrap">
             <div class="tx-vial-glow" style="background:#8A9A96"></div>
@@ -2172,7 +2218,7 @@
           <div class="tx-body">
             <span class="tx-badge tx-badge-purple">Longevity</span>
             <h3 class="tx-name">NAD+ Injections</h3>
-            <p class="tx-mechanism">Cellular Energy · Weekly</p>
+            <p class="tx-mechanism">Cellular Energy Â· Weekly</p>
             <ul class="tx-features">
               <li>Boosts cellular energy & repair</li>
               <li>Supports cognitive clarity</li>
@@ -2183,10 +2229,10 @@
           <div class="tx-ph-wrap">
             <div class="tx-ph-label">Pharmacy</div>
             <div class="tx-ph-tabs">
-              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
-              <button class="tx-ph-tab" data-ph-price="209" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="209" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
             </div>
-            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+            <p class="tx-ph-info">No Additive Formula Â· Available in most states</p>
           </div>
           <div class="tx-footer">
             <div class="tx-price">from <strong>$199</strong>/mo</div>
@@ -2194,7 +2240,7 @@
           </div>
         </div>
 
-        <!-- ── 4: Glutathione ── -->
+        <!-- â”€â”€ 4: Glutathione â”€â”€ -->
         <div class="tx-card">
           <div class="tx-vial-wrap">
             <div class="tx-vial-glow" style="background:#8A9A96"></div>
@@ -2203,7 +2249,7 @@
           <div class="tx-body">
             <span class="tx-badge tx-badge-teal">Antioxidant</span>
             <h3 class="tx-name">Glutathione</h3>
-            <p class="tx-mechanism">Antioxidant · Weekly Injection</p>
+            <p class="tx-mechanism">Antioxidant Â· Weekly Injection</p>
             <ul class="tx-features">
               <li>Master antioxidant detox support</li>
               <li>Skin radiance & immune boost</li>
@@ -2214,10 +2260,10 @@
           <div class="tx-ph-wrap">
             <div class="tx-ph-label">Pharmacy</div>
             <div class="tx-ph-tabs">
-              <button class="tx-ph-tab tx-ph-active" data-ph-price="149" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
-              <button class="tx-ph-tab" data-ph-price="159" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="149" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="159" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
             </div>
-            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+            <p class="tx-ph-info">No Additive Formula Â· Available in most states</p>
           </div>
           <div class="tx-footer">
             <div class="tx-price">from <strong>$149</strong>/mo</div>
@@ -2225,7 +2271,7 @@
           </div>
         </div>
 
-        <!-- ── 5: Sermorelin ── -->
+        <!-- â”€â”€ 5: Sermorelin â”€â”€ -->
         <div class="tx-card">
           <div class="tx-vial-wrap">
             <div class="tx-vial-glow" style="background:#8A9A96"></div>
@@ -2234,7 +2280,7 @@
           <div class="tx-body">
             <span class="tx-badge tx-badge-pink">Performance</span>
             <h3 class="tx-name">Sermorelin</h3>
-            <p class="tx-mechanism">Peptide · Nightly Injection</p>
+            <p class="tx-mechanism">Peptide Â· Nightly Injection</p>
             <ul class="tx-features">
               <li>Stimulates natural HGH release</li>
               <li>Muscle recovery & fat metabolism</li>
@@ -2245,10 +2291,10 @@
           <div class="tx-ph-wrap">
             <div class="tx-ph-label">Pharmacy</div>
             <div class="tx-ph-tabs">
-              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
-              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine · Currently unavailable in CT, NY, NJ">Boudreau's</button>
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine Â· Currently unavailable in CT, NY, NJ">Boudreau's</button>
             </div>
-            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+            <p class="tx-ph-info">No Additive Formula Â· Available in most states</p>
           </div>
           <div class="tx-footer">
             <div class="tx-price">from <strong>$229</strong>/mo</div>
@@ -2270,31 +2316,31 @@
         </div>
         <div class="why-right">
           <div class="why-item fade-up">
-            <div class="why-item-num">—</div>
+            <div class="why-item-num">â€”</div>
             <div class="why-item-content">
               <h3>No waitlists, ever</h3>
               <p>Get matched with a licensed provider within 24 hours. Not weeks. We staff for availability, not for show.</p>
             </div>
           </div>
           <div class="why-item fade-up">
-            <div class="why-item-num">—</div>
+            <div class="why-item-num">â€”</div>
             <div class="why-item-content">
-              <h3>Personalized — not template plans</h3>
+              <h3>Personalized â€” not template plans</h3>
               <p>Your provider reviews your labs, lifestyle, and goals. Every plan is built for you, adjusted as you progress.</p>
             </div>
           </div>
           <div class="why-item fade-up">
-            <div class="why-item-num">—</div>
+            <div class="why-item-num">â€”</div>
             <div class="why-item-content">
               <h3>Transparent, flat pricing</h3>
-              <p>No surprise bills. No insurance headaches. You see the full cost before you commit — and you can pause any time.</p>
+              <p>No surprise bills. No insurance headaches. You see the full cost before you commit â€” and you can pause any time.</p>
             </div>
           </div>
           <div class="why-item fade-up">
-            <div class="why-item-num">—</div>
+            <div class="why-item-num">â€”</div>
             <div class="why-item-content">
               <h3>Unlimited messaging included</h3>
-              <p>Your provider is a message away. Ask questions, report symptoms, adjust your plan — no extra charge, ever.</p>
+              <p>Your provider is a message away. Ask questions, report symptoms, adjust your plan â€” no extra charge, ever.</p>
             </div>
           </div>
         </div>
@@ -2307,7 +2353,7 @@
     <div class="container">
       <div class="how-header fade-up">
         <h2 id="how-heading">Up and running in 48 hours</h2>
-        <p>From sign-up to your first provider message in two days — not two months.</p>
+        <p>From sign-up to your first provider message in two days â€” not two months.</p>
       </div>
       <div class="how-steps">
         <div class="step fade-up">
@@ -2319,7 +2365,7 @@
         <div class="step fade-up">
           <div class="step-num">2</div>
           <h3>Get matched with a provider</h3>
-          <p>A licensed clinician reviews your intake and builds your personalized plan — including any medication if appropriate.</p>
+          <p>A licensed clinician reviews your intake and builds your personalized plan â€” including any medication if appropriate.</p>
           <span class="step-tag">Within 24 hrs</span>
         </div>
         <div class="step fade-up">
@@ -2341,7 +2387,7 @@
         </h2>
         <div class="testimonials-meta">
           <div class="rating-row">
-            <span class="stars" aria-label="5 stars">★★★★★</span>
+            <span class="stars" aria-label="5 stars">â˜…â˜…â˜…â˜…â˜…</span>
             <span class="rating-num">4.9</span>
           </div>
           <div class="rating-sub">From 2,400+ verified reviews</div>
@@ -2351,7 +2397,7 @@
       <div class="testimonials-grid">
         <!-- Featured dark card -->
         <div class="testimonial-card fade-up">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">â˜…â˜…â˜…â˜…â˜…</div>
           <blockquote class="testimonial-quote">
             "I'd tried three other telehealth services. Rift was the first one that felt like my provider actually read my intake. Down 31 lbs in 4 months."
           </blockquote>
@@ -2359,14 +2405,14 @@
             <div class="author-avatar" style="background: rgba(134,239,172,0.15);">M</div>
             <div>
               <div class="author-name">Marcus T.</div>
-              <div class="author-detail">Lost 31 lbs · 4 months</div>
+              <div class="author-detail">Lost 31 lbs Â· 4 months</div>
             </div>
             <span class="testimonial-tag" style="margin-left: auto;">Verified</span>
           </div>
         </div>
 
         <div class="testimonial-card fade-up">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">â˜…â˜…â˜…â˜…â˜…</div>
           <blockquote class="testimonial-quote">
             "The pricing transparency alone sold me. I knew exactly what I was paying before I ever gave them my card number. No surprises."
           </blockquote>
@@ -2374,16 +2420,16 @@
             <div class="author-avatar" style="background: #FEF3C7; color: #92400E;">S</div>
             <div>
               <div class="author-name">Sarah K.</div>
-              <div class="author-detail">Lost 18 lbs · 10 weeks</div>
+              <div class="author-detail">Lost 18 lbs Â· 10 weeks</div>
             </div>
             <span class="testimonial-tag" style="margin-left: auto;">Verified</span>
           </div>
         </div>
 
         <div class="testimonial-card fade-up">
-          <div class="testimonial-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <div class="testimonial-stars" aria-label="5 out of 5 stars">â˜…â˜…â˜…â˜…â˜…</div>
           <blockquote class="testimonial-quote">
-            "My provider responds to messages within a few hours. That alone makes Rift worth it — I've never had that with any doctor before."
+            "My provider responds to messages within a few hours. That alone makes Rift worth it â€” I've never had that with any doctor before."
           </blockquote>
           <div class="testimonial-author">
             <div class="author-avatar" style="background: #DCFCE7; color: #166534;">J</div>
@@ -2404,7 +2450,7 @@
       <div class="pricing-header fade-up">
         <div class="section-label">Pricing</div>
         <h2 id="pricing-heading">Simple, transparent pricing.</h2>
-        <p>Provider review, personalized dosing &amp; direct shipping — all included. No hidden fees, ever.</p>
+        <p>Provider review, personalized dosing &amp; direct shipping â€” all included. No hidden fees, ever.</p>
       </div>
 
       <!-- Monthly / Quarterly toggle -->
@@ -2415,7 +2461,7 @@
         </button>
       </div>
 
-      <!-- 4 Treatment Cards (2×2) -->
+      <!-- 4 Treatment Cards (2Ã—2) -->
       <div class="pricing-grid fade-up" data-mode="monthly">
 
         <!-- Card 1: Semaglutide (Weight Loss) -->
@@ -2424,7 +2470,7 @@
             <div>
               <div class="ptc-badge badge-pop">Most Popular</div>
               <div class="ptc-name">Semaglutide</div>
-              <div class="ptc-sub">Compounded GLP-1 · weekly injection · weight loss</div>
+              <div class="ptc-sub">Compounded GLP-1 Â· weekly injection Â· weight loss</div>
             </div>
             <!-- Vial SVG icon -->
             <div class="ptc-vial" aria-hidden="true">
@@ -2448,11 +2494,20 @@
             </div>
             <div class="ptc-billing-note" id="billing-note-1">Billed monthly<br/>Cancel anytime</div>
           </div>
+          <div class="ptc-ph-wrap">
+            <div class="ptc-ph-label">Pharmacy</div>
+            <div class="ptc-ph-tabs">
+              <button class="ptc-ph-tab ptc-ph-active" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="ptc-ph-tab" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
+              <button class="ptc-ph-tab" data-ph-info="Compounded with Glycine Â· Available in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="ptc-ph-info">No Additive Formula Â· Available in most states</p>
+          </div>
           <div class="ptc-features">
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Personalized dosing plan &amp; titration</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — compounded med ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping â€” compounded med ships to your door</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
           </div>
           <div class="ptc-foot">
@@ -2467,7 +2522,7 @@
             <div>
               <div class="ptc-badge badge-best">Best Results</div>
               <div class="ptc-name">Tirzepatide</div>
-              <div class="ptc-sub">Compounded GLP-1/GIP dual-agonist · weekly injection</div>
+              <div class="ptc-sub">Compounded GLP-1/GIP dual-agonist Â· weekly injection</div>
             </div>
             <div class="ptc-vial" aria-hidden="true">
               <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2490,11 +2545,20 @@
             </div>
             <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
           </div>
+          <div class="ptc-ph-wrap">
+            <div class="ptc-ph-label">Pharmacy</div>
+            <div class="ptc-ph-tabs">
+              <button class="ptc-ph-tab ptc-ph-active" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="ptc-ph-tab" data-ph-info="Compounded with Glycine Â· Available in CT, NY, NJ">NewLife Rx</button>
+              <button class="ptc-ph-tab" data-ph-info="Compounded with Glycine Â· Currently unavailable in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="ptc-ph-info">No Additive Formula Â· Available in most states</p>
+          </div>
           <div class="ptc-features">
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Dual GIP+GLP-1 — stronger appetite suppression</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — compounded med ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Dual GIP+GLP-1 â€” stronger appetite suppression</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping â€” compounded med ships to your door</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
           </div>
           <div class="ptc-foot">
@@ -2509,7 +2573,7 @@
             <div>
               <div class="ptc-badge badge-lng">Longevity</div>
               <div class="ptc-name">NAD+ Injections</div>
-              <div class="ptc-sub">Cellular energy &amp; metabolism · weekly injection</div>
+              <div class="ptc-sub">Cellular energy &amp; metabolism Â· weekly injection</div>
             </div>
             <div class="ptc-vial" aria-hidden="true">
               <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2532,11 +2596,19 @@
             </div>
             <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
           </div>
+          <div class="ptc-ph-wrap">
+            <div class="ptc-ph-label">Pharmacy</div>
+            <div class="ptc-ph-tabs">
+              <button class="ptc-ph-tab ptc-ph-active" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="ptc-ph-tab" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
+            </div>
+            <p class="ptc-ph-info">No Additive Formula Â· Available in most states</p>
+          </div>
           <div class="ptc-features">
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Boosts cellular energy &amp; cognitive function</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping â€” ships to your door</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
           </div>
           <div class="ptc-foot">
@@ -2551,7 +2623,7 @@
             <div>
               <div class="ptc-badge badge-lng">Longevity</div>
               <div class="ptc-name">Glutathione Injections</div>
-              <div class="ptc-sub">Antioxidant injectable therapy · weekly injection</div>
+              <div class="ptc-sub">Antioxidant injectable therapy Â· weekly injection</div>
             </div>
             <div class="ptc-vial" aria-hidden="true">
               <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2574,11 +2646,19 @@
             </div>
             <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
           </div>
+          <div class="ptc-ph-wrap">
+            <div class="ptc-ph-label">Pharmacy</div>
+            <div class="ptc-ph-tabs">
+              <button class="ptc-ph-tab ptc-ph-active" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="ptc-ph-tab" data-ph-info="Standard Formulation Â· Available in FL, CA, NY, TX">ViolaRx</button>
+            </div>
+            <p class="ptc-ph-info">No Additive Formula Â· Available in most states</p>
+          </div>
           <div class="ptc-features">
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Supports detox, skin radiance &amp; immune function</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping â€” ships to your door</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
           </div>
           <div class="ptc-foot">
@@ -2587,13 +2667,13 @@
           </div>
         </div>
 
-        <!-- Card 5: Sermorelin (Longevity/Performance) — spans full width -->
+        <!-- Card 5: Sermorelin (Longevity/Performance) â€” spans full width -->
         <div class="ptc fade-up" style="grid-column: 1 / -1; max-width: 680px; margin: 0 auto; width: 100%;">
           <div class="ptc-head">
             <div>
               <div class="ptc-badge badge-perf">Performance</div>
               <div class="ptc-name">Sermorelin</div>
-              <div class="ptc-sub">Growth hormone peptide · nightly injection</div>
+              <div class="ptc-sub">Growth hormone peptide Â· nightly injection</div>
             </div>
             <div class="ptc-vial" aria-hidden="true">
               <svg viewBox="0 0 36 48" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2616,11 +2696,19 @@
             </div>
             <div class="ptc-billing-note">Billed monthly<br/>Cancel anytime</div>
           </div>
+          <div class="ptc-ph-wrap">
+            <div class="ptc-ph-label">Pharmacy</div>
+            <div class="ptc-ph-tabs">
+              <button class="ptc-ph-tab ptc-ph-active" data-ph-info="No Additive Formula Â· Available in most states">Hallandale</button>
+              <button class="ptc-ph-tab" data-ph-info="Compounded with Glycine Â· Currently unavailable in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="ptc-ph-info">No Additive Formula Â· Available in most states</p>
+          </div>
           <div class="ptc-features">
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Board-certified provider assigned to you</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Unlimited provider messaging</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Supports muscle recovery, sleep &amp; fat metabolism</div>
-            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping — ships to your door</div>
+            <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping â€” ships to your door</div>
             <div class="ptc-feature"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Klarna &amp; Affirm available</div>
           </div>
           <div class="ptc-foot">
@@ -2637,24 +2725,24 @@
         <div class="pharmacy-grid">
           <div class="pharmacy-card">
             <div class="pharmacy-card-name">Boudreaux's Pharmacy</div>
-            <div class="pharmacy-card-detail">Compounded with Glycine · State restrictions apply</div>
+            <div class="pharmacy-card-detail">Compounded with Glycine Â· State restrictions apply</div>
           </div>
           <div class="pharmacy-card">
             <div class="pharmacy-popular-tag">Popular</div>
             <div class="pharmacy-card-name">Hallandale Pharmacy</div>
-            <div class="pharmacy-card-detail">No-additive formulation · Most states</div>
+            <div class="pharmacy-card-detail">No-additive formulation Â· Most states</div>
           </div>
           <div class="pharmacy-card">
             <div class="pharmacy-card-name">Newlife Rx / Apothecary</div>
-            <div class="pharmacy-card-detail">Regional availability · Provider-matched</div>
+            <div class="pharmacy-card-detail">Regional availability Â· Provider-matched</div>
           </div>
           <div class="pharmacy-card">
             <div class="pharmacy-card-name">Nova / WhiteLabel</div>
-            <div class="pharmacy-card-detail">Broad availability · Provider-matched</div>
+            <div class="pharmacy-card-detail">Broad availability Â· Provider-matched</div>
           </div>
           <div class="pharmacy-card">
             <div class="pharmacy-card-name">VisaRx</div>
-            <div class="pharmacy-card-detail">Semaglutide · Select states</div>
+            <div class="pharmacy-card-detail">Semaglutide Â· Select states</div>
           </div>
         </div>
         <div class="pharmacy-trust-bar">
@@ -2668,7 +2756,7 @@
       <!-- Disclaimer -->
       <p class="pricing-disclaimer fade-up">
         Pricing shown reflects program fees accessed through Rift. All medications are evaluated and prescribed by independent licensed healthcare providers. Medication availability and pharmacy options may vary by state.
-        Compounded products have not been approved by the FDA. <a href="#">View full disclosures →</a>
+        Compounded products have not been approved by the FDA. <a href="#">View full disclosures â†’</a>
       </p>
 
     </div>
@@ -2691,7 +2779,7 @@
               </span>
             </button>
             <div class="faq-answer">
-              <p>Rift is currently available in most US states. Enter your zip code at sign-up and we'll confirm availability instantly. We're expanding rapidly — if you're not in a covered state yet, join the waitlist and you'll be first to know.</p>
+              <p>Rift is currently available in most US states. Enter your zip code at sign-up and we'll confirm availability instantly. We're expanding rapidly â€” if you're not in a covered state yet, join the waitlist and you'll be first to know.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -2702,7 +2790,7 @@
               </span>
             </button>
             <div class="faq-answer">
-              <p>No insurance required. Rift is a direct-pay service — flat monthly pricing with no insurance red tape. Medication costs (if prescribed) are disclosed separately before you commit to anything.</p>
+              <p>No insurance required. Rift is a direct-pay service â€” flat monthly pricing with no insurance red tape. Medication costs (if prescribed) are disclosed separately before you commit to anything.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -2713,7 +2801,7 @@
               </span>
             </button>
             <div class="faq-answer">
-              <p>Your provider will review your intake, health history, and goals to recommend what's appropriate — which may include GLP-1 medications (like semaglutide) or other evidence-based treatments. Not everyone is a candidate for medication; your plan is built around what's right for you.</p>
+              <p>Your provider will review your intake, health history, and goals to recommend what's appropriate â€” which may include GLP-1 medications (like semaglutide) or other evidence-based treatments. Not everyone is a candidate for medication; your plan is built around what's right for you.</p>
             </div>
           </div>
           <div class="faq-item">
@@ -2735,7 +2823,7 @@
               </span>
             </button>
             <div class="faq-answer">
-              <p>Yes. Cancel or pause your subscription any time from your account — no phone calls, no friction. You'll retain access through the end of your billing period.</p>
+              <p>Yes. Cancel or pause your subscription any time from your account â€” no phone calls, no friction. You'll retain access through the end of your billing period.</p>
             </div>
           </div>
         </div>
@@ -2755,7 +2843,7 @@
       </p>
       <div class="cta-actions fade-up">
         <a href="#pricing" class="btn btn-cta-primary">Get started</a>
-        <a href="#how" class="btn btn-cta-ghost">How it works →</a>
+        <a href="#how" class="btn btn-cta-ghost">How it works â†’</a>
       </div>
       <p class="cta-promo fade-up">New to Rift? Use code <code>HELLO20</code> for an extra $20 off your first month.</p>
     </div>
@@ -2773,14 +2861,14 @@
           <a href="mailto:hello@joinrift.com">Contact</a>
         </nav>
       </div>
-      <div class="footer-right">© 2026 Rift Health, Inc. All rights reserved.</div>
+      <div class="footer-right">Â© 2026 Rift Health, Inc. All rights reserved.</div>
     </div>
   </footer>
 
   <script>
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // ── 1. Fade-up IntersectionObserver ──────────────────
+    // â”€â”€ 1. Fade-up IntersectionObserver â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     if (!reducedMotion) {
       const fadeObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -2795,7 +2883,7 @@
       document.querySelectorAll('.fade-up').forEach(el => el.classList.add('visible'));
     }
 
-    // ── 1b. Treatment cards — reveal + liquid fill on viewport entry ──
+    // â”€â”€ 1b. Treatment cards â€” reveal + liquid fill on viewport entry â”€â”€
     const txCards = document.querySelectorAll('.tx-card');
     let txRevealed = false;
 
@@ -2825,8 +2913,8 @@
       txCards.forEach(c => txObserver.observe(c));
     }
 
-    // ── 2. Stat number counters (Emil: perceived performance) ──
-    // Count up when stat enters viewport — makes the app feel fast and alive
+    // â”€â”€ 2. Stat number counters (Emil: perceived performance) â”€â”€
+    // Count up when stat enters viewport â€” makes the app feel fast and alive
     function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
 
     function animateCounter(el, target, suffix, duration) {
@@ -2867,7 +2955,7 @@
       document.querySelectorAll('.stat-item').forEach(el => statObserver.observe(el));
     }
 
-    // ── 3. Nav scroll — blur on scroll (subtle, purposeful) ──
+    // â”€â”€ 3. Nav scroll â€” blur on scroll (subtle, purposeful) â”€â”€
     const nav = document.querySelector('.nav');
     let lastScrollY = 0;
     window.addEventListener('scroll', () => {
@@ -2875,7 +2963,7 @@
       nav.style.boxShadow = scrolled ? '0 1px 0 var(--border)' : 'none';
     }, { passive: true });
 
-    // ── 4. Pricing tab toggle ────────────────────────────
+    // â”€â”€ 4. Pricing tab toggle â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const toggleBtns = document.querySelectorAll('.pricing-toggle-btn');
     const grid = document.querySelector('.pricing-grid');
 
@@ -2884,7 +2972,7 @@
         if (btn.classList.contains('active')) return;
         const mode = btn.dataset.mode;
 
-        // Emil: blur crossfade — add switching class, swap content, remove
+        // Emil: blur crossfade â€” add switching class, swap content, remove
         if (!reducedMotion) {
           grid.classList.add('switching');
           setTimeout(() => {
@@ -2916,7 +3004,7 @@
       });
     }
 
-    // ── 4b. Pharmacy tab selector ─────────────────────────
+    // â”€â”€ 4b. Pharmacy tab selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     document.querySelectorAll('.tx-ph-tabs').forEach(function (tabGroup) {
       const card = tabGroup.closest('.tx-card');
       const infoEl = tabGroup.nextElementSibling;
@@ -2932,7 +3020,19 @@
       });
     });
 
-    // ── 5. FAQ accordion ─────────────────────────────────
+    // â”€â”€ 4c. Pricing card pharmacy tab selector â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    document.querySelectorAll('.ptc-ph-tabs').forEach(function (tabGroup) {
+      const infoEl = tabGroup.nextElementSibling;
+      tabGroup.querySelectorAll('.ptc-ph-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabGroup.querySelectorAll('.ptc-ph-tab').forEach(t => t.classList.remove('ptc-ph-active'));
+          tab.classList.add('ptc-ph-active');
+          if (infoEl) infoEl.textContent = tab.dataset.phInfo || '';
+        });
+      });
+    });
+
+    // â”€â”€ 5. FAQ accordion â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     document.querySelectorAll('.faq-question').forEach(btn => {
       btn.addEventListener('click', () => {
         const item = btn.closest('.faq-item');
@@ -2948,9 +3048,9 @@
       });
     });
 
-    // ── 6. Hero cycling categories ───────────────────────
-    // Emil: slot-machine text with translateY (not scale(0)) — slides up from below
-    // Exit faster than enter — Emil rule: exit 60% of enter duration
+    // â”€â”€ 6. Hero cycling categories â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // Emil: slot-machine text with translateY (not scale(0)) â€” slides up from below
+    // Exit faster than enter â€” Emil rule: exit 60% of enter duration
     const categories = [
       {
         word: 'weight loss.',   color: '#86EFAC', dotColor: '#86EFAC', label: 'Weight Loss',   cardIdx: 0,
@@ -3068,7 +3168,7 @@
     // Start with a delay, then cycle every 3s
     if (!reducedMotion) setTimeout(() => { cycleHero(); setInterval(cycleHero, 3000); }, 2200);
 
-    // ── 7. Hero text entrance (clip-path wipe per line) ──
+    // â”€â”€ 7. Hero text entrance (clip-path wipe per line) â”€â”€
     // Emil: text reveals with clip-path feel intentional, not just a fade
     if (!reducedMotion) {
       requestAnimationFrame(() => {
@@ -3094,8 +3194,8 @@
   <script>
   /* ============================================================
      RIFT 151-FRAME SCROLL ANIMATION
-     Isolated from main page JS — all vars scoped inside IIFE.
-     Images at: ../Downloads/rift-frames/ezgif-frame-NNN.jpg
+     Isolated from main page JS â€” all vars scoped inside IIFE.
+     Images at: rift-website/rift-frames/ezgif-frame-NNN.jpg (local) / rift-frames/ (Vercel)
   ============================================================ */
   (function () {
     'use strict';
@@ -3107,11 +3207,12 @@
       return;
     }
 
-    // ── CONFIG ─────────────────────────────────────────────
+    // â”€â”€ CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const TOTAL     = 151;
-    const FRAME_SRC = (n) => `rift-frames/ezgif-frame-${String(n).padStart(3,'0')}.jpg`;
+    const BASE = 'rift-frames/';
+    const FRAME_SRC = (n) => `${BASE}ezgif-frame-${String(n).padStart(3,'0')}.jpg`;
 
-    // Chapter timing: progress 0→1 across the whole scroll section
+    // Chapter timing: progress 0â†’1 across the whole scroll section
     const CHAPTERS = [
       { id: 'ra-ch1', enter: 0.000, peak: 0.055, exit: 0.140 },
       { id: 'ra-ch2', enter: 0.160, peak: 0.240, exit: 0.360 },
@@ -3120,12 +3221,12 @@
       { id: 'ra-ch5', enter: 0.845, peak: 0.920, exit: 1.000 },
     ];
 
-    // ── STATE ──────────────────────────────────────────────
+    // â”€â”€ STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const frames      = new Array(TOTAL).fill(null);
     let   loaded      = 0;
     let   curFrame    = 0;
 
-    // ── DOM ────────────────────────────────────────────────
+    // â”€â”€ DOM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const raLoader    = document.getElementById('ra-loader');
     const raFill      = document.getElementById('ra-fill');
     const raLabelTxt  = document.getElementById('ra-label-txt');
@@ -3137,7 +3238,7 @@
 
     if (!canvas || !ctx) return; // bail if canvas unavailable
 
-    // ── CANVAS RESIZE ──────────────────────────────────────
+    // â”€â”€ CANVAS RESIZE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
 
     function resizeCanvas() {
@@ -3151,7 +3252,7 @@
       drawFrame(curFrame);
     }
 
-    // ── DRAW (object-fit:cover semantics) ──────────────────
+    // â”€â”€ DRAW (object-fit:cover semantics) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function drawFrame(idx) {
       const img = frames[idx];
       if (!img) return;
@@ -3168,7 +3269,7 @@
       ctx.drawImage(img, (CW - SW) / 2, (CH - SH) / 2, SW, SH);
     }
 
-    // ── NEAREST LOADED ─────────────────────────────────────
+    // â”€â”€ NEAREST LOADED â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function nearest(idx) {
       if (frames[idx]) return idx;
       for (let d = 1; d < 20; d++) {
@@ -3178,7 +3279,7 @@
       return 0;
     }
 
-    // ── PRELOAD ────────────────────────────────────────────
+    // â”€â”€ PRELOAD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function loadOne(i) {
       return new Promise(resolve => {
         const img = new Image();
@@ -3197,7 +3298,7 @@
     }
 
     async function preload() {
-      // Priority: first 22 frames — enough to reveal and hide loader
+      // Priority: first 22 frames â€” enough to reveal and hide loader
       const p1 = [];
       for (let i = 0; i < 22; i++) p1.push(loadOne(i));
       await Promise.all(p1);
@@ -3215,7 +3316,7 @@
       await Promise.all(rest.map(i => loadOne(i)));
     }
 
-    // ── CHAPTER OPACITY (eased, reversible) ───────────────
+    // â”€â”€ CHAPTER OPACITY (eased, reversible) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function updateChapters(p) {
       chapterEls.forEach(({ el, enter, peak, exit }, idx) => {
         const isLast = idx === chapterEls.length - 1;
@@ -3244,7 +3345,7 @@
       });
     }
 
-    // ── SCROLL ENGINE ──────────────────────────────────────
+    // â”€â”€ SCROLL ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function initScroll() {
       if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
         // Fallback: plain scroll listener
@@ -3317,7 +3418,7 @@
       });
     }
 
-    // ── RESIZE ─────────────────────────────────────────────
+    // â”€â”€ RESIZE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     let resizeTimer;
     window.addEventListener('resize', () => {
       clearTimeout(resizeTimer);
@@ -3327,7 +3428,7 @@
       }, 80);
     }, { passive: true });
 
-    // ── BOOT ───────────────────────────────────────────────
+    // â”€â”€ BOOT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     resizeCanvas();
     preload();
 
@@ -3336,3 +3437,4 @@
 
 </body>
 </html>
+
