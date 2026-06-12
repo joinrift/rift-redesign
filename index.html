@@ -922,14 +922,69 @@
     .tx-cta:active { transform: scale(0.97); }
 
     /* Responsive */
-    @media (max-width: 1100px) {
+    @media (min-width: 768px) and (max-width: 1023px) {
       .tx-grid { grid-template-columns: repeat(3, 1fr); }
     }
-    @media (max-width: 700px) {
-      .tx-grid { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 767px) {
+      .tx-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+        padding: 0 16px;
+      }
+      .tx-grid > .tx-card:last-child {
+        grid-column: 1 / -1;
+        max-width: calc(50% - 6px);
+        margin: 0 auto;
+      }
+      .tx-card { min-width: 0; }
+      .tx-vial-img { height: 160px; }
     }
-    @media (max-width: 480px) {
-      .tx-grid { grid-template-columns: 1fr; max-width: 320px; margin: 0 auto; }
+
+    /* ── Treatments pricing toggle ─────────────────────── */
+    .tx-toggle-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+    }
+    .tx-toggle {
+      display: inline-flex;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 100px;
+      padding: 4px;
+      gap: 2px;
+      position: relative;
+    }
+    .tx-toggle-btn {
+      position: relative;
+      z-index: 1;
+      padding: 8px 22px;
+      border-radius: 100px;
+      border: none;
+      background: transparent;
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: color 220ms ease;
+      color: rgba(232,226,212,0.45);
+      white-space: nowrap;
+      outline: none;
+    }
+    .tx-toggle-btn.tx-toggle-active {
+      background: rgba(138,154,150,0.28);
+      color: #E8E2D4;
+      box-shadow: 0 0 0 1px rgba(138,154,150,0.35);
+    }
+    .tx-price strong {
+      display: inline-block;
+      transition: opacity 200ms ease, transform 200ms ease;
+    }
+    .tx-price strong.tx-price-fade {
+      opacity: 0;
+      transform: translateY(4px);
     }
 
     /* ── Why Rift ──────────────────────────────────────── */
@@ -2042,6 +2097,13 @@
         <h2 class="treatments-title" id="treatments-heading">Every vial, <em>purpose-built.</em></h2>
       </div>
 
+      <div class="tx-toggle-wrap" aria-label="Pricing view toggle">
+        <div class="tx-toggle" role="group">
+          <button class="tx-toggle-btn tx-toggle-active" id="tx-btn-monthly" aria-pressed="true">Monthly</button>
+          <button class="tx-toggle-btn" id="tx-btn-pharmacy" aria-pressed="false">With Pharmacy</button>
+        </div>
+      </div>
+
       <div class="tx-grid">
 
         <!-- ── 1: Semaglutide ── -->
@@ -2062,7 +2124,7 @@
             </ul>
           </div>
           <div class="tx-footer">
-            <div class="tx-price">from <strong>$129</strong>/mo</div>
+            <div class="tx-price" data-price-monthly="$129" data-price-pharmacy="$159">from <strong>$129</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-primary">Get started</a>
           </div>
         </div>
@@ -2085,7 +2147,7 @@
             </ul>
           </div>
           <div class="tx-footer">
-            <div class="tx-price">from <strong>$169</strong>/mo</div>
+            <div class="tx-price" data-price-monthly="$169" data-price-pharmacy="$199">from <strong>$169</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2108,7 +2170,7 @@
             </ul>
           </div>
           <div class="tx-footer">
-            <div class="tx-price">from <strong>$199</strong>/mo</div>
+            <div class="tx-price" data-price-monthly="$199" data-price-pharmacy="$229">from <strong>$199</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2131,7 +2193,7 @@
             </ul>
           </div>
           <div class="tx-footer">
-            <div class="tx-price">from <strong>$149</strong>/mo</div>
+            <div class="tx-price" data-price-monthly="$149" data-price-pharmacy="$179">from <strong>$149</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2154,7 +2216,7 @@
             </ul>
           </div>
           <div class="tx-footer">
-            <div class="tx-price">from <strong>$229</strong>/mo</div>
+            <div class="tx-price" data-price-monthly="$229" data-price-pharmacy="$259">from <strong>$229</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2818,6 +2880,49 @@
           : 'Billed monthly<br/>Cancel anytime';
       });
     }
+
+    // ── 4b. Treatments pricing toggle ────────────────────
+    (function () {
+      const btnMonthly  = document.getElementById('tx-btn-monthly');
+      const btnPharmacy = document.getElementById('tx-btn-pharmacy');
+      if (!btnMonthly || !btnPharmacy) return;
+
+      function setTxPrices(mode) {
+        document.querySelectorAll('.tx-price').forEach(function (priceEl) {
+          var strong = priceEl.querySelector('strong');
+          if (!strong) return;
+          var next = mode === 'pharmacy'
+            ? priceEl.dataset.pricePharmacy
+            : priceEl.dataset.priceMonthly;
+          if (!next || strong.textContent === next) return;
+
+          if (reducedMotion) {
+            strong.textContent = next;
+          } else {
+            strong.classList.add('tx-price-fade');
+            setTimeout(function () {
+              strong.textContent = next;
+              strong.classList.remove('tx-price-fade');
+            }, 200);
+          }
+        });
+      }
+
+      function activateBtn(activeBtn, inactiveBtn, mode) {
+        activeBtn.classList.add('tx-toggle-active');
+        activeBtn.setAttribute('aria-pressed', 'true');
+        inactiveBtn.classList.remove('tx-toggle-active');
+        inactiveBtn.setAttribute('aria-pressed', 'false');
+        setTxPrices(mode);
+      }
+
+      btnMonthly.addEventListener('click', function () {
+        activateBtn(btnMonthly, btnPharmacy, 'monthly');
+      });
+      btnPharmacy.addEventListener('click', function () {
+        activateBtn(btnPharmacy, btnMonthly, 'pharmacy');
+      });
+    }());
 
     // ── 5. FAQ accordion ─────────────────────────────────
     document.querySelectorAll('.faq-question').forEach(btn => {
