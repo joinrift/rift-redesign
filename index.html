@@ -1818,11 +1818,11 @@
       position: relative;
     }
 
-    /* Sticky container â€” fullscreen during scroll */
+    /* Sticky container — fullscreen during scroll */
     #ra-sticky {
       position: sticky;
       top: 0;
-      height: 100vh;
+      height: 100dvh;
       overflow: hidden;
       background: #080808;
     }
@@ -1989,12 +1989,13 @@
     }
 
     @media (max-width: 768px) {
-      #ra-sticky { height: 100dvh; }
       .ra-headline { font-size: clamp(28px, 9vw, 48px); }
       .ra-chapter-inner { padding: 0 28px; max-width: 100%; }
       .ra-chapter.ra-left  { justify-content: center; padding-left: 0; }
       .ra-chapter.ra-right { justify-content: center; padding-right: 0; }
       .ra-sub { font-size: 13px; max-width: 85vw; margin-left: auto; margin-right: auto; }
+      #ra-hint { display: none; }
+      .ra-chapter { will-change: auto; }
     }
 
   </style>
@@ -3217,7 +3218,7 @@
 
     // Chapter timing: progress 0â†’1 across the whole scroll section
     const CHAPTERS = [
-      { id: 'ra-ch1', enter: 0.000, peak: 0.055, exit: 0.140 },
+      { id: 'ra-ch1', enter: -0.05, peak: 0.000, exit: 0.140 },
       { id: 'ra-ch2', enter: 0.160, peak: 0.240, exit: 0.360 },
       { id: 'ra-ch3', enter: 0.385, peak: 0.490, exit: 0.610 },
       { id: 'ra-ch4', enter: 0.635, peak: 0.720, exit: 0.820 },
@@ -3310,8 +3311,8 @@
       drawFrame(0);
       if (raLoader) raLoader.classList.add('ra-hidden');
       initScroll();
-      // Seed chapter 1 visible immediately â€” GSAP may not fire onUpdate until first scroll
-      updateChapters(0.05);
+      // Seed chapter 1 visible immediately — at p=0 ch1 is now at full opacity by design
+      updateChapters(0);
 
       // Background: load remaining in staggered passes for even coverage
       const rest = [];
@@ -3352,8 +3353,9 @@
 
     // â”€â”€ SCROLL ENGINE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
     function initScroll() {
-      if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
-        // Fallback: plain scroll listener
+      // On mobile, GSAP scrub can misbehave — use the plain scroll fallback instead
+      const isMobile = window.innerWidth <= 768;
+      if (isMobile || typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
         window.addEventListener('scroll', scrollFallback, { passive: true });
         return;
       }
