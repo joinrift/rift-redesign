@@ -941,50 +941,50 @@
       .tx-vial-img { height: 160px; }
     }
 
-    /* ── Treatments pricing toggle ─────────────────────── */
-    .tx-toggle-wrap {
+    /* ── Pharmacy selector ──────────────────────────────── */
+    .tx-ph-wrap {
+      padding: 14px 18px 0;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+    .tx-ph-label {
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(138,154,150,0.7);
+      margin-bottom: 8px;
+    }
+    .tx-ph-tabs {
       display: flex;
-      justify-content: center;
-      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 8px;
     }
-    .tx-toggle {
-      display: inline-flex;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
+    .tx-ph-tab {
+      padding: 4px 11px;
       border-radius: 100px;
-      padding: 4px;
-      gap: 2px;
-      position: relative;
-    }
-    .tx-toggle-btn {
-      position: relative;
-      z-index: 1;
-      padding: 8px 22px;
-      border-radius: 100px;
-      border: none;
+      border: 1px solid rgba(255,255,255,0.12);
       background: transparent;
       font-family: 'Outfit', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(232,226,212,0.5);
       cursor: pointer;
-      transition: color 220ms ease;
-      color: rgba(232,226,212,0.45);
+      transition: all 180ms ease;
       white-space: nowrap;
-      outline: none;
     }
-    .tx-toggle-btn.tx-toggle-active {
-      background: rgba(138,154,150,0.28);
+    .tx-ph-tab:hover { color: #E8E2D4; border-color: rgba(255,255,255,0.25); }
+    .tx-ph-tab.tx-ph-active {
+      background: rgba(138,154,150,0.22);
+      border-color: rgba(138,154,150,0.45);
       color: #E8E2D4;
-      box-shadow: 0 0 0 1px rgba(138,154,150,0.35);
     }
-    .tx-price strong {
-      display: inline-block;
-      transition: opacity 200ms ease, transform 200ms ease;
-    }
-    .tx-price strong.tx-price-fade {
-      opacity: 0;
-      transform: translateY(4px);
+    .tx-ph-info {
+      font-size: 10px;
+      color: rgba(232,226,212,0.38);
+      margin: 0 0 12px;
+      line-height: 1.5;
+      min-height: 30px;
     }
 
     /* ── Why Rift ──────────────────────────────────────── */
@@ -2010,7 +2010,7 @@
       <canvas id="ra-canvas"></canvas>
 
       <!-- Chapter 1: Intro (0 → 14%) -->
-      <div class="ra-chapter" id="ra-ch1">
+      <div class="ra-chapter ra-left" id="ra-ch1">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Introducing Rift</span>
           <h2 class="ra-headline">Wellness<br><em>In a Bottle.</em></h2>
@@ -2037,7 +2037,7 @@
       </div>
 
       <!-- Chapter 4: Abundance (63 → 82%) -->
-      <div class="ra-chapter" id="ra-ch4">
+      <div class="ra-chapter ra-left" id="ra-ch4">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Purpose-Built</span>
           <h2 class="ra-headline">Every dose,<br><em>designed<br>for you.</em></h2>
@@ -2045,7 +2045,7 @@
       </div>
 
       <!-- Chapter 5: CTA (85 → 100%) -->
-      <div class="ra-chapter" id="ra-ch5">
+      <div class="ra-chapter ra-left" id="ra-ch5">
         <div class="ra-chapter-inner">
           <span class="ra-eyebrow">Get Started</span>
           <h2 class="ra-headline">Redefine<br><em>your health.</em></h2>
@@ -2097,13 +2097,6 @@
         <h2 class="treatments-title" id="treatments-heading">Every vial, <em>purpose-built.</em></h2>
       </div>
 
-      <div class="tx-toggle-wrap" aria-label="Pricing view toggle">
-        <div class="tx-toggle" role="group">
-          <button class="tx-toggle-btn tx-toggle-active" id="tx-btn-monthly" aria-pressed="true">Monthly</button>
-          <button class="tx-toggle-btn" id="tx-btn-pharmacy" aria-pressed="false">With Pharmacy</button>
-        </div>
-      </div>
-
       <div class="tx-grid">
 
         <!-- ── 1: Semaglutide ── -->
@@ -2123,8 +2116,17 @@
               <li>Free shipping to your door</li>
             </ul>
           </div>
+          <div class="tx-ph-wrap">
+            <div class="tx-ph-label">Pharmacy</div>
+            <div class="tx-ph-tabs">
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="189" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
+              <button class="tx-ph-tab" data-ph-price="219" data-ph-info="Compounded with Glycine · Available in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+          </div>
           <div class="tx-footer">
-            <div class="tx-price" data-price-monthly="$129" data-price-pharmacy="$159">from <strong>$129</strong>/mo</div>
+            <div class="tx-price">from <strong>$199</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-primary">Get started</a>
           </div>
         </div>
@@ -2146,8 +2148,17 @@
               <li>Provider-managed titration</li>
             </ul>
           </div>
+          <div class="tx-ph-wrap">
+            <div class="tx-ph-label">Pharmacy</div>
+            <div class="tx-ph-tabs">
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="229" data-ph-info="Compounded with Glycine · Available in CT, NY, NJ">NewLife Rx</button>
+              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine · Currently unavailable in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+          </div>
           <div class="tx-footer">
-            <div class="tx-price" data-price-monthly="$169" data-price-pharmacy="$199">from <strong>$169</strong>/mo</div>
+            <div class="tx-price">from <strong>$229</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2169,8 +2180,16 @@
               <li>Compounded at licensed pharmacy</li>
             </ul>
           </div>
+          <div class="tx-ph-wrap">
+            <div class="tx-ph-label">Pharmacy</div>
+            <div class="tx-ph-tabs">
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="199" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="209" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
+            </div>
+            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+          </div>
           <div class="tx-footer">
-            <div class="tx-price" data-price-monthly="$199" data-price-pharmacy="$229">from <strong>$199</strong>/mo</div>
+            <div class="tx-price">from <strong>$199</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2192,8 +2211,16 @@
               <li>Ships from US 503A pharmacy</li>
             </ul>
           </div>
+          <div class="tx-ph-wrap">
+            <div class="tx-ph-label">Pharmacy</div>
+            <div class="tx-ph-tabs">
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="149" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="159" data-ph-info="Standard Formulation · Available in FL, CA, NY, TX">ViolaRx</button>
+            </div>
+            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+          </div>
           <div class="tx-footer">
-            <div class="tx-price" data-price-monthly="$149" data-price-pharmacy="$179">from <strong>$149</strong>/mo</div>
+            <div class="tx-price">from <strong>$149</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2215,8 +2242,16 @@
               <li>Provider-supervised protocol</li>
             </ul>
           </div>
+          <div class="tx-ph-wrap">
+            <div class="tx-ph-label">Pharmacy</div>
+            <div class="tx-ph-tabs">
+              <button class="tx-ph-tab tx-ph-active" data-ph-price="229" data-ph-info="No Additive Formula · Available in most states">Hallandale</button>
+              <button class="tx-ph-tab" data-ph-price="249" data-ph-info="Compounded with Glycine · Currently unavailable in CT, NY, NJ">Boudreau's</button>
+            </div>
+            <p class="tx-ph-info">No Additive Formula · Available in most states</p>
+          </div>
           <div class="tx-footer">
-            <div class="tx-price" data-price-monthly="$229" data-price-pharmacy="$259">from <strong>$229</strong>/mo</div>
+            <div class="tx-price">from <strong>$229</strong>/mo</div>
             <a href="#pricing" class="tx-cta tx-cta-ghost">Get started</a>
           </div>
         </div>
@@ -2881,48 +2916,21 @@
       });
     }
 
-    // ── 4b. Treatments pricing toggle ────────────────────
-    (function () {
-      const btnMonthly  = document.getElementById('tx-btn-monthly');
-      const btnPharmacy = document.getElementById('tx-btn-pharmacy');
-      if (!btnMonthly || !btnPharmacy) return;
+    // ── 4b. Pharmacy tab selector ─────────────────────────
+    document.querySelectorAll('.tx-ph-tabs').forEach(function (tabGroup) {
+      const card = tabGroup.closest('.tx-card');
+      const infoEl = tabGroup.nextElementSibling;
+      const priceStrong = card && card.querySelector('.tx-price strong');
 
-      function setTxPrices(mode) {
-        document.querySelectorAll('.tx-price').forEach(function (priceEl) {
-          var strong = priceEl.querySelector('strong');
-          if (!strong) return;
-          var next = mode === 'pharmacy'
-            ? priceEl.dataset.pricePharmacy
-            : priceEl.dataset.priceMonthly;
-          if (!next || strong.textContent === next) return;
-
-          if (reducedMotion) {
-            strong.textContent = next;
-          } else {
-            strong.classList.add('tx-price-fade');
-            setTimeout(function () {
-              strong.textContent = next;
-              strong.classList.remove('tx-price-fade');
-            }, 200);
-          }
+      tabGroup.querySelectorAll('.tx-ph-tab').forEach(function (tab) {
+        tab.addEventListener('click', function () {
+          tabGroup.querySelectorAll('.tx-ph-tab').forEach(t => t.classList.remove('tx-ph-active'));
+          tab.classList.add('tx-ph-active');
+          if (infoEl) infoEl.textContent = tab.dataset.phInfo || '';
+          if (priceStrong) priceStrong.textContent = '$' + tab.dataset.phPrice;
         });
-      }
-
-      function activateBtn(activeBtn, inactiveBtn, mode) {
-        activeBtn.classList.add('tx-toggle-active');
-        activeBtn.setAttribute('aria-pressed', 'true');
-        inactiveBtn.classList.remove('tx-toggle-active');
-        inactiveBtn.setAttribute('aria-pressed', 'false');
-        setTxPrices(mode);
-      }
-
-      btnMonthly.addEventListener('click', function () {
-        activateBtn(btnMonthly, btnPharmacy, 'monthly');
       });
-      btnPharmacy.addEventListener('click', function () {
-        activateBtn(btnPharmacy, btnMonthly, 'pharmacy');
-      });
-    }());
+    });
 
     // ── 5. FAQ accordion ─────────────────────────────────
     document.querySelectorAll('.faq-question').forEach(btn => {
