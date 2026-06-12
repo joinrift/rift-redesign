@@ -1989,9 +1989,12 @@
     }
 
     @media (max-width: 768px) {
-      .ra-headline { font-size: clamp(34px, 10vw, 56px); }
+      #ra-sticky { height: 100dvh; }
+      .ra-headline { font-size: clamp(28px, 9vw, 48px); }
+      .ra-chapter-inner { padding: 0 28px; max-width: 100%; }
       .ra-chapter.ra-left  { justify-content: center; padding-left: 0; }
       .ra-chapter.ra-right { justify-content: center; padding-right: 0; }
+      .ra-sub { font-size: 13px; max-width: 85vw; margin-left: auto; margin-right: auto; }
     }
 
   </style>
@@ -3307,6 +3310,8 @@
       drawFrame(0);
       if (raLoader) raLoader.classList.add('ra-hidden');
       initScroll();
+      // Seed chapter 1 visible immediately â€” GSAP may not fire onUpdate until first scroll
+      updateChapters(0.05);
 
       // Background: load remaining in staggered passes for even coverage
       const rest = [];
