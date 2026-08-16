@@ -4,3 +4,7 @@ desktop.ini
 *.tmp
 
 .vercel
+
+# raw source art (compressed versions are tracked)
+vial-images/_originals/
+product-images/_originals/

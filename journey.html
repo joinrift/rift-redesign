@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Rift Journey — build a better you</title>
+<meta name="description" content="Scroll through the Rift journey: weight lifted, hair handled, energy restored, skin renewed." />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: auto; }
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: #0A0E0B;
+    color: #F7F3EC;
+    overflow-x: hidden;
+    transition: background 0.8s ease;
+  }
+  body.light-zone { background: #F7F3EC; }
+  #track { height: 620vh; }
+
+  /* ── nav ── */
+  .jn-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 30px;
+  }
+  .jn-nav img { height: 26px; filter: invert(1); transition: filter .6s ease; }
+  body.light-zone .jn-nav img { filter: none; }
+  .jn-nav-right { display: flex; align-items: center; gap: 18px; }
+  .jn-link {
+    color: rgba(247,243,236,0.72); text-decoration: none;
+    font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+    transition: color .3s ease;
+  }
+  .jn-link:hover { color: #FFFFFF; }
+  body.light-zone .jn-link { color: rgba(13,20,16,0.66); }
+  body.light-zone .jn-link:hover { color: #0D1410; }
+  .jn-start {
+    background: #166534; color: #FFFFFF; text-decoration: none;
+    font-size: 13.5px; font-weight: 600;
+    padding: 10px 22px; border-radius: 100px;
+    transition: transform .3s ease, background .3s ease;
+  }
+  .jn-start:hover { background: #115227; transform: translateY(-1px); }
+
+  /* ── progress rail ── */
+  .jn-rail {
+    position: fixed; right: 22px; top: 50%; transform: translateY(-50%);
+    z-index: 10; width: 2px; height: 180px;
+    background: rgba(255,255,255,0.14); border-radius: 2px;
+  }
+  body.light-zone .jn-rail { background: rgba(13,20,16,0.14); }
+  .jn-rail-fill { width: 100%; height: 0%; background: #A7F3D0; border-radius: 2px; }
+  body.light-zone .jn-rail-fill { background: #166534; }
+
+  /* ── the man: flat vector, center stage ── */
+  #man-stage {
+    position: fixed; inset: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    pointer-events: none;
+  }
+  #man {
+    position: relative; height: min(72vh, 620px);
+    aspect-ratio: 672 / 900; opacity: 0;
+    will-change: opacity, transform;
+  }
+  .man-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: contain;
+    opacity: 0;
+    will-change: opacity; transform: translateZ(0);
+  }
+  #man-1 { opacity: 1; }
+  #man-glow {
+    position: absolute; inset: -12%;
+    background: radial-gradient(ellipse at 50% 45%, rgba(167,243,208,0.4), transparent 62%);
+    opacity: 0; filter: blur(8px);
+  }
+  .jn-hand {
+    position: absolute; left: -1.25px; top: calc(-1 * var(--jn-r));
+    width: 2.5px; height: var(--jn-r);
+    background: linear-gradient(to top, rgba(167,243,208,0), rgba(167,243,208,0.9));
+    transform-origin: 50% 100%; border-radius: 2px;
+  }
+
+  /* ── beats: plain typographic overlays ── */
+  .beat {
+    position: fixed; inset: 0; z-index: 5;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: flex-end;
+    text-align: center; padding: 0 24px 8vh;
+    pointer-events: none; opacity: 0;
+    will-change: opacity, transform;
+  }
+  .beat.beat-center { justify-content: center; padding-bottom: 0; }
+  .beat .eyebrow {
+    font-size: 11px; font-weight: 600;
+    letter-spacing: 0.3em; text-transform: uppercase;
+    color: #A7F3D0; margin-bottom: 18px;
+  }
+  body.light-zone .beat .eyebrow { color: #166534; }
+  .beat h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5.6vw, 78px);
+    font-weight: 700; line-height: 1.06;
+    letter-spacing: -0.01em;
+    transition: color .8s ease;
+  }
+  .beat.beat-center h2 { font-size: clamp(44px, 7.5vw, 108px); }
+  .beat h2 em { font-style: italic; color: #A7F3D0; }
+  body.light-zone .beat h2 { color: #0D1410; }
+  body.light-zone .beat h2 em { color: #166534; }
+  .beat p.sub {
+    margin-top: 16px; max-width: 560px;
+    font-size: clamp(14px, 1.5vw, 16.5px); font-weight: 300;
+    line-height: 1.6; color: rgba(247,243,236,0.75);
+    transition: color .8s ease;
+  }
+  body.light-zone .beat p.sub { color: rgba(13,20,16,0.7); }
+  .jn-cta-row {
+    margin-top: 30px; display: flex; gap: 18px; align-items: center;
+    flex-wrap: wrap; justify-content: center;
+    pointer-events: auto;
+  }
+  .jn-cta {
+    display: inline-flex; align-items: center; gap: 12px;
+    background: #166534; color: #FFFFFF; text-decoration: none;
+    font-size: 16px; font-weight: 600;
+    padding: 16px 34px; border-radius: 100px;
+    box-shadow: 0 22px 44px rgba(22,101,52,0.32);
+    transition: background .3s ease, transform .3s ease;
+  }
+  .jn-cta:hover { background: #115227; transform: translateY(-2px); }
+  .jn-cta-ghost {
+    color: rgba(247,243,236,0.72); text-decoration: none;
+    font-size: 14.5px; font-weight: 600;
+    border-bottom: 1px solid rgba(247,243,236,0.32); padding-bottom: 2px;
+  }
+  .jn-cta-ghost:hover { color: #FFFFFF; border-color: #FFFFFF; }
+  body.light-zone .jn-cta-ghost { color: rgba(13,20,16,0.7); border-color: rgba(13,20,16,0.3); }
+  body.light-zone .jn-cta-ghost:hover { color: #0D1410; border-color: #0D1410; }
+  #b5 .assure {
+    margin-top: 24px; font-size: 12.5px; color: rgba(13,20,16,0.55);
+    display: flex; gap: 14px; flex-wrap: wrap; justify-content: center;
+  }
+
+  /* ── animejs.com-style radial tick dial (entry) ── */
+  .jn-dial {
+    position: absolute; left: 50%; top: 50%;
+    width: 0; height: 0; pointer-events: none;
+  }
+  @keyframes jnDialSpin { to { transform: rotate(360deg); } }
+  .jn-tick { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+  .jn-tick i {
+    display: block; width: 2.5px; height: 15px;
+    margin-left: -1.25px; margin-top: calc(-1 * var(--jn-r));
+    background: #A7F3D0; border-radius: 2px;
+    opacity: 0.22; transform-origin: 50% 50%;
+  }
+  .jn-begin {
+    position: absolute; bottom: 42px; left: 50%;
+    transform: translateX(-50%);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.26em;
+    text-transform: uppercase; color: rgba(247,243,236,0.5);
+  }
+  .jn-begin::after {
+    content: ""; display: block; width: 1px; height: 34px;
+    margin: 10px auto 0;
+    background: linear-gradient(to bottom, rgba(167,243,208,0.8), transparent);
+    animation: jnDrop 1.8s ease-in-out infinite;
+  }
+  @keyframes jnDrop { 0% { transform: scaleY(0); transform-origin: top; } 60% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
+
+  /* reduced-motion fallback */
+  #jn-fallback {
+    display: none; min-height: 100vh;
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 40px 24px; background: #F7F3EC; color: #0D1410;
+  }
+  #jn-fallback h1 { font-family: 'Playfair Display', serif; font-size: clamp(40px, 7vw, 84px); }
+  #jn-fallback p { margin: 18px 0 30px; color: rgba(13,20,16,0.7); max-width: 480px; line-height: 1.6; }
+  body.no-anim #track, body.no-anim .beat, body.no-anim .jn-rail, body.no-anim #man-stage { display: none; }
+  body.no-anim { background: #F7F3EC; }
+  body.no-anim #jn-fallback { display: flex; }
+  body.no-anim .jn-nav img { filter: none; }
+  body.no-anim .jn-link { color: rgba(13,20,16,0.66); }
+
+  @media (max-width: 700px) {
+    .jn-rail { display: none; }
+    #man { height: 50vh; }
+    #man-stage { align-items: flex-start; padding-top: 13vh; }
+    .beat { padding-bottom: 6vh; }
+    .beat p.sub { max-width: 86vw; }
+    .jn-tick i { height: 11px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="jn-nav">
+    <a href="index.html" aria-label="Rift home"><img src="product-images/rift-logo.png" alt="Rift" /></a>
+    <div class="jn-nav-right">
+      <a class="jn-link" href="index.html">Classic site</a>
+      <a class="jn-start" href="https://start.joinrift.com/start-online-visit/xmh68">Get started</a>
+    </div>
+  </nav>
+
+  <div class="jn-rail" aria-hidden="true"><div class="jn-rail-fill" id="rail"></div></div>
+
+  <div id="track"></div>
+
+  <!-- The man, building himself: real photography, four stages -->
+  <div id="man-stage" aria-hidden="true">
+    <div id="man">
+      <div id="man-glow"></div>
+      <img class="man-img" id="man-1" src="product-images/journey/man-1-heavy.png" alt="" />
+      <img class="man-img" id="man-2" src="product-images/journey/man-2-slim.png" alt="" />
+      <img class="man-img" id="man-3" src="product-images/journey/man-3-hair.png" alt="" />
+      <img class="man-img" id="man-4" src="product-images/journey/man-4-glow.png" alt="" />
+    </div>
+  </div>
+
+  <!-- beats -->
+  <div class="beat beat-center" id="b0" aria-hidden="true">
+    <div class="jn-dial" id="jn-dial"></div>
+    <div class="eyebrow">Rift &middot; Clinical care, delivered</div>
+    <h2 id="b0-title">Start Now,<br /><em>Start Here.</em></h2>
+    <p class="sub">One scroll between who you are and who you&rsquo;re becoming.</p>
+    <div class="jn-cta-row">
+      <a class="jn-cta" href="https://start.joinrift.com/start-online-visit/xmh68">Start your visit &rarr;</a>
+      <a class="jn-cta-ghost" href="index.html">Explore the site</a>
+    </div>
+    <div class="jn-begin">Scroll to begin</div>
+  </div>
+
+  <div class="beat" id="b1" aria-hidden="true">
+    <div class="eyebrow">The build begins</div>
+    <h2>It starts with <em>one decision.</em></h2>
+    <p class="sub">A five-minute intake. A licensed provider. A plan built around your body, not a template.</p>
+  </div>
+
+  <div class="beat" id="b2" aria-hidden="true">
+    <div class="eyebrow">Chapter one &middot; Weight</div>
+    <h2>The weight <em>comes off.</em></h2>
+    <p class="sub">Physician-guided GLP-1 programs from $199/mo. Members report an average of 22.5 lbs lost in their first 12 weeks.*</p>
+  </div>
+
+  <div class="beat" id="b3" aria-hidden="true">
+    <div class="eyebrow">Chapter two &middot; Hair</div>
+    <h2>The hairline <em>comes back.</em></h2>
+    <p class="sub">Regrow, Fortify and Apex &mdash; prescription formulas shipped as a full 90-day supply, from $63/mo.</p>
+  </div>
+
+  <div class="beat" id="b4" aria-hidden="true">
+    <div class="eyebrow">Chapter three &middot; Longevity + Skin</div>
+    <h2>You stand taller.<br />You start to <em>glow.</em></h2>
+    <p class="sub">NAD+, glutathione and sermorelin for how you feel. GHK-Cu at true clinical strength for how you look.</p>
+  </div>
+
+  <div class="beat beat-center" id="b5" aria-hidden="true">
+    <div class="eyebrow">The person you built</div>
+    <h2>Your health,<br /><em>redefined.</em></h2>
+    <p class="sub">Get started in less than 5 minutes. A provider reviews your intake within 24 hours.</p>
+    <div class="jn-cta-row">
+      <a class="jn-cta" id="jn-final-cta" href="https://start.joinrift.com/start-online-visit/xmh68">Start your visit &rarr;</a>
+      <a class="jn-cta-ghost" href="index.html">Explore the full site</a>
+    </div>
+    <div class="assure"><span>&#9733; 4.9 from 2,300+ members</span><span>LegitScript Certified</span><span>Cancel anytime</span></div>
+  </div>
+
+  <div id="jn-fallback">
+    <h1>Start Now,<br /><em>Start Here.</em></h1>
+    <p>The full journey needs motion enabled. Everything Rift offers is one click away either way.</p>
+    <a class="jn-cta" href="index.html">Enter the site &rarr;</a>
+  </div>
+
+<script src="media/anime.min.js"></script>
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduced || !window.anime) {
+    document.body.classList.add('no-anim');
+    return;
+  }
+
+  /* ── entry dial, animejs.com style ── */
+  var jnSweep = null;
+  (function () {
+    var dial = document.getElementById('jn-dial');
+    var N = window.innerWidth < 700 ? 72 : 110;
+    var R = Math.min(window.innerWidth, window.innerHeight) * (window.innerWidth < 700 ? 0.4 : 0.34);
+    dial.style.setProperty('--jn-r', R + 'px');
+    var frag = document.createDocumentFragment();
+    for (var d = 0; d < N; d++) {
+      var tick = document.createElement('div');
+      tick.className = 'jn-tick';
+      tick.style.transform = 'rotate(' + (d / N * 360) + 'deg)';
+      tick.innerHTML = '<i></i>';
+      frag.appendChild(tick);
+    }
+    dial.appendChild(frag);
+    var hand = document.createElement('div');
+    hand.className = 'jn-hand';
+    dial.appendChild(hand);
+    /* the animejs.com hero dial: a ticker hand sweeps 360 while each tick bumps as it passes */
+    var ROT = 2600;
+    var sweep = jnSweep = anime.timeline({ loop: true });
+    sweep.add({ targets: '.jn-hand', rotate: [0, 360], duration: ROT, easing: 'linear' }, 0);
+    var tickEls = dial.querySelectorAll('.jn-tick i');
+    tickEls.forEach(function (el, i) {
+      sweep.add({
+        targets: el,
+        translateY: [ { value: -7, duration: 60, easing: 'easeOutQuad' }, { value: 0, duration: 280, easing: 'easeOutQuad' } ],
+        opacity: [ { value: 1, duration: 60, easing: 'linear' }, { value: 0.22, duration: 280, easing: 'linear' } ]
+      }, (i / N) * ROT);
+    });
+  })();
+
+  /* entry cascade */
+  anime.set('#b0', { opacity: 1 });
+  anime({
+    targets: '#b0 .eyebrow, #b0 .sub, #b0 .jn-cta-row, .jn-begin',
+    opacity: [0, 1], translateY: [16, 0],
+    delay: anime.stagger(160, { start: 400 }),
+    duration: 900, easing: 'easeOutCubic'
+  });
+  anime({ targets: '#b0-title', opacity: [0, 1], scale: [0.94, 1], duration: 1100, delay: 220, easing: 'easeOutCubic' });
+
+  /* ── master scrubbed timeline: the man builds himself ── */
+  var DUR = 10000;
+  var tl = anime.timeline({ autoplay: false, duration: DUR, easing: 'linear' });
+
+  var BEATS = [
+    { id: '#b0', peak: 0.03, width: 0.07 },
+    { id: '#b1', peak: 0.19, width: 0.085 },
+    { id: '#b2', peak: 0.38, width: 0.09 },
+    { id: '#b3', peak: 0.57, width: 0.09 },
+    { id: '#b4', peak: 0.76, width: 0.09 },
+    { id: '#b5', peak: 0.965, width: 0.075 }
+  ];
+  BEATS.forEach(function (b) {
+    var inStart = Math.max(0, (b.peak - b.width) * DUR);
+    var hold = b.width * 0.9 * DUR;
+    /* #b0 is shown by the entry cascade — the timeline only fades it OUT,
+       otherwise seek(0) would pin it to its fade-in start value (invisible) */
+    if (b.id !== '#b0') {
+      tl.add({ targets: b.id, opacity: [0, 1], translateY: [40, 0], duration: b.width * DUR * 0.55, easing: 'easeOutCubic' }, inStart);
+    }
+    if (b.id !== '#b5') {
+      tl.add({ targets: b.id, opacity: [1, 0], translateY: [0, -46], duration: b.width * DUR * 0.55, easing: 'easeInCubic' }, inStart + hold);
+    }
+  });
+
+  /* the man appears */
+  tl.add({ targets: '#man', opacity: [0, 1], translateY: [34, 0], duration: 750, easing: 'easeOutCubic' }, 900);
+
+  /* chapter one: the weight comes off (previous stage fades OUT as the next fades in —
+     the cutouts have different outlines, so the old body must fully disappear) */
+  tl.add({ targets: '#man-2', opacity: [0, 1], duration: 1000, easing: 'easeInOutQuad' }, 0.32 * DUR);
+  tl.add({ targets: '#man-1', opacity: [1, 0], duration: 800, easing: 'easeInOutQuad' }, 0.32 * DUR + 150);
+
+  /* chapter two: the hairline comes back */
+  tl.add({ targets: '#man-3', opacity: [0, 1], duration: 1000, easing: 'easeInOutQuad' }, 0.52 * DUR);
+  tl.add({ targets: '#man-2', opacity: [1, 0], duration: 800, easing: 'easeInOutQuad' }, 0.52 * DUR + 150);
+
+  /* chapter three: he stands taller, looks younger, starts to glow */
+  tl.add({ targets: '#man-4', opacity: [0, 1], duration: 1000, easing: 'easeInOutQuad' }, 0.70 * DUR);
+  tl.add({ targets: '#man-3', opacity: [1, 0], duration: 800, easing: 'easeInOutQuad' }, 0.70 * DUR + 150);
+  tl.add({ targets: '#man', scale: [1, 1.03], duration: 1000, easing: 'easeInOutQuad' }, 0.70 * DUR);
+  tl.add({ targets: '#man-glow', opacity: [0, 1], duration: 1200, easing: 'easeInOutQuad' }, 0.80 * DUR);
+
+  /* arrival: he fades back behind the closing words */
+  tl.add({ targets: '#man', opacity: [1, 0.14], duration: 900, easing: 'easeInOutQuad' }, 0.9 * DUR);
+
+
+  /* idle life: gentle breath, independent of scroll */
+  anime({
+    targets: '#man-stage',
+    translateY: [0, -7],
+    direction: 'alternate', loop: true,
+    duration: 2400, easing: 'easeInOutSine'
+  });
+
+  /* CTA spring at arrival */
+  var ctaSprung = false;
+  function springCTA() {
+    if (ctaSprung) return;
+    ctaSprung = true;
+    anime({ targets: '#jn-final-cta', scale: [0.7, 1], duration: 900, easing: 'spring(1, 70, 11, 8)' });
+  }
+
+  /* ── scroll proxy: pure scrub ── */
+  var target = 0, prog = 0;
+  function readScroll() {
+    var max = document.getElementById('track').offsetHeight - window.innerHeight;
+    target = Math.min(1, Math.max(0, window.scrollY / max));
+  }
+  window.addEventListener('scroll', readScroll, { passive: true });
+  readScroll();
+
+  var rail = document.getElementById('rail');
+  var lightZone = false, lastSeek = -1, sweepOn = true;
+  (function frame() {
+    requestAnimationFrame(frame);
+    var diff = target - prog;
+    prog += diff * 0.17;                    /* snappier scrub response */
+    if (Math.abs(diff) < 0.0006) prog = target;  /* snap: kill the long settle tail */
+    if (Math.abs(prog - lastSeek) > 0.00015) {   /* only touch styles when progress moved */
+      lastSeek = prog;
+      tl.seek(prog * DUR);
+      rail.style.height = (prog * 100) + '%';
+    }
+    /* the 110-tick dial sweep only needs to run while the entry is on screen */
+    if (jnSweep) {
+      if (sweepOn && prog > 0.12) { sweepOn = false; jnSweep.pause(); }
+      else if (!sweepOn && prog <= 0.12) { sweepOn = true; jnSweep.play(); }
+    }
+    if (prog > 0.9) springCTA();
+    var lz = prog > 0.88;
+    if (lz !== lightZone) { lightZone = lz; document.body.classList.toggle('light-zone', lz); }
+  })();
+})();
+</script>
+<p style="position:fixed;left:24px;bottom:16px;z-index:10;font-size:10px;color:rgba(150,150,150,0.55);">*Internal member data. Individual results vary. Not a guarantee.</p>
+</body>
+</html>

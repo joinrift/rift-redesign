@@ -1,0 +1,216 @@
+<!DOCTYPE html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:'Outfit',sans-serif;line-height:1.65;background:#ECEEED;color:#0D1410}
+.container{max-width:1200px;margin:0 auto;padding:0 32px}
+h2,h3{font-family:'Playfair Display',Georgia,serif;line-height:1.1;font-weight:700}
+.pricing{padding:70px 0}.pricing-header{max-width:620px;margin:0 auto 48px;text-align:center}
+.section-label{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#166534;font-weight:600;margin-bottom:10px}
+.pricing-header h2{font-size:2.4rem}.pricing-header p{color:#5A6358;margin-top:10px}
+.pharmacy-section,.pricing-disclaimer{display:none}
+:root{--surface:#fff;--border:#D8DDD8;--bg-alt:#F5F7F5;--bg:#FAFBFA;--fg:#0D1410;--fg-muted:#5A6358;--fg-subtle:#8A9488;--green:#166534;--green-light:#DCFCE7}
+/* ── Pricing by product line ── */
+    .pr-lines { display: flex; flex-direction: column; gap: 28px; max-width: 880px; margin: 0 auto; }
+    .pr-group {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(13,20,16,0.05);
+    }
+    .pr-group-head {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+      padding: 20px 28px;
+      background: var(--bg-alt);
+      border-bottom: 1px solid var(--border);
+    }
+    .pr-group-head h3 { font-size: 1.25rem; letter-spacing: -0.01em; }
+    .pr-group-link { font-size: 13px; font-weight: 600; color: var(--green); text-decoration: none; white-space: nowrap; }
+    .pr-group-link:hover { text-decoration: underline; }
+    .pr-rows { display: flex; flex-direction: column; }
+    .pr-row {
+      display: grid;
+      grid-template-columns: 52px 190px 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 17px 28px;
+      text-decoration: none;
+      color: var(--fg);
+      border-bottom: 1px solid rgba(13,20,16,0.06);
+      transition: background 0.25s ease;
+    }
+    .pr-row:last-child { border-bottom: none; }
+    .pr-row:hover { background: var(--bg); }
+    .pr-row-img { display: flex; align-items: center; justify-content: center; height: 52px; }
+    .pr-row-img img { max-height: 52px; max-width: 44px; width: auto; filter: drop-shadow(0 4px 8px rgba(13,20,16,0.18)); transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); }
+    .pr-row:hover .pr-row-img img { transform: translateY(-2px) scale(1.08); }
+    .pr-row-name { font-weight: 600; font-size: 0.98rem; }
+    .pr-tag {
+      display: inline-block;
+      font-size: 9.5px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+      background: var(--green-light); color: var(--green);
+      padding: 2px 8px; border-radius: 100px;
+      margin-left: 6px; vertical-align: 2px; white-space: nowrap;
+    }
+    .pr-row-detail { font-size: 0.85rem; color: var(--fg-muted); }
+    .pr-row-price { text-align: right; font-size: 0.85rem; color: var(--fg-muted); white-space: nowrap; }
+    .pr-row-price strong { font-family: 'Playfair Display', Georgia, serif; font-size: 1.35rem; color: var(--fg); font-weight: 700; }
+    .pr-row-price em { display: block; font-style: normal; font-size: 0.72rem; color: var(--fg-subtle); }
+    .pr-foot { text-align: center; margin: 26px auto 0; font-size: 13px; color: var(--fg-muted); max-width: 620px; }
+    @media (max-width: 700px) {
+      .pr-row { grid-template-columns: 44px 1fr auto; }
+      .pr-row-detail { grid-column: 1 / -1; order: 3; margin-top: -8px; }
+    }
+
+  </style></head><body><section class="pricing" id="pricing" aria-labelledby="pricing-heading">
+    <div class="container">
+      <div class="pricing-header fade-up">
+        <div class="section-label">Pricing</div>
+        <h2 id="pricing-heading">Simple, transparent pricing.</h2>
+        <p>Every product, every line — one flat price with provider care included. No insurance, no hidden fees.</p>
+      </div>
+
+      <!-- Pricing by product line -->
+      <div class="pr-lines">
+        <div class="pr-group fade-up">
+          <div class="pr-group-head">
+            <h3>Hair</h3>
+            <a href="hair.html" class="pr-group-link">Explore hair →</a>
+          </div>
+          <div class="pr-rows">
+            <a class="pr-row" href="hair.html">
+              <span class="pr-row-img"><img src="product-images/rift-regrow-v2.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Rift Regrow</span>
+              <span class="pr-row-detail">Topical — minoxidil 5% · finasteride 0.3% · 90 mL</span>
+              <span class="pr-row-price"><strong>$73</strong>/mo <em>billed $219 quarterly</em></span>
+            </a>
+            <a class="pr-row" href="hair.html">
+              <span class="pr-row-img"><img src="product-images/rift-fortify-v2.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Rift Fortify</span>
+              <span class="pr-row-detail">3-in-1 tablet — minoxidil · finasteride · biotin · 90 ct</span>
+              <span class="pr-row-price"><strong>$63</strong>/mo <em>billed $199 quarterly</em></span>
+            </a>
+            <a class="pr-row" href="hair.html">
+              <span class="pr-row-img"><img src="product-images/rift-apex-v2.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Rift Apex <span class="pr-tag">Extra strength</span></span>
+              <span class="pr-row-detail">4-in-1 capsule — adds dutasteride · 90 ct</span>
+              <span class="pr-row-price"><strong>$83</strong>/mo <em>billed $249 quarterly</em></span>
+            </a>
+          </div>
+        </div>
+        <div class="pr-group fade-up">
+          <div class="pr-group-head">
+            <h3>Weight Loss</h3>
+            <a href="weight.html" class="pr-group-link">Explore weight loss →</a>
+          </div>
+          <div class="pr-rows">
+            <a class="pr-row" href="weight.html">
+              <span class="pr-row-img"><img src="vial-images/semaglutide.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Semaglutide <span class="pr-tag">Most popular</span></span>
+              <span class="pr-row-detail">Compounded GLP-1 — weekly injection</span>
+              <span class="pr-row-price"><strong>$199</strong>/mo <em>provider visits included</em></span>
+            </a>
+            <a class="pr-row" href="weight.html">
+              <span class="pr-row-img"><img src="vial-images/tirzepatide.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Tirzepatide <span class="pr-tag">Strongest</span></span>
+              <span class="pr-row-detail">GLP-1/GIP dual-agonist — weekly injection</span>
+              <span class="pr-row-price"><strong>$229</strong>/mo <em>provider visits included</em></span>
+            </a>
+          </div>
+        </div>
+        <div class="pr-group fade-up">
+          <div class="pr-group-head">
+            <h3>Longevity</h3>
+            <a href="longevity.html" class="pr-group-link">Explore longevity →</a>
+          </div>
+          <div class="pr-rows">
+            <a class="pr-row" href="longevity.html">
+              <span class="pr-row-img"><img src="vial-images/nad-plus.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">NAD+</span>
+              <span class="pr-row-detail">Cellular energy — self-injection protocol</span>
+              <span class="pr-row-price"><strong>$199</strong>/mo</span>
+            </a>
+            <a class="pr-row" href="longevity.html">
+              <span class="pr-row-img"><img src="vial-images/glutathione.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Glutathione</span>
+              <span class="pr-row-detail">Master antioxidant — recovery &amp; glow</span>
+              <span class="pr-row-price"><strong>$149</strong>/mo</span>
+            </a>
+            <a class="pr-row" href="longevity.html">
+              <span class="pr-row-img"><img src="vial-images/sermorelin.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">Sermorelin <span class="pr-tag">Deep recovery</span></span>
+              <span class="pr-row-detail">GH peptide — bedtime protocol</span>
+              <span class="pr-row-price"><strong>$229</strong>/mo</span>
+            </a>
+          </div>
+        </div>
+        <div class="pr-group fade-up">
+          <div class="pr-group-head">
+            <h3>Skin</h3>
+            <a href="skin.html" class="pr-group-link">Explore skin care →</a>
+          </div>
+          <div class="pr-rows">
+            <a class="pr-row" href="skin.html">
+              <span class="pr-row-img"><img src="product-images/rift-ghk.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">GHK-Cu 2%</span>
+              <span class="pr-row-detail">Copper peptide cream — starting strength · 30 g</span>
+              <span class="pr-row-price"><strong>$249</strong>/jar</span>
+            </a>
+            <a class="pr-row" href="skin.html">
+              <span class="pr-row-img"><img src="product-images/rift-ghk.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">GHK-Cu 3% <span class="pr-tag">Most popular</span></span>
+              <span class="pr-row-detail">Copper peptide cream — the workhorse · 30 g</span>
+              <span class="pr-row-price"><strong>$279</strong>/jar</span>
+            </a>
+            <a class="pr-row" href="skin.html">
+              <span class="pr-row-img"><img src="product-images/rift-ghk.png" alt="" loading="lazy"></span>
+              <span class="pr-row-name">GHK-Cu 4%</span>
+              <span class="pr-row-detail">Copper peptide cream — maximum strength · 30 g</span>
+              <span class="pr-row-price"><strong>$299</strong>/jar</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <p class="pr-foot fade-up">Every plan includes the provider consultation, unlimited care-team messaging and free shipping. Skin membership plans from $199/mo. Cancel anytime.</p>
+
+      <!-- Pharmacy Partners -->
+      <div class="pharmacy-section fade-up">
+        <div class="pharmacy-section-label">Compounded medications fulfilled by licensed US pharmacies</div>
+        <div class="pharmacy-grid">
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Boudreaux's Pharmacy</div>
+            <div class="pharmacy-card-detail">Compounded with Glycine · State restrictions apply</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-popular-tag">Popular</div>
+            <div class="pharmacy-card-name">Hallandale Pharmacy</div>
+            <div class="pharmacy-card-detail">No-additive formulation · Most states</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Newlife Rx / Apothecary</div>
+            <div class="pharmacy-card-detail">Regional availability · Provider-matched</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">Nova / WhiteLabel</div>
+            <div class="pharmacy-card-detail">Broad availability · Provider-matched</div>
+          </div>
+          <div class="pharmacy-card">
+            <div class="pharmacy-card-name">VisaRx</div>
+            <div class="pharmacy-card-detail">Semaglutide · Select states</div>
+          </div>
+        </div>
+        <div class="pharmacy-trust-bar">
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>FDA-regulated, state-licensed compounders</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Free shipping to your door</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Provider-managed dosing &amp; titration</div>
+          <div class="pharmacy-trust-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>Compounded in the USA</div>
+        </div>
+      </div>
+
+      <!-- Disclaimer -->
+      <p class="pricing-disclaimer fade-up">
+        Pricing shown reflects program fees accessed through Rift. All medications are evaluated and prescribed by independent licensed healthcare providers. Medication availability and pharmacy options may vary by state.
+        Compounded products have not been approved by the FDA. <a href="#">View full disclosures →</a>
+      </p>
+
+    </div>
+  </section></body></html>

@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /index-with-scroll-story.html
+Disallow: /_band_test.html
+
+Sitemap: https://joinrift.com/sitemap.xml
